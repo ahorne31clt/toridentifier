@@ -1,1 +1,20 @@
-<img src="images/001.jpg" alt="Tornado">
+<!DOCTYPE html>
+<html>
+<body>
+
+  <!-- Leave src empty; JavaScript will fill it in -->
+  <img id="random-image" src="" alt="Randomly selected image">
+
+  <script>
+    // 1. Pick a random whole number between 1 and 10
+    const randomNumber = Math.floor(Math.random() * 10) + 1;
+
+    // 2. Build the file path (change .jpg if your files are .png or .webp)
+    const imagePath = `/images/${randomNumber}.jpg`;
+
+    // 3. Apply the path to the <img> element
+    document.getElementById("random-image").src = imagePath;
+  </script>
+
+</body>
+</html>
