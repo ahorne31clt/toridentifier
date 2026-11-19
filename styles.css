@@ -28,13 +28,17 @@ body::before {
 .masthead { background: #181b1fe8; border-bottom: 1px solid var(--line); }
 .masthead-inner { min-height: 72px; display: flex; align-items: center; justify-content: space-between; gap: 16px; }
 .masthead-actions { display: flex; align-items: center; gap: 8px; }
-.identity { display: flex; align-items: center; gap: 12px; font-size: .95rem; letter-spacing: .12em; font-weight: 700; }
-.identity strong { color: var(--red); }
-.storm-mark { display: grid; justify-items: center; align-content: center; gap: 3px; width: 34px; height: 34px; border: 1px solid #63717c; }
-.storm-mark i { display: block; height: 2px; width: 19px; background: var(--red); transform: skewX(-23deg); }
-.storm-mark i:nth-child(2) { width: 14px; transform: translateX(2px) skewX(-23deg); }
-.storm-mark i:nth-child(3) { width: 9px; }
-.storm-mark i:nth-child(4) { width: 4px; transform: translateX(-2px) skewX(-23deg); }
+.identity { display: flex; align-items: center; gap: 11px; }
+.brand-mark { display: block; width: 46px; height: 46px; }
+.wordmark {
+  font-size: 1.2rem;
+  line-height: 1;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: .055em;
+  white-space: nowrap;
+}
+.wordmark strong { color: var(--red); }
 .intro { display: flex; align-items: end; justify-content: space-between; gap: 24px; padding: 37px 0 25px; }
 .eyebrow, .panel-head h2 {
   color: var(--red); font-size: .875rem; font-weight: 700; text-transform: uppercase; letter-spacing: .11em;
@@ -137,9 +141,12 @@ input:not([type=checkbox]) { min-height: 42px; min-width: 0; max-width: 100%; pa
 #grade { color: var(--gold); }
 #date-result { grid-column: 1 / -1; color: var(--muted); }
 .message { color: var(--gold); line-height: 1.4; }
-.footer { display: flex; justify-content: space-between; align-items: start; gap: 20px; padding: 18px 0 26px; color: var(--muted); font-size: .875rem; }
+.footer { display: grid; grid-template-columns: 1fr auto; align-items: start; gap: 16px 20px; padding: 18px 0 26px; color: var(--muted); font-size: .875rem; }
 .footer summary { cursor: pointer; color: var(--red); }
-.footer p { margin-top: 8px; max-width: 60ch; line-height: 1.5; }
+.footer details p { margin-top: 8px; max-width: 60ch; line-height: 1.5; }
+.site-credit { grid-column: 1 / -1; border-top: 1px solid var(--line); padding-top: 15px; line-height: 1.55; }
+.site-credit strong { color: var(--cream); }
+.site-credit span { display: inline-block; margin-left: 10px; white-space: nowrap; }
 #round-summary { white-space: nowrap; }
 dialog { width: min(530px, calc(100% - 28px)); padding: 0; max-height: 85vh; background: var(--panel); border: 1px solid #5e6972; border-top: 2px solid var(--red); color: var(--cream); }
 dialog::backdrop { background: #0b0c10bc; }
@@ -162,7 +169,7 @@ dialog::backdrop { background: #0b0c10bc; }
   .intro { flex-direction: column; align-items: start; gap: 14px; padding-top: 25px; }
   .photo-frame { height: clamp(240px, 60vw, 420px); }
   .map-frame { height: clamp(300px, 75vw, 460px); }
-  .identity { font-size: .79rem; letter-spacing: .08em; }
+  .wordmark { font-size: 1rem; }
   .masthead-inner { min-height: 62px; }
   .masthead-actions .button { font-size: .8125rem; }
 }
@@ -173,6 +180,7 @@ dialog::backdrop { background: #0b0c10bc; }
 @media (max-width: 375px) {
   .panel-head, #guess-form, .photo-foot, #city-search { padding-inline: 10px; }
   .masthead-inner { gap: 6px; }
-  .identity { gap: 5px; }
-  .storm-mark { width: 26px; height: 28px; }
+  .identity { gap: 7px; }
+  .brand-mark { width: 40px; height: 40px; }
+  .site-credit span { display: block; margin-left: 0; }
 }

@@ -15,6 +15,7 @@ const events = new Map(catalog.map(event => [event.id, event]));
 const assets = new Map([
   ['/', ['index.html', 'text/html; charset=utf-8']],
   ['/index.html', ['index.html', 'text/html; charset=utf-8']],
+  ['/logo.png', ['logo.png', 'image/png']],
   ['/styles.css', ['styles.css', 'text/css; charset=utf-8']],
   ['/game.mjs', ['game.mjs', 'text/javascript; charset=utf-8']],
   ['/city-search.mjs', ['city-search.mjs', 'text/javascript; charset=utf-8']],

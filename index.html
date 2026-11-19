@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#17191c">
   <title>Tornado Guesser</title>
+  <link rel="icon" type="image/png" href="./logo.png">
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="">
   <link rel="stylesheet" href="./styles.css">
   <script defer src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
@@ -14,8 +15,8 @@
   <header class="masthead">
     <div class="shell masthead-inner">
       <div class="identity">
-        <span class="storm-mark" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
-        <span>TORNADO <strong>GUESSER</strong></span>
+        <img class="brand-mark" src="./logo.png" alt="" width="46" height="46">
+        <span class="wordmark">Tornado <strong>Guesser</strong></span>
       </div>
       <div class="masthead-actions">
         <button type="button" id="leaderboard-button" class="button outline" disabled>Leaderboard</button>
@@ -100,6 +101,7 @@
         <p>Grades use distance to the nearest point on the surveyed tornado track when available, or to the recorded event location. Date guesses receive separate feedback in days.</p>
       </details>
       <span id="round-summary">0 rounds played</span>
+      <p class="site-credit">Created by <strong>Christopher Horne</strong> and <strong>Blake Teer</strong> <span>UNC Charlotte · 2026</span></p>
     </footer>
   </main>
   <dialog id="leaderboard-dialog" aria-labelledby="leaderboard-title">
