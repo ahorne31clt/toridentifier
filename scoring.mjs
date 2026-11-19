@@ -1,5 +1,5 @@
 export const gradeBands = [
-  ['A', 25], ['B', 75], ['C', 150], ['D', 300], ['E', 600], ['F', Infinity],
+  ['A', 25], ['B', 75], ['C', 150], ['D', 300], ['F', Infinity],
 ];
 
 export const roundsPerRun = archiveSize => Math.min(5, archiveSize);

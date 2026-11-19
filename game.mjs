@@ -3,14 +3,24 @@ import {setupCitySearch} from './city-search.mjs';
 
 const el = id => document.getElementById(id);
 const archiveKey = 'tornado-identifier-guest-scores-v1';
+const soundKey = 'tornado-guesser-score-sounds';
 const number = new Intl.NumberFormat('en-US', {maximumFractionDigits: 1});
 const dateFormat = new Intl.DateTimeFormat('en-US', {dateStyle: 'long', timeZone: 'UTC'});
 const milesText = miles => miles > 0 && miles < 0.1 ? '<0.1 mi' : number.format(miles) + ' mi';
 const makeId = () => [...crypto.getRandomValues(new Uint8Array(16))]
   .map(byte => byte.toString(16).padStart(2, '0')).join('');
 const defaultView = [[38, -96], 4];
+const scoreNotes = {
+  A: [523.25, 659.25, 783.99],
+  B: [440, 587.33],
+  C: [392, 440],
+  D: [392, 329.63],
+  F: [261.63, 196],
+};
 let map, layers, deck = [], catalog = [], active, point, marker;
 let resetCitySearch;
+let archiveRequest, audioContext;
+let soundEnabled = true;
 let isStatic = false, isRevealed = false, isSubmitting = false, isPhotoReady = false;
 let roundId, runId, lastId, deckPosition = 0;
 let leaderboardRequest = 0;
@@ -20,6 +30,7 @@ let guest = {history: [], total: 0};
 try {
   const saved = JSON.parse(localStorage.getItem(archiveKey));
   if (Array.isArray(saved?.history) && Number.isInteger(saved.total)) guest = saved;
+  soundEnabled = localStorage.getItem(soundKey) !== 'off';
 } catch {
   // Guest play can continue if browser storage is unavailable.
 }
@@ -42,6 +53,73 @@ async function api(path, input) {
 function showMessage(id, message = '') {
   el(id).textContent = message;
   el(id).hidden = !message;
+}
+
+function renderSoundToggle() {
+  const toggle = el('sound-toggle');
+  toggle.textContent = soundEnabled ? 'Sound on' : 'Sound off';
+  toggle.setAttribute('aria-pressed', String(soundEnabled));
+}
+
+function prepareScoreSound() {
+  if (!soundEnabled || !window.AudioContext) return;
+  try {
+    audioContext ??= new AudioContext();
+    if (audioContext.state === 'suspended') audioContext.resume().catch(() => {});
+  } catch {
+    // Audio is optional and may be unavailable.
+  }
+}
+
+function playScoreSound(grade) {
+  if (!soundEnabled || audioContext?.state !== 'running') return;
+  const start = audioContext.currentTime + 0.015;
+  const notes = scoreNotes[grade] || scoreNotes.D;
+  notes.forEach((pitch, index) => {
+    const at = start + index * 0.13;
+    const tone = audioContext.createOscillator();
+    const volume = audioContext.createGain();
+    tone.type = 'triangle';
+    tone.frequency.value = pitch;
+    volume.gain.setValueAtTime(0.0001, at);
+    volume.gain.exponentialRampToValueAtTime(0.075, at + 0.02);
+    volume.gain.exponentialRampToValueAtTime(0.0001, at + 0.19);
+    tone.connect(volume).connect(audioContext.destination);
+    tone.start(at);
+    tone.stop(at + 0.2);
+  });
+}
+
+function hintCount(event) {
+  return event.hintCount ?? event.hints?.length ?? 0;
+}
+
+async function revealHint() {
+  const list = el('revealed-hints');
+  const button = el('hint-button');
+  const index = list.children.length;
+  if (!active || isRevealed || index >= hintCount(active)) return;
+  const request = roundId;
+  button.disabled = true;
+  showMessage('hint-status');
+  try {
+    let hint = active.hints?.[index];
+    if (!isStatic) {
+      const query = new URLSearchParams({event: active.id, index});
+      hint = (await api('hint?' + query))?.hint;
+    }
+    if (request !== roundId || isRevealed) return;
+    if (!hint) throw new Error('This hint is unavailable.');
+    const item = document.createElement('li');
+    item.textContent = hint;
+    list.hidden = false;
+    list.append(item);
+    button.textContent = list.children.length < hintCount(active) ? 'Reveal another hint' : 'All hints revealed';
+  } catch (error) {
+    if (request === roundId && !isRevealed) showMessage('hint-status', error.message);
+  } finally {
+    if (request === roundId) button.disabled = isRevealed || list.children.length >= hintCount(active);
+  }
 }
 
 function buildMap() {
@@ -128,6 +206,13 @@ function loadRound() {
   el('guess-date').value = '';
   for (const id of ['answer', 'result']) el(id).hidden = true;
   el('photo-prompt').hidden = false;
+  el('full-photo-button').disabled = true;
+  el('revealed-hints').replaceChildren();
+  el('revealed-hints').hidden = true;
+  el('hint-button').hidden = hintCount(active) === 0;
+  el('hint-button').disabled = true;
+  el('hint-button').textContent = 'Reveal a hint';
+  showMessage('hint-status');
   updateDateMode();
   showMessage('game-status');
   showMessage('photo-status', 'Loading photo…');
@@ -136,6 +221,8 @@ function loadRound() {
   image.onload = () => {
     isPhotoReady = true;
     image.hidden = false;
+    el('full-photo-button').disabled = false;
+    el('hint-button').disabled = false;
     el('center-target').disabled = false;
     el('submit-guess').disabled = !point;
     showMessage('photo-status');
@@ -186,6 +273,7 @@ function renderResult({event, record, point: guess}) {
   el('photo-license').textContent = event.photoLicense || '';
   el('photo-license').href = event.photoLicenseUrl || '';
   el('grade').textContent = record.grade;
+  el('grade').dataset.grade = record.grade;
   el('distance-label').textContent = hasTrack ? 'Distance to track' : 'Distance to event';
   el('distance').textContent = milesText(record.miles);
   const days = record.dateError;
@@ -206,6 +294,7 @@ async function submit(event) {
     return;
   }
   isSubmitting = true;
+  prepareScoreSound();
   for (const id of ['submit-guess', 'center-target', 'account-button']) el(id).disabled = true;
   showMessage('game-status');
   try {
@@ -228,6 +317,7 @@ async function submit(event) {
       }
     }
     renderResult(result);
+    playScoreSound(result.record.grade);
     renderProfile();
   } catch (error) {
     showMessage('game-status', error.message);
@@ -242,7 +332,7 @@ async function submit(event) {
 function renderProfile() {
   const {username} = signedIn;
   const {history, total} = username ? signedIn : guest;
-  el('account-button').textContent = username ? 'Scores · ' + username : isStatic ? 'Score history' : 'Scores / Sign in';
+  el('account-button').textContent = username || isStatic ? 'My scores' : 'Sign in';
   el('round-summary').textContent = total + (total === 1 ? ' round played' : ' rounds played');
   el('account-state').textContent = username ? 'Signed in as ' + username + '.' :
     isStatic ? 'Guest scores are saved on this browser. Sign-in requires the game server.' :
@@ -270,7 +360,11 @@ function renderProfile() {
   const body = table.createTBody();
   for (const score of history) {
     const row = body.insertRow();
-    for (const value of [score.name, score.grade, milesText(score.miles)]) row.insertCell().textContent = value;
+    row.insertCell().textContent = score.name;
+    const grade = row.insertCell();
+    grade.textContent = score.grade;
+    grade.dataset.grade = score.grade;
+    row.insertCell().textContent = milesText(score.miles);
   }
   container.append(title, table);
 }
@@ -341,16 +435,30 @@ el('account-button').addEventListener('click', () => {
   renderProfile();
   el('account-dialog').showModal();
 });
-el('grade-guide').textContent = gradeBands.map(([grade, limit]) =>
-  grade + (Number.isFinite(limit) ? ' ≤ ' + limit + ' mi' : ' > 600 mi')).join(' · ');
+el('grade-guide').textContent = gradeBands.map(([grade, limit], index) =>
+  grade + (Number.isFinite(limit) ? ' ≤ ' + limit + ' mi' : ' > ' + gradeBands[index - 1][1] + ' mi')).join(' · ');
 el('date-mode').addEventListener('change', updateDateMode);
+el('hint-button').addEventListener('click', revealHint);
+el('full-photo-button').addEventListener('click', () => {
+  el('full-photo-image').src = el('round-image').currentSrc;
+  el('photo-dialog').showModal();
+});
+el('sound-toggle').addEventListener('click', () => {
+  soundEnabled = !soundEnabled;
+  renderSoundToggle();
+  try {
+    localStorage.setItem(soundKey, soundEnabled ? 'on' : 'off');
+  } catch {
+    // The current session still uses the selected setting.
+  }
+});
 el('guess-form').addEventListener('submit', submit);
 el('next-round').addEventListener('click', () => {
   loadRound();
   el('photo-heading').focus();
 });
 
-async function init() {
+async function loadArchive() {
   el('account-button').disabled = true;
   try {
     catalog = await api('catalog');
@@ -367,11 +475,6 @@ async function init() {
       signedIn = await api('profile') || signedIn;
     }
     if (!Array.isArray(catalog) || !catalog.length) throw new Error('The archive has no playable photos.');
-    buildMap();
-    loadRound();
-  } catch (error) {
-    el('round-count').textContent = 'Unavailable';
-    showMessage('photo-status', error.message);
   } finally {
     renderProfile();
     el('account-button').disabled = false;
@@ -379,4 +482,48 @@ async function init() {
   }
 }
 
-init();
+function prepareArchive() {
+  archiveRequest ??= loadArchive().then(() => true, error => {
+    archiveRequest = null;
+    showMessage('home-status', error.message);
+    return false;
+  });
+  return archiveRequest;
+}
+
+function showPlayScreen(playing) {
+  el('home-screen').hidden = playing;
+  for (const id of ['play-screen', 'grade-details', 'round-summary']) el(id).hidden = !playing;
+}
+
+el('play-button').addEventListener('click', async () => {
+  const button = el('play-button');
+  button.disabled = true;
+  showMessage('home-status', 'Loading the photo archive…');
+  try {
+    if (!await prepareArchive()) return;
+    showPlayScreen(true);
+    if (map) map.invalidateSize({pan: false});
+    else {
+      buildMap();
+      loadRound();
+    }
+    showMessage('home-status');
+    button.textContent = 'Resume game';
+    el('title').focus();
+  } catch (error) {
+    showPlayScreen(false);
+    showMessage('home-status', error.message);
+  } finally {
+    button.disabled = false;
+    if (!el('home-screen').hidden) button.focus();
+  }
+});
+
+el('modes-button').addEventListener('click', () => {
+  showPlayScreen(false);
+  el('home-title').focus();
+});
+
+renderSoundToggle();
+prepareArchive();

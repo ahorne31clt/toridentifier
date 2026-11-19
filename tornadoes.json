@@ -6,16 +6,24 @@
     "lat": 42.06,
     "lng": -85.18,
     "date": "2026-03-06",
-    "source": "https://www.weather.gov/iwx/03062026_LowerMichiganTornadoes"
+    "source": "https://www.weather.gov/iwx/03062026_LowerMichiganTornadoes",
+    "hints": [
+      "Look near the southern Great Lakes, east of Lake Michigan.",
+      "The event occurred in the 2020s."
+    ]
   },
   {
     "id": "002",
     "image": "images/2.jpg",
     "name": "El Reno, Oklahoma",
     "lat": 35.48,
-    "lng": -98.10,
+    "lng": -98.1,
     "date": "2013-05-31",
-    "source": "https://www.weather.gov/oun/events-20130531"
+    "source": "https://www.weather.gov/oun/events-20130531",
+    "hints": [
+      "Look in the central Great Plains, west of a state capital.",
+      "The event occurred in the first half of the 2010s."
+    ]
   },
   {
     "id": "003",
@@ -24,16 +32,24 @@
     "lat": 36.74,
     "lng": -88.64,
     "date": "2021-12-10",
-    "source": "https://www.weather.gov/pah/December-10th-11th-2021-Tornado"
+    "source": "https://www.weather.gov/pah/December-10th-11th-2021-Tornado",
+    "hints": [
+      "Look east of the Mississippi River, toward the western end of a state.",
+      "The event occurred in the first half of the 2020s."
+    ]
   },
   {
     "id": "004",
     "image": "images/4.jpg",
     "name": "Newcastle–Moore, Oklahoma",
     "lat": 35.25,
-    "lng": -97.60,
+    "lng": -97.6,
     "date": "2013-05-20",
-    "source": "https://www.weather.gov/oun/events-20130520"
+    "source": "https://www.weather.gov/oun/events-20130520",
+    "hints": [
+      "Look near a major metro area in the southern Great Plains.",
+      "The event occurred in the first half of the 2010s."
+    ]
   },
   {
     "id": "005",
@@ -42,7 +58,11 @@
     "lat": 42.007495,
     "lng": -97.054876,
     "date": "2014-06-16",
-    "source": "https://www.weather.gov/oax/event_archive_20140616"
+    "source": "https://www.weather.gov/oax/event_archive_20140616",
+    "hints": [
+      "Look in the eastern part of a central Plains state, well north of Kansas.",
+      "The event occurred in the middle of the 2010s."
+    ]
   },
   {
     "id": "006",
@@ -53,7 +73,11 @@
     "date": "1973-05-24",
     "source": "https://www.weather.gov/oun/events-19730524",
     "photoCredit": "NOAA / NSSL",
-    "photoSource": "https://commons.wikimedia.org/wiki/File:Tornade003.jpg"
+    "photoSource": "https://commons.wikimedia.org/wiki/File:Tornade003.jpg",
+    "hints": [
+      "Look in the southern Great Plains, southwest of a state capital.",
+      "The event occurred in the 1970s."
+    ]
   },
   {
     "id": "007",
@@ -64,7 +88,11 @@
     "date": "1981-05-22",
     "source": "https://www.weather.gov/oun/tornadodata-ok-maytornadoes",
     "photoCredit": "NOAA / NSSL",
-    "photoSource": "https://commons.wikimedia.org/wiki/File:Tornado1_-_NOAA.jpg"
+    "photoSource": "https://commons.wikimedia.org/wiki/File:Tornado1_-_NOAA.jpg",
+    "hints": [
+      "Look in the western half of a southern Plains state.",
+      "The event occurred in the first half of the 1980s."
+    ]
   },
   {
     "id": "008",
@@ -75,7 +103,11 @@
     "date": "1977-05-16",
     "source": "https://www.weather.gov/oun/tornadodata-county-ok-roger_mills",
     "photoCredit": "NOAA / NSSL",
-    "photoSource": "https://commons.wikimedia.org/wiki/File:Mayfield_Tornado2_-_NOAA.jpg"
+    "photoSource": "https://commons.wikimedia.org/wiki/File:Mayfield_Tornado2_-_NOAA.jpg",
+    "hints": [
+      "Look just east of the Texas Panhandle.",
+      "The event occurred in the second half of the 1970s."
+    ]
   },
   {
     "id": "009",
@@ -86,7 +118,11 @@
     "date": "1981-05-22",
     "source": "https://www.weather.gov/oun/tornadodata-county-ok-caddo",
     "photoCredit": "NOAA / NSSL",
-    "photoSource": "https://commons.wikimedia.org/wiki/File:Alfalfa_Tornado_-_NOAA.jpg"
+    "photoSource": "https://commons.wikimedia.org/wiki/File:Alfalfa_Tornado_-_NOAA.jpg",
+    "hints": [
+      "Look in the southern Great Plains between the Texas Panhandle and a state capital.",
+      "The event occurred in the first half of the 1980s."
+    ]
   },
   {
     "id": "010",
@@ -97,7 +133,11 @@
     "date": "1999-05-03",
     "source": "https://www.weather.gov/oun/events-19990503",
     "photoCredit": "NOAA / NSSL",
-    "photoSource": "https://commons.wikimedia.org/wiki/File:Occluded_mesocyclone_tornado1_-_NOAA.jpg"
+    "photoSource": "https://commons.wikimedia.org/wiki/File:Occluded_mesocyclone_tornado1_-_NOAA.jpg",
+    "hints": [
+      "Look south of the Canadian River in the southern Great Plains.",
+      "The event occurred in the second half of the 1990s."
+    ]
   },
   {
     "id": "011",
@@ -110,7 +150,11 @@
     "photoCredit": "John Oakland / CIMSS / VORTEX2",
     "photoSource": "https://commons.wikimedia.org/wiki/File:Nssl0238_-_Flickr_-_NOAA_Photo_Library.jpg",
     "photoLicense": "CC BY 2.0",
-    "photoLicenseUrl": "https://creativecommons.org/licenses/by/2.0/"
+    "photoLicenseUrl": "https://creativecommons.org/licenses/by/2.0/",
+    "hints": [
+      "Look east of the Rockies near the Wyoming–Nebraska border.",
+      "The event occurred in the second half of the 2000s."
+    ]
   },
   {
     "id": "012",
@@ -121,7 +165,11 @@
     "date": "2010-08-07",
     "source": "https://www.weather.gov/media/fgf/climate/SevereStats.pdf",
     "photoCredit": "National Weather Service",
-    "photoSource": "https://commons.wikimedia.org/wiki/File:2010_Doran_tornado.jpg"
+    "photoSource": "https://commons.wikimedia.org/wiki/File:2010_Doran_tornado.jpg",
+    "hints": [
+      "Look near the Minnesota–North Dakota border.",
+      "The event occurred near the beginning of the 2010s."
+    ]
   },
   {
     "id": "013",
@@ -132,7 +180,11 @@
     "date": "2024-05-23",
     "source": "https://www.weather.gov/oun/events-20240523",
     "photoCredit": "NOAA / NSSL",
-    "photoSource": "https://commons.wikimedia.org/wiki/File:NSSL_Mobile_Mesonet_Truck_chasing_the_2024_Duke%2C_Oklahoma_tornado.png"
+    "photoSource": "https://commons.wikimedia.org/wiki/File:NSSL_Mobile_Mesonet_Truck_chasing_the_2024_Duke%2C_Oklahoma_tornado.png",
+    "hints": [
+      "Look near the Oklahoma–Texas border, east of the Texas Panhandle.",
+      "The event occurred in the middle of the 2020s."
+    ]
   },
   {
     "id": "014",
@@ -143,7 +195,11 @@
     "date": "1991-04-26",
     "source": "https://www.weather.gov/ict/toptenkstors",
     "photoCredit": "U.S. Air Force / McConnell AFB",
-    "photoSource": "https://commons.wikimedia.org/wiki/File:1991_Andover_tornado.jpeg"
+    "photoSource": "https://commons.wikimedia.org/wiki/File:1991_Andover_tornado.jpeg",
+    "hints": [
+      "Look near a large city in southern Kansas.",
+      "The event occurred in the first half of the 1990s."
+    ]
   },
   {
     "id": "015",
@@ -154,6 +210,10 @@
     "date": "2005-04-22",
     "source": "https://www.weather.gov/media/pub/pdf/sdata/042005.pdf",
     "photoCredit": "NWS Louisville photo archive",
-    "photoSource": "https://commons.wikimedia.org/wiki/File:Tornado_with_no_funnel.jpg"
+    "photoSource": "https://commons.wikimedia.org/wiki/File:Tornado_with_no_funnel.jpg",
+    "hints": [
+      "Look for a city on the Ohio River.",
+      "The event occurred in the middle of the 2000s."
+    ]
   }
 ]

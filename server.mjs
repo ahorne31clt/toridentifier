@@ -217,7 +217,7 @@ function submitGuess(response, user, input) {
   json(response, 200, {...result, profile: user ? profile(user) : null});
 }
 
-const prompts = catalog.map(({id, image}) => ({id, image}));
+const prompts = catalog.map(({id, image, hints}) => ({id, image, hintCount: hints?.length || 0}));
 const server = createServer(async (request, response) => {
   response.setHeader('X-Content-Type-Options', 'nosniff');
   response.setHeader('Referrer-Policy', 'strict-origin-when-cross-origin');
@@ -231,6 +231,13 @@ const server = createServer(async (request, response) => {
       return;
     }
     if (request.method === 'GET' && route === '/api/catalog') return json(response, 200, prompts);
+    if (request.method === 'GET' && route === '/api/hint') {
+      const index = searchParams.get('index');
+      const event = events.get(searchParams.get('event'));
+      const hint = index !== null && /^\d+$/.test(index) && event?.hints?.[Number(index)];
+      if (!hint) return json(response, 404, {message: 'This hint is unavailable.'});
+      return json(response, 200, {hint});
+    }
     if (request.method === 'GET' && route === '/api/leaderboard') {
       const legacy = searchParams.get('rules') === 'point';
       return json(response, 200, {rounds: runLength, entries: leaderboard.all(legacy ? 0 : 1, runLength)});

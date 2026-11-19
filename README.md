@@ -1,6 +1,6 @@
 # Tornado Guesser
 
-Click or tap the map to place a target where you think the photographed tornado occurred. Turn on **Include a date guess** to enter an optional date. After each guess, the game reveals the recorded location, date, distance in miles, and an A–F grade. For events with a verified NWS Damage Assessment Toolkit (DAT) match, the reveal draws the surveyed track and marks the nearest point to the guess. Date error is shown separately in days. Each run draws five different photos from the archive.
+Select **Play game** from the mode menu, then click or tap the map to place a target where you think the photographed tornado occurred. Use **Full photo** to view the uncropped image, **Reveal a hint** for a geographic clue and era, and **Include a date guess** to enter an optional date. After each guess, the game reveals the recorded location, date, distance in miles, and a letter grade with a short sound. The sound toggle saves your preference on the current browser. For events with a verified NWS Damage Assessment Toolkit (DAT) match, the reveal draws the surveyed track and marks the nearest point to the guess. Date error is shown separately in days. Each run draws five different photos from the archive.
 
 Use the city search above the map to zoom to a U.S. city or town. A state name or abbreviation helps distinguish cities with the same name. The search index uses representative coordinates from the [2025 U.S. Census Gazetteer places and states files](https://www.census.gov/geographies/reference-files/time-series/geo/gazetteer-files.2025.html).
 
@@ -26,6 +26,8 @@ A static host such as GitHub Pages can serve the repository as a guest-only game
 2. Add one entry per tornado to `tornadoes.json`. Use a unique `id`, a relative `image` path, a display `name`, numeric `lat` and `lng`, and the event report URL under `source`. Set `date` to the local calendar date the tornado occurred in YYYY-MM-DD format. For example, June 16, 2014 is `"2014-06-16"`.
 3. Restart the Node server to load the updated catalog.
 
+For optional hints, add a `hints` array with short clues. A broad location clue followed by the era works for both location-only and date rounds. Revealing hints leaves the mileage grade unchanged.
+
 The scoring coordinate represents a documented location along the tornado's track, such as a survey start point or an affected town. The catalog holds the original Union City coordinate, the NWS Storm Data start point for El Reno, a reported location near Mayfield, a Newcastle-area report for Moore, and the Census reference point for the village of Pilger.
 
 For sourced photos, add `photoCredit` and `photoSource`. Add `photoLicense` and `photoLicenseUrl` when a license notice is required. The game displays these credits on the event reveal. The ten added historical photos were resized and encoded as WebP. The Doran photo was cropped to keep its camera date stamp from giving away the answer. The La Grange photo is by [John Oakland / CIMSS / VORTEX2](https://commons.wikimedia.org/wiki/File:Nssl0238_-_Flickr_-_NOAA_Photo_Library.jpg) under [CC BY 2.0](https://creativecommons.org/licenses/by/2.0/).
@@ -49,5 +51,4 @@ Distance is measured along Earth's surface to the nearest point on the surveyed 
 | B | Over 25 through 75 |
 | C | Over 75 through 150 |
 | D | Over 150 through 300 |
-| E | Over 300 through 600 |
-| F | Over 600 |
+| F | Over 300 |

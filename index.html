@@ -20,90 +20,127 @@
       </div>
       <div class="masthead-actions">
         <button type="button" id="leaderboard-button" class="button outline" disabled>Leaderboard</button>
-        <button type="button" id="account-button" class="button outline">Scores / Sign in</button>
+        <button type="button" id="account-button" class="button outline">Sign in</button>
       </div>
     </div>
   </header>
   <main class="shell">
-    <section class="intro" aria-labelledby="title">
-      <div>
-        <p class="eyebrow">Tornado photo challenge</p>
-        <h1 id="title">Where did this tornado happen?</h1>
-        <p class="intro-copy">Study the photo, then click or tap the map to place your guess.</p>
+    <section id="home-screen" class="home-screen" aria-labelledby="home-title">
+      <div class="home-content">
+        <h1 id="home-title" tabindex="-1">Choose a game mode</h1>
+        <section class="mode-card" aria-labelledby="photo-mode-title">
+          <h2 id="photo-mode-title">Tornado Photo Challenge</h2>
+          <p>Use real tornado photos to guess where they happened. Each run has five photos and an optional date guess.</p>
+          <button class="button primary" type="button" id="play-button">Play game</button>
+          <p id="home-status" class="message" role="status" hidden></p>
+        </section>
       </div>
-      <label class="mode">
-        <input type="checkbox" id="date-mode">
-        <span>Include a date guess</span>
-      </label>
     </section>
-    <div class="board">
-      <section class="panel photo-panel" aria-labelledby="photo-heading">
-        <header class="panel-head"><h2 id="photo-heading" tabindex="-1">Tornado photo</h2><span id="round-count">Loading</span></header>
-        <div class="photo-frame">
-          <img id="round-image" alt="Tornado to identify" hidden>
-          <p id="photo-status" role="status">Loading the archive…</p>
+    <section id="play-screen" aria-labelledby="title" hidden>
+      <div class="intro">
+        <div>
+          <p class="eyebrow">Tornado photo challenge</p>
+          <h1 id="title" tabindex="-1">Where did this tornado happen?</h1>
+          <p class="intro-copy">Study the photo, then click or tap the map to place your guess.</p>
         </div>
-        <div class="photo-foot">
-          <div id="photo-prompt"><span class="eyebrow">Look closely</span><p>Use the terrain, buildings and storm structure as clues.</p></div>
-          <div id="answer" hidden>
-            <span class="eyebrow">Recorded event</span>
-            <p><strong id="event-name"></strong></p>
-            <span id="event-date"></span>
-            <a id="event-source" target="_blank" rel="noopener">Event report</a>
-            <a id="track-source" target="_blank" rel="noopener" hidden>NWS DAT track</a>
-            <p id="photo-credit" hidden>
-              Photo by <a id="photo-source" target="_blank" rel="noopener"></a>
-              <a id="photo-license" target="_blank" rel="noopener" hidden></a>
-            </p>
-          </div>
+        <div class="play-options">
+          <button type="button" id="modes-button" class="button outline">Game modes</button>
+          <label class="mode">
+            <input type="checkbox" id="date-mode">
+            <span>Include a date guess</span>
+          </label>
+          <button type="button" id="sound-toggle" class="button outline" aria-pressed="true">Sound on</button>
         </div>
-      </section>
-      <section class="panel map-panel" aria-labelledby="map-heading">
-        <header class="panel-head"><h2 id="map-heading">Guess map</h2><span id="map-state" aria-live="polite">Click map to place target</span></header>
-        <form id="city-search" role="search" aria-label="Search the map for a city">
-          <label class="sr-only" for="city-query">City or town</label>
-          <input type="search" id="city-query" placeholder="Search a U.S. city or town" maxlength="100" required autocomplete="off" disabled>
-          <button type="submit" class="button outline" disabled>Search</button>
-          <div id="city-search-panel" hidden>
-            <p id="city-search-status" role="status"></p>
-            <ul id="city-search-results" aria-label="Matching cities"></ul>
+      </div>
+      <div class="board">
+        <section class="panel photo-panel" aria-labelledby="photo-heading">
+          <header class="panel-head">
+            <h2 id="photo-heading" tabindex="-1">Tornado photo</h2>
+            <div class="photo-controls">
+              <span id="round-count">Loading</span>
+              <button type="button" id="full-photo-button" class="button outline" disabled>Full photo</button>
+            </div>
+          </header>
+          <div class="photo-frame">
+            <img id="round-image" alt="Tornado to identify" hidden>
+            <p id="photo-status" role="status">Loading the archive…</p>
           </div>
-        </form>
-        <div class="map-frame">
-          <div id="map" aria-label="Guess map. Click or tap to place a target. Use arrow keys to pan and the center target button to place it with the keyboard."></div>
-          <div class="center-crosshair" aria-hidden="true"></div>
-          <div class="map-actions">
-            <button class="button map-button" type="button" id="center-target" disabled>Set center target</button>
-            <button class="button map-button" type="button" id="zoom-track" hidden>Zoom to track</button>
+          <div class="photo-foot">
+            <div id="photo-prompt">
+              <div class="hint-bar">
+                <p>Look for clues in the terrain, buildings and storm structure.</p>
+                <button type="button" id="hint-button" class="button outline" disabled>Reveal a hint</button>
+              </div>
+              <ol id="revealed-hints" aria-live="polite" hidden></ol>
+              <p id="hint-status" class="message" role="status" hidden></p>
+            </div>
+            <div id="answer" hidden>
+              <span class="eyebrow">Recorded event</span>
+              <p><strong id="event-name"></strong></p>
+              <span id="event-date"></span>
+              <a id="event-source" target="_blank" rel="noopener">Event report</a>
+              <a id="track-source" target="_blank" rel="noopener" hidden>NWS DAT track</a>
+              <p id="photo-credit" hidden>
+                Photo by <a id="photo-source" target="_blank" rel="noopener"></a>
+                <a id="photo-license" target="_blank" rel="noopener" hidden></a>
+              </p>
+            </div>
           </div>
-        </div>
-        <form id="guess-form">
-          <div id="date-field" class="date-field" hidden>
-            <label for="guess-date">Event date</label>
-            <input type="date" id="guess-date" min="0001-01-01" max="9999-12-31">
-            <small>Optional</small>
+        </section>
+        <section class="panel map-panel" aria-labelledby="map-heading">
+          <header class="panel-head"><h2 id="map-heading">Guess map</h2><span id="map-state" aria-live="polite">Click map to place target</span></header>
+          <form id="city-search" role="search" aria-label="Search the map for a city">
+            <label class="sr-only" for="city-query">City or town</label>
+            <input type="search" id="city-query" placeholder="Search a U.S. city or town" maxlength="100" required autocomplete="off" disabled>
+            <button type="submit" class="button outline" disabled>Search</button>
+            <div id="city-search-panel" hidden>
+              <p id="city-search-status" role="status"></p>
+              <ul id="city-search-results" aria-label="Matching cities"></ul>
+            </div>
+          </form>
+          <div class="map-frame">
+            <div id="map" aria-label="Guess map. Click or tap to place a target. Use arrow keys to pan and the center target button to place it with the keyboard."></div>
+            <div class="center-crosshair" aria-hidden="true"></div>
+            <div class="map-actions">
+              <button class="button map-button" type="button" id="center-target" disabled>Set center target</button>
+              <button class="button map-button" type="button" id="zoom-track" hidden>Zoom to track</button>
+            </div>
           </div>
-          <div id="result" class="result" aria-live="polite" hidden>
-            <div><span class="eyebrow">Grade</span><strong id="grade"></strong></div>
-            <div><span id="distance-label" class="eyebrow">Distance off</span><strong id="distance"></strong></div>
-            <p id="date-result" hidden></p>
-          </div>
-          <p id="game-status" class="message" role="status" hidden></p>
-          <button id="submit-guess" class="button primary" disabled>Lock in guess</button>
-          <button id="next-round" class="button primary" type="button" hidden>Next photo</button>
-        </form>
-      </section>
-    </div>
+          <form id="guess-form">
+            <div id="date-field" class="date-field" hidden>
+              <label for="guess-date">Event date</label>
+              <input type="date" id="guess-date" min="0001-01-01" max="9999-12-31">
+              <small>Optional</small>
+            </div>
+            <div id="result" class="result" aria-live="polite" hidden>
+              <div><span class="eyebrow">Grade</span><strong id="grade"></strong></div>
+              <div><span id="distance-label" class="eyebrow">Distance off</span><strong id="distance"></strong></div>
+              <p id="date-result" hidden></p>
+            </div>
+            <p id="game-status" class="message" role="status" hidden></p>
+            <button id="submit-guess" class="button primary" disabled>Lock in guess</button>
+            <button id="next-round" class="button primary" type="button" hidden>Next photo</button>
+          </form>
+        </section>
+      </div>
+    </section>
     <footer class="footer">
-      <details>
+      <details id="grade-details" hidden>
         <summary>How grading works</summary>
         <p id="grade-guide"></p>
         <p>Grades use distance to the nearest point on the surveyed tornado track when available, or to the recorded event location. Date guesses receive separate feedback in days.</p>
       </details>
-      <span id="round-summary">0 rounds played</span>
+      <span id="round-summary" hidden>0 rounds played</span>
       <p class="site-credit">Created by <strong>Christopher Horne</strong> and <strong>Blake Teer</strong> <span>UNC Charlotte · 2026</span></p>
     </footer>
   </main>
+  <dialog id="photo-dialog" class="photo-dialog" aria-labelledby="full-photo-title">
+    <header class="panel-head">
+      <h2 id="full-photo-title">Full photo</h2>
+      <form method="dialog"><button class="button outline" aria-label="Close full photo">Close</button></form>
+    </header>
+    <img id="full-photo-image" alt="Uncropped tornado photo">
+  </dialog>
   <dialog id="leaderboard-dialog" aria-labelledby="leaderboard-title">
     <header class="panel-head">
       <h2 id="leaderboard-title">Leaderboard</h2>
