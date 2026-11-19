@@ -1,0 +1,159 @@
+[
+  {
+    "id": "001",
+    "image": "images/1.jpg",
+    "name": "Union City, Michigan",
+    "lat": 42.06,
+    "lng": -85.18,
+    "date": "2026-03-06",
+    "source": "https://www.weather.gov/iwx/03062026_LowerMichiganTornadoes"
+  },
+  {
+    "id": "002",
+    "image": "images/2.jpg",
+    "name": "El Reno, Oklahoma",
+    "lat": 35.48,
+    "lng": -98.10,
+    "date": "2013-05-31",
+    "source": "https://www.weather.gov/oun/events-20130531"
+  },
+  {
+    "id": "003",
+    "image": "images/3.jpg",
+    "name": "Mayfield, Kentucky",
+    "lat": 36.74,
+    "lng": -88.64,
+    "date": "2021-12-10",
+    "source": "https://www.weather.gov/pah/December-10th-11th-2021-Tornado"
+  },
+  {
+    "id": "004",
+    "image": "images/4.jpg",
+    "name": "Newcastle–Moore, Oklahoma",
+    "lat": 35.25,
+    "lng": -97.60,
+    "date": "2013-05-20",
+    "source": "https://www.weather.gov/oun/events-20130520"
+  },
+  {
+    "id": "005",
+    "image": "images/5.jpg",
+    "name": "Pilger, Nebraska",
+    "lat": 42.007495,
+    "lng": -97.054876,
+    "date": "2014-06-16",
+    "source": "https://www.weather.gov/oax/event_archive_20140616"
+  },
+  {
+    "id": "006",
+    "image": "images/6.webp",
+    "name": "Union City, Oklahoma",
+    "lat": 35.3995,
+    "lng": -97.9067,
+    "date": "1973-05-24",
+    "source": "https://www.weather.gov/oun/events-19730524",
+    "photoCredit": "NOAA / NSSL",
+    "photoSource": "https://commons.wikimedia.org/wiki/File:Tornade003.jpg"
+  },
+  {
+    "id": "007",
+    "image": "images/7.webp",
+    "name": "Near Cordell, Oklahoma",
+    "lat": 35.318,
+    "lng": -99.005,
+    "date": "1981-05-22",
+    "source": "https://www.weather.gov/oun/tornadodata-ok-maytornadoes",
+    "photoCredit": "NOAA / NSSL",
+    "photoSource": "https://commons.wikimedia.org/wiki/File:Tornado1_-_NOAA.jpg"
+  },
+  {
+    "id": "008",
+    "image": "images/8.webp",
+    "name": "Near Mayfield, Oklahoma",
+    "lat": 35.33894,
+    "lng": -99.87677,
+    "date": "1977-05-16",
+    "source": "https://www.weather.gov/oun/tornadodata-county-ok-roger_mills",
+    "photoCredit": "NOAA / NSSL",
+    "photoSource": "https://commons.wikimedia.org/wiki/File:Mayfield_Tornado2_-_NOAA.jpg"
+  },
+  {
+    "id": "009",
+    "image": "images/9.webp",
+    "name": "Near Alfalfa, Oklahoma",
+    "lat": 35.3,
+    "lng": -98.6073,
+    "date": "1981-05-22",
+    "source": "https://www.weather.gov/oun/tornadodata-county-ok-caddo",
+    "photoCredit": "NOAA / NSSL",
+    "photoSource": "https://commons.wikimedia.org/wiki/File:Alfalfa_Tornado_-_NOAA.jpg"
+  },
+  {
+    "id": "010",
+    "image": "images/10.webp",
+    "name": "South of Anadarko, Oklahoma",
+    "lat": 34.92,
+    "lng": -98.2445,
+    "date": "1999-05-03",
+    "source": "https://www.weather.gov/oun/events-19990503",
+    "photoCredit": "NOAA / NSSL",
+    "photoSource": "https://commons.wikimedia.org/wiki/File:Occluded_mesocyclone_tornado1_-_NOAA.jpg"
+  },
+  {
+    "id": "011",
+    "image": "images/11.webp",
+    "name": "Near La Grange, Wyoming",
+    "lat": 41.639,
+    "lng": -104.375,
+    "date": "2009-06-05",
+    "source": "https://www.weather.gov/cys/GoshenCountyTornado",
+    "photoCredit": "John Oakland / CIMSS / VORTEX2",
+    "photoSource": "https://commons.wikimedia.org/wiki/File:Nssl0238_-_Flickr_-_NOAA_Photo_Library.jpg",
+    "photoLicense": "CC BY 2.0",
+    "photoLicenseUrl": "https://creativecommons.org/licenses/by/2.0/"
+  },
+  {
+    "id": "012",
+    "image": "images/12.webp",
+    "name": "Near Doran, Minnesota",
+    "lat": 46.13,
+    "lng": -96.56,
+    "date": "2010-08-07",
+    "source": "https://www.weather.gov/media/fgf/climate/SevereStats.pdf",
+    "photoCredit": "National Weather Service",
+    "photoSource": "https://commons.wikimedia.org/wiki/File:2010_Doran_tornado.jpg"
+  },
+  {
+    "id": "013",
+    "image": "images/13.webp",
+    "name": "Near Duke, Oklahoma",
+    "lat": 34.58,
+    "lng": -99.66,
+    "date": "2024-05-23",
+    "source": "https://www.weather.gov/oun/events-20240523",
+    "photoCredit": "NOAA / NSSL",
+    "photoSource": "https://commons.wikimedia.org/wiki/File:NSSL_Mobile_Mesonet_Truck_chasing_the_2024_Duke%2C_Oklahoma_tornado.png"
+  },
+  {
+    "id": "014",
+    "image": "images/14.webp",
+    "name": "Wichita–Andover, Kansas",
+    "lat": 37.625,
+    "lng": -97.259,
+    "date": "1991-04-26",
+    "source": "https://www.weather.gov/ict/toptenkstors",
+    "photoCredit": "U.S. Air Force / McConnell AFB",
+    "photoSource": "https://commons.wikimedia.org/wiki/File:1991_Andover_tornado.jpeg"
+  },
+  {
+    "id": "015",
+    "image": "images/15.webp",
+    "name": "Louisville, Kentucky",
+    "lat": 38.253,
+    "lng": -85.737,
+    "date": "2005-04-22",
+    "source": "https://www.weather.gov/media/pub/pdf/sdata/042005.pdf",
+    "photoCredit": "NWS Louisville photo archive",
+    "photoSource": "https://commons.wikimedia.org/wiki/File:Tornado_with_no_funnel.jpg"
+  }
+]
