@@ -10,11 +10,13 @@
     "hints": [
       "Look near the southern Great Lakes, east of Lake Michigan.",
       "The event occurred in the 2020s."
-    ]
+    ],
+    "clueType": "funnel",
+    "rating": "EF3"
   },
   {
     "id": "002",
-    "image": "images/2.jpg",
+    "image": "images/funnel-090b2c1e7dc6.webp",
     "name": "El Reno, Oklahoma",
     "lat": 35.48,
     "lng": -98.1,
@@ -23,7 +25,14 @@
     "hints": [
       "Look in the central Great Plains, west of a state capital.",
       "The event occurred in the first half of the 2010s."
-    ]
+    ],
+    "clueType": "funnel",
+    "rating": "EF3",
+    "photoCredit": "Nick Nolte",
+    "photoSource": "https://commons.wikimedia.org/wiki/File:El_Reno,_OK_EF3_Tornado_2013-05-31.jpg",
+    "photoEdit": "Converted to WebP",
+    "photoLicense": "CC BY-SA 3.0",
+    "photoLicenseUrl": "https://creativecommons.org/licenses/by-sa/3.0"
   },
   {
     "id": "003",
@@ -36,7 +45,9 @@
     "hints": [
       "Look east of the Mississippi River, toward the western end of a state.",
       "The event occurred in the first half of the 2020s."
-    ]
+    ],
+    "clueType": "funnel",
+    "rating": "EF4"
   },
   {
     "id": "004",
@@ -49,11 +60,13 @@
     "hints": [
       "Look near a major metro area in the southern Great Plains.",
       "The event occurred in the first half of the 2010s."
-    ]
+    ],
+    "clueType": "funnel",
+    "rating": "EF5"
   },
   {
     "id": "005",
-    "image": "images/5.jpg",
+    "image": "images/funnel-7188860d77e6.webp",
     "name": "Pilger, Nebraska",
     "lat": 42.007495,
     "lng": -97.054876,
@@ -62,7 +75,12 @@
     "hints": [
       "Look in the eastern part of a central Plains state, well north of Kansas.",
       "The event occurred in the middle of the 2010s."
-    ]
+    ],
+    "clueType": "funnel",
+    "rating": "EF4",
+    "photoCredit": "Ethan Schisler / NOAA Photo Library",
+    "photoSource": "https://commons.wikimedia.org/wiki/File:Pilger,_NE_twin_EF4_tornadoes.jpg",
+    "photoEdit": "Converted to WebP"
   },
   {
     "id": "006",
@@ -77,7 +95,9 @@
     "hints": [
       "Look in the southern Great Plains, southwest of a state capital.",
       "The event occurred in the 1970s."
-    ]
+    ],
+    "clueType": "funnel",
+    "rating": "F4"
   },
   {
     "id": "007",
@@ -92,7 +112,9 @@
     "hints": [
       "Look in the western half of a southern Plains state.",
       "The event occurred in the first half of the 1980s."
-    ]
+    ],
+    "clueType": "funnel",
+    "rating": "F2"
   },
   {
     "id": "008",
@@ -107,7 +129,9 @@
     "hints": [
       "Look just east of the Texas Panhandle.",
       "The event occurred in the second half of the 1970s."
-    ]
+    ],
+    "clueType": "funnel",
+    "rating": "F3"
   },
   {
     "id": "009",
@@ -122,7 +146,9 @@
     "hints": [
       "Look in the southern Great Plains between the Texas Panhandle and a state capital.",
       "The event occurred in the first half of the 1980s."
-    ]
+    ],
+    "clueType": "funnel",
+    "rating": "F2"
   },
   {
     "id": "010",
@@ -137,24 +163,27 @@
     "hints": [
       "Look south of the Canadian River in the southern Great Plains.",
       "The event occurred in the second half of the 1990s."
-    ]
+    ],
+    "clueType": "funnel",
+    "rating": "F3"
   },
   {
     "id": "011",
-    "image": "images/11.webp",
+    "image": "images/funnel-9091a1eb2152.webp",
     "name": "Near La Grange, Wyoming",
     "lat": 41.639,
     "lng": -104.375,
     "date": "2009-06-05",
     "source": "https://www.weather.gov/cys/GoshenCountyTornado",
-    "photoCredit": "John Oakland / CIMSS / VORTEX2",
-    "photoSource": "https://commons.wikimedia.org/wiki/File:Nssl0238_-_Flickr_-_NOAA_Photo_Library.jpg",
-    "photoLicense": "CC BY 2.0",
-    "photoLicenseUrl": "https://creativecommons.org/licenses/by/2.0/",
+    "photoCredit": "VORTEX2 / NOAA Photo Library",
+    "photoSource": "https://commons.wikimedia.org/wiki/File:Rope_tornado_in_LaGrange,_Wyoming.jpg",
     "hints": [
       "Look east of the Rockies near the Wyoming–Nebraska border.",
       "The event occurred in the second half of the 2000s."
-    ]
+    ],
+    "clueType": "funnel",
+    "rating": "EF2",
+    "photoEdit": "Converted to WebP"
   },
   {
     "id": "012",
@@ -169,7 +198,9 @@
     "hints": [
       "Look near the Minnesota–North Dakota border.",
       "The event occurred near the beginning of the 2010s."
-    ]
+    ],
+    "clueType": "funnel",
+    "rating": "EF4"
   },
   {
     "id": "013",
@@ -184,7 +215,9 @@
     "hints": [
       "Look near the Oklahoma–Texas border, east of the Texas Panhandle.",
       "The event occurred in the middle of the 2020s."
-    ]
+    ],
+    "clueType": "funnel",
+    "rating": "EF2"
   },
   {
     "id": "014",
@@ -199,21 +232,1570 @@
     "hints": [
       "Look near a large city in southern Kansas.",
       "The event occurred in the first half of the 1990s."
-    ]
+    ],
+    "clueType": "funnel",
+    "rating": "F5"
   },
   {
-    "id": "015",
-    "image": "images/15.webp",
-    "name": "Louisville, Kentucky",
-    "lat": 38.253,
-    "lng": -85.737,
-    "date": "2005-04-22",
-    "source": "https://www.weather.gov/media/pub/pdf/sdata/042005.pdf",
-    "photoCredit": "NWS Louisville photo archive",
-    "photoSource": "https://commons.wikimedia.org/wiki/File:Tornado_with_no_funnel.jpg",
+    "id": "funnel-09c151d7f83e",
+    "name": "Kalamazoo, Michigan",
+    "lat": 42.287895,
+    "lng": -85.586339,
+    "date": "1980-05-13",
+    "source": "https://www.spc.noaa.gov/wcm/#data",
+    "clueType": "funnel",
+    "rating": "F3",
     "hints": [
-      "Look for a city on the Ohio River.",
-      "The event occurred in the middle of the 2000s."
-    ]
+      "The tornado tracked through Michigan.",
+      "It occurred between 1980 and 1984."
+    ],
+    "image": "images/funnel-09c151d7f83e.webp",
+    "photoCredit": "David Flamm",
+    "photoSource": "https://commons.wikimedia.org/wiki/File:Kalamazoo_Twister.jpg",
+    "photoEdit": "Converted to WebP"
+  },
+  {
+    "id": "funnel-7048a7242f3b",
+    "name": "Limon, Colorado",
+    "lat": 39.264738,
+    "lng": -103.682778,
+    "date": "1990-06-06",
+    "source": "https://www.spc.noaa.gov/wcm/#data",
+    "clueType": "funnel",
+    "rating": "F3",
+    "hints": [
+      "The tornado tracked through Colorado.",
+      "It occurred between 1990 and 1994."
+    ],
+    "image": "images/funnel-7048a7242f3b.webp",
+    "photoCredit": "Steve Albers",
+    "photoSource": "https://commons.wikimedia.org/wiki/File:1990_Limon_tornado.jpg",
+    "photoEdit": "Converted to WebP"
+  },
+  {
+    "id": "funnel-57a01d0940b2",
+    "name": "Dimmitt, Texas",
+    "lat": 34.54363,
+    "lng": -102.295079,
+    "date": "1995-06-02",
+    "source": "https://www.spc.noaa.gov/wcm/#data",
+    "clueType": "funnel",
+    "rating": "F2",
+    "hints": [
+      "The tornado tracked through Texas.",
+      "It occurred between 1995 and 1999."
+    ],
+    "image": "images/funnel-57a01d0940b2.webp",
+    "photoCredit": "Harald Richter. Credit: National Severe Storms Laboratory (NSSL).",
+    "photoSource": "https://commons.wikimedia.org/wiki/File:Nssl0187_-_Flickr_-_NOAA_Photo_Library.jpg",
+    "photoEdit": "Converted to WebP"
+  },
+  {
+    "id": "funnel-5ae79cb5879c",
+    "name": "Kellerville, Texas",
+    "lat": 35.506286,
+    "lng": -100.412187,
+    "date": "1995-06-08",
+    "source": "https://www.spc.noaa.gov/wcm/#data",
+    "clueType": "funnel",
+    "rating": "F4",
+    "hints": [
+      "The tornado tracked through Texas.",
+      "It occurred between 1995 and 1999."
+    ],
+    "image": "images/funnel-5ae79cb5879c.webp",
+    "photoCredit": "Dr. Louis John Wicker (Project VORTEX)",
+    "photoSource": "https://commons.wikimedia.org/wiki/File:1995_Kellerville_tornado_near_Wheeler,_Texas.png",
+    "photoEdit": "Converted to WebP"
+  },
+  {
+    "id": "funnel-e0da045344f1",
+    "name": "Jarrell, Texas",
+    "lat": 30.816467,
+    "lng": -97.623536,
+    "date": "1997-05-27",
+    "source": "https://www.weather.gov/ewx/wxevent-19970527",
+    "clueType": "funnel",
+    "rating": "F5",
+    "hints": [
+      "The tornado tracked through Texas.",
+      "It occurred between 1995 and 1999."
+    ],
+    "image": "images/funnel-e0da045344f1.webp",
+    "photoCredit": "Charlotte Vancil",
+    "photoSource": "https://commons.wikimedia.org/wiki/File:Jarrell_tornado_1997.jpg",
+    "photoEdit": "Converted to WebP",
+    "photoLicense": "CC BY-SA 4.0",
+    "photoLicenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
+  },
+  {
+    "id": "funnel-85fcf59ea927",
+    "name": "Nashville, Tennessee",
+    "lat": 36.129858,
+    "lng": -86.762028,
+    "date": "1998-04-16",
+    "source": "https://www.spc.noaa.gov/wcm/#data",
+    "clueType": "funnel",
+    "rating": "F3",
+    "hints": [
+      "The tornado tracked through Tennessee.",
+      "It occurred between 1995 and 1999."
+    ],
+    "image": "images/funnel-85fcf59ea927.webp",
+    "photoCredit": "Steve Capps",
+    "photoSource": "https://commons.wikimedia.org/wiki/File:1998_Nashville_tornado.jpg",
+    "photoEdit": "Converted to WebP",
+    "photoLicense": "CC BY-SA 4.0",
+    "photoLicenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
+  },
+  {
+    "id": "funnel-0e4a22c1d761",
+    "name": "Bridge Creek–Moore, Oklahoma",
+    "lat": 35.374888,
+    "lng": -97.529088,
+    "date": "1999-05-03",
+    "source": "https://www.weather.gov/oun/events-19990503",
+    "clueType": "funnel",
+    "rating": "F5",
+    "hints": [
+      "The tornado tracked through Oklahoma.",
+      "It occurred between 1995 and 1999."
+    ],
+    "image": "images/funnel-0e4a22c1d761.webp",
+    "photoCredit": "Mike Eilts, National Severe Storms Laboratory",
+    "photoSource": "https://commons.wikimedia.org/wiki/File:May_3,_1999_Moore_F5_tornado.jpg",
+    "photoEdit": "Converted to WebP"
+  },
+  {
+    "id": "funnel-7ae1ebeacb9e",
+    "name": "Salt Lake City, Utah",
+    "lat": 40.73,
+    "lng": -111.87,
+    "date": "1999-08-11",
+    "source": "https://www.spc.noaa.gov/wcm/#data",
+    "clueType": "funnel",
+    "rating": "F2",
+    "hints": [
+      "The tornado tracked through Utah.",
+      "It occurred between 1995 and 1999."
+    ],
+    "image": "images/funnel-7ae1ebeacb9e.webp",
+    "photoCredit": "National Weather Service",
+    "photoSource": "https://commons.wikimedia.org/wiki/File:1999_Salt_Lake_City_Tornado_eruption.jpg",
+    "photoEdit": "Converted to WebP"
+  },
+  {
+    "id": "funnel-d011349c91f6",
+    "name": "Granite Falls, Minnesota",
+    "lat": 44.82,
+    "lng": -95.55,
+    "date": "2000-07-25",
+    "source": "https://www.spc.noaa.gov/wcm/#data",
+    "clueType": "funnel",
+    "rating": "F4",
+    "hints": [
+      "The tornado tracked through Minnesota.",
+      "It occurred between 2000 and 2004."
+    ],
+    "image": "images/funnel-d011349c91f6.webp",
+    "photoCredit": "Yellow Medicine County Sheriff (No Human Input was involved)",
+    "photoSource": "https://commons.wikimedia.org/wiki/File:Granite_falls_still_2000.png",
+    "photoEdit": "Converted to WebP"
+  },
+  {
+    "id": "funnel-1b944236901c",
+    "name": "Siren, Wisconsin",
+    "lat": 45.79979,
+    "lng": -92.386464,
+    "date": "2001-06-18",
+    "source": "https://www.spc.noaa.gov/wcm/#data",
+    "clueType": "funnel",
+    "rating": "F3",
+    "hints": [
+      "The tornado tracked through Wisconsin.",
+      "It occurred between 2000 and 2004."
+    ],
+    "image": "images/funnel-1b944236901c.webp",
+    "photoCredit": "Project SUB-VORTEX",
+    "photoSource": "https://commons.wikimedia.org/wiki/File:2001_Siren,_Wisconsin_tornado.jpg",
+    "photoEdit": "Converted to WebP"
+  },
+  {
+    "id": "funnel-284a53fb5378",
+    "name": "Cordell, Oklahoma",
+    "lat": 35.299099,
+    "lng": -98.991821,
+    "date": "2001-10-09",
+    "source": "https://www.spc.noaa.gov/wcm/#data",
+    "clueType": "funnel",
+    "rating": "F3",
+    "hints": [
+      "The tornado tracked through Oklahoma.",
+      "It occurred between 2000 and 2004."
+    ],
+    "image": "images/funnel-284a53fb5378.webp",
+    "photoCredit": "Doug Beamon",
+    "photoSource": "https://commons.wikimedia.org/wiki/File:2001_Cordell_tornado.jpg",
+    "photoEdit": "Converted to WebP"
+  },
+  {
+    "id": "funnel-eaa09089921f",
+    "name": "Van Buren, Missouri",
+    "lat": 36.998371,
+    "lng": -91.014308,
+    "date": "2002-04-24",
+    "source": "https://www.spc.noaa.gov/wcm/#data",
+    "clueType": "funnel",
+    "rating": "F4",
+    "hints": [
+      "The tornado tracked through Missouri.",
+      "It occurred between 2000 and 2004."
+    ],
+    "image": "images/funnel-eaa09089921f.webp",
+    "photoCredit": "Mike Gossett",
+    "photoSource": "https://commons.wikimedia.org/wiki/File:2002_Van_Buren_tornado.jpg",
+    "photoEdit": "Converted to WebP"
+  },
+  {
+    "id": "funnel-e8320209fe31",
+    "name": "Van Wert–Roselms, Ohio",
+    "lat": 40.886035,
+    "lng": -84.614432,
+    "date": "2002-11-10",
+    "source": "https://www.spc.noaa.gov/wcm/#data",
+    "clueType": "funnel",
+    "rating": "F4",
+    "hints": [
+      "The tornado tracked through Ohio.",
+      "It occurred between 2000 and 2004."
+    ],
+    "image": "images/funnel-e8320209fe31.webp",
+    "photoCredit": "Ohio Highway Patrol",
+    "photoSource": "https://commons.wikimedia.org/wiki/File:2002_Van_Wert_tornado_police_still.jpg",
+    "photoEdit": "Cropped and converted to WebP"
+  },
+  {
+    "id": "funnel-f176c54fa194",
+    "name": "Kansas City, Kansas",
+    "lat": 39.11973,
+    "lng": -94.73915,
+    "date": "2003-05-04",
+    "source": "https://www.spc.noaa.gov/wcm/#data",
+    "clueType": "funnel",
+    "rating": "F4",
+    "hints": [
+      "The tornado tracked through Kansas.",
+      "It occurred between 2000 and 2004."
+    ],
+    "image": "images/funnel-f176c54fa194.webp",
+    "photoCredit": "Security Camera",
+    "photoSource": "https://commons.wikimedia.org/wiki/File:2003_Kansas_City_tornado.jpg",
+    "photoEdit": "Converted to WebP"
+  },
+  {
+    "id": "funnel-45f66dac98ed",
+    "name": "Oklahoma City–Moore, Oklahoma",
+    "lat": 35.34955,
+    "lng": -97.491043,
+    "date": "2003-05-08",
+    "source": "https://www.spc.noaa.gov/wcm/#data",
+    "clueType": "funnel",
+    "rating": "F4",
+    "hints": [
+      "The tornado tracked through Oklahoma.",
+      "It occurred between 2000 and 2004."
+    ],
+    "image": "images/funnel-45f66dac98ed.webp",
+    "photoCredit": "Oklahoma law enforcement",
+    "photoSource": "https://commons.wikimedia.org/wiki/File:2003_Moore_tornado_police_photo.png",
+    "photoEdit": "Converted to WebP"
+  },
+  {
+    "id": "funnel-a2bcf96cb214",
+    "name": "Attica, Kansas",
+    "lat": 37.2426,
+    "lng": -98.22,
+    "date": "2004-05-12",
+    "source": "https://www.spc.noaa.gov/wcm/#data",
+    "clueType": "funnel",
+    "rating": "F2",
+    "hints": [
+      "The tornado tracked through Kansas.",
+      "It occurred between 2000 and 2004."
+    ],
+    "image": "images/funnel-a2bcf96cb214.webp",
+    "photoCredit": "Ryan Jewell",
+    "photoSource": "https://commons.wikimedia.org/wiki/File:May_12_2004_Attica,_KS_F2.png",
+    "photoEdit": "Cropped and converted to WebP"
+  },
+  {
+    "id": "funnel-0f7c7dfcb422",
+    "name": "Hallam, Nebraska",
+    "lat": 40.541724,
+    "lng": -96.790571,
+    "date": "2004-05-22",
+    "source": "https://www.spc.noaa.gov/wcm/#data",
+    "clueType": "funnel",
+    "rating": "F4",
+    "hints": [
+      "The tornado tracked through Nebraska.",
+      "It occurred between 2000 and 2004."
+    ],
+    "image": "images/funnel-0f7c7dfcb422.webp",
+    "photoCredit": "Corey Mead",
+    "photoSource": "https://commons.wikimedia.org/wiki/File:2004_Hallam,_Nebraska_wedge_tornado.jpg",
+    "photoEdit": "Cropped and converted to WebP"
+  },
+  {
+    "id": "funnel-946637a4e71c",
+    "name": "Mulvane, Kansas",
+    "lat": 37.47,
+    "lng": -97.23,
+    "date": "2004-06-12",
+    "source": "https://www.spc.noaa.gov/wcm/#data",
+    "clueType": "funnel",
+    "rating": "F3",
+    "hints": [
+      "The tornado tracked through Kansas.",
+      "It occurred between 2000 and 2004."
+    ],
+    "image": "images/funnel-946637a4e71c.webp",
+    "photoCredit": "Mark Darrow",
+    "photoSource": "https://commons.wikimedia.org/wiki/File:2004_Mulvane,_Kansas_tornado.jpg",
+    "photoEdit": "Cropped and converted to WebP"
+  },
+  {
+    "id": "funnel-3f64a005f139",
+    "name": "Roanoke, Illinois",
+    "lat": 40.784328,
+    "lng": -89.204476,
+    "date": "2004-07-13",
+    "source": "https://www.spc.noaa.gov/wcm/#data",
+    "clueType": "funnel",
+    "rating": "F4",
+    "hints": [
+      "The tornado tracked through Illinois.",
+      "It occurred between 2000 and 2004."
+    ],
+    "image": "images/funnel-3f64a005f139.webp",
+    "photoCredit": "NWS Central Illinois",
+    "photoSource": "https://commons.wikimedia.org/wiki/File:2004_Roanoke,_Illinois_F4_tornado.jpg",
+    "photoEdit": "Converted to WebP"
+  },
+  {
+    "id": "funnel-fc01e9989378",
+    "name": "Panama City Beach, Florida",
+    "lat": 30.17,
+    "lng": -85.73,
+    "date": "2004-09-15",
+    "source": "https://www.spc.noaa.gov/wcm/#data",
+    "clueType": "funnel",
+    "rating": "F1",
+    "hints": [
+      "The tornado tracked through Florida.",
+      "It occurred between 2000 and 2004."
+    ],
+    "image": "images/funnel-fc01e9989378.webp",
+    "photoCredit": "U.S. Navy photo by Jacqui Barker",
+    "photoSource": "https://commons.wikimedia.org/wiki/File:US_Navy_040915-N-0206B-047_A_tornado_spun_by_Hurricane_Ivan,_makes_its_way_inland_from_St._Andrew%27s_state_park_area_toward_Naval_Surface_Warfare_Center_Panama_City.jpg",
+    "photoEdit": "Converted to WebP"
+  },
+  {
+    "id": "funnel-d3fd184cf5ae",
+    "name": "Stoughton, Wisconsin",
+    "lat": 42.924802,
+    "lng": -89.222564,
+    "date": "2005-08-18",
+    "source": "https://www.spc.noaa.gov/wcm/#data",
+    "clueType": "funnel",
+    "rating": "F3",
+    "hints": [
+      "The tornado tracked through Wisconsin.",
+      "It occurred between 2005 and 2009."
+    ],
+    "image": "images/funnel-d3fd184cf5ae.webp",
+    "photoCredit": "Colin McDermott",
+    "photoSource": "https://commons.wikimedia.org/wiki/File:2005_Stoughton_Tornado.jpg",
+    "photoEdit": "Converted to WebP",
+    "photoLicense": "CC BY 4.0",
+    "photoLicenseUrl": "https://creativecommons.org/licenses/by/4.0"
+  },
+  {
+    "id": "funnel-a59c49a38a66",
+    "name": "Caruthersville, Missouri",
+    "lat": 36.180606,
+    "lng": -89.666937,
+    "date": "2006-04-02",
+    "source": "https://www.weather.gov/meg/apr22006tor",
+    "clueType": "funnel",
+    "rating": "F3",
+    "hints": [
+      "The tornado tracked through Missouri.",
+      "It occurred between 2005 and 2009."
+    ],
+    "image": "images/funnel-a59c49a38a66.webp",
+    "photoCredit": "CCTV",
+    "photoSource": "https://commons.wikimedia.org/wiki/File:Cauthersville_tornado_CCTV_still.jpg",
+    "photoEdit": "Converted to WebP"
+  },
+  {
+    "id": "funnel-14cd1d7749dd",
+    "name": "Le Sueur County, Minnesota",
+    "lat": 44.253888,
+    "lng": -93.738639,
+    "date": "2006-08-24",
+    "source": "https://www.spc.noaa.gov/wcm/#data",
+    "clueType": "funnel",
+    "rating": "F3",
+    "hints": [
+      "The tornado tracked through Minnesota.",
+      "It occurred between 2005 and 2009."
+    ],
+    "image": "images/funnel-14cd1d7749dd.webp",
+    "photoCredit": "Joshua Jans",
+    "photoSource": "https://commons.wikimedia.org/wiki/File:Tornado-Leseur-24.jpg",
+    "photoEdit": "Converted to WebP",
+    "photoLicense": "CC BY-SA 3.0",
+    "photoLicenseUrl": "https://creativecommons.org/licenses/by-sa/3.0/"
+  },
+  {
+    "id": "funnel-06e9736df8f3",
+    "name": "Greensburg, Kansas",
+    "lat": 37.610935,
+    "lng": -99.333713,
+    "date": "2007-05-04",
+    "source": "https://www.weather.gov/ddc/greensburgfiveyear",
+    "clueType": "funnel",
+    "rating": "EF5",
+    "hints": [
+      "The tornado tracked through Kansas.",
+      "It occurred between 2005 and 2009."
+    ],
+    "image": "images/funnel-06e9736df8f3.webp",
+    "photoCredit": "Craig Wedges",
+    "photoSource": "https://commons.wikimedia.org/wiki/File:2007_Greensburg,_KS_tornado_from_Highway_148.jpg",
+    "photoEdit": "Converted to WebP",
+    "photoLicense": "CC BY-SA 4.0",
+    "photoLicenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
+  },
+  {
+    "id": "funnel-fdb4479cd5d8",
+    "name": "Windsor, Colorado",
+    "lat": 40.472654,
+    "lng": -104.928711,
+    "date": "2008-05-22",
+    "source": "https://www.spc.noaa.gov/wcm/#data",
+    "clueType": "funnel",
+    "rating": "EF3",
+    "hints": [
+      "The tornado tracked through Colorado.",
+      "It occurred between 2005 and 2009."
+    ],
+    "image": "images/funnel-fdb4479cd5d8.webp",
+    "photoCredit": "CCTV",
+    "photoSource": "https://commons.wikimedia.org/wiki/File:Windsor_tornado_CCTV.jpg",
+    "photoEdit": "Converted to WebP"
+  },
+  {
+    "id": "funnel-6752051853bc",
+    "name": "Parkersburg–New Hartford, Iowa",
+    "lat": 42.560957,
+    "lng": -92.776228,
+    "date": "2008-05-25",
+    "source": "https://www.weather.gov/media/dvn/ParkersburgSvcAssmntfinal.pdf",
+    "clueType": "funnel",
+    "rating": "EF5",
+    "hints": [
+      "The tornado tracked through Iowa.",
+      "It occurred between 2005 and 2009."
+    ],
+    "image": "images/funnel-6752051853bc.webp",
+    "photoCredit": "Rod Donovan / NWS Des Moines",
+    "photoSource": "https://commons.wikimedia.org/wiki/File:Parkersburg%E2%80%93New_Hartford_East_of_Town.jpg",
+    "photoEdit": "Converted to WebP"
+  },
+  {
+    "id": "funnel-95fffa1bde3b",
+    "name": "Murfreesboro, Tennessee",
+    "lat": 35.873373,
+    "lng": -86.429556,
+    "date": "2009-04-10",
+    "source": "https://www.spc.noaa.gov/wcm/#data",
+    "clueType": "funnel",
+    "rating": "EF4",
+    "hints": [
+      "The tornado tracked through Tennessee.",
+      "It occurred between 2005 and 2009."
+    ],
+    "image": "images/funnel-95fffa1bde3b.webp",
+    "photoCredit": "James Evans",
+    "photoSource": "https://commons.wikimedia.org/wiki/File:EF4_tornado_in_Murfreesboro,_Tennessee,_as_seen_from_a_CCTV_camera.png",
+    "photoEdit": "Cropped and converted to WebP"
+  },
+  {
+    "id": "funnel-b9d5ecafed08",
+    "name": "Yazoo City, Mississippi",
+    "lat": 32.829336,
+    "lng": -90.386247,
+    "date": "2010-04-24",
+    "source": "https://www.weather.gov/jan/2010_04_24_main_tor_madison_parish_oktibbeha",
+    "clueType": "funnel",
+    "rating": "EF4",
+    "hints": [
+      "The track crossed from Louisiana into Mississippi.",
+      "It occurred between 2010 and 2014."
+    ],
+    "image": "images/funnel-b9d5ecafed08.webp",
+    "photoCredit": "M.k. Davis",
+    "photoSource": "https://commons.wikimedia.org/wiki/File:Yazoo_City_tornado_1.jpg",
+    "photoEdit": "Converted to WebP",
+    "photoLicense": "CC BY-SA 4.0",
+    "photoLicenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
+  },
+  {
+    "id": "funnel-d059450e79b5",
+    "name": "Lake Township–Millbury, Ohio",
+    "lat": 41.565409,
+    "lng": -83.425676,
+    "date": "2010-06-05",
+    "source": "https://www.spc.noaa.gov/wcm/#data",
+    "clueType": "funnel",
+    "rating": "EF4",
+    "hints": [
+      "The tornado tracked through Ohio.",
+      "It occurred between 2010 and 2014."
+    ],
+    "image": "images/funnel-d059450e79b5.webp",
+    "photoCredit": "DRACONi Security Agency",
+    "photoSource": "https://commons.wikimedia.org/wiki/File:Millbury_tornado.jpg",
+    "photoEdit": "Converted to WebP"
+  },
+  {
+    "id": "funnel-a109e5e543e0",
+    "name": "Holmes–Thompson, North Dakota",
+    "lat": 47.768434,
+    "lng": -97.314656,
+    "date": "2010-06-17",
+    "source": "https://www.spc.noaa.gov/wcm/#data",
+    "clueType": "funnel",
+    "rating": "EF4",
+    "hints": [
+      "The tornado tracked through North Dakota.",
+      "It occurred between 2010 and 2014."
+    ],
+    "image": "images/funnel-a109e5e543e0.webp",
+    "photoCredit": "National Oceanic and Atmospheric Administration / National Weather Service",
+    "photoSource": "https://commons.wikimedia.org/wiki/File:Tornadopic_holmesEF4.jpg",
+    "photoEdit": "Converted to WebP"
+  },
+  {
+    "id": "funnel-2ae508e3684f",
+    "name": "Bellemont, Arizona",
+    "lat": 35.239702,
+    "lng": -111.827673,
+    "date": "2010-10-06",
+    "source": "https://www.spc.noaa.gov/wcm/#data",
+    "clueType": "funnel",
+    "rating": "EF3",
+    "hints": [
+      "The tornado tracked through Arizona.",
+      "It occurred between 2010 and 2014."
+    ],
+    "image": "images/funnel-2ae508e3684f.webp",
+    "photoCredit": "NWS Flagstaff",
+    "photoSource": "https://commons.wikimedia.org/wiki/File:2010_Bellemont_EF3_tornado.jpg",
+    "photoEdit": "Converted to WebP"
+  },
+  {
+    "id": "funnel-c992d654a672",
+    "name": "Smithville, Mississippi",
+    "lat": 34.068841,
+    "lng": -88.398812,
+    "date": "2011-04-27",
+    "source": "https://www.weather.gov/meg/apr2011toroutbreaksmithville",
+    "clueType": "funnel",
+    "rating": "EF5",
+    "hints": [
+      "The tornado tracked through Mississippi.",
+      "It occurred between 2010 and 2014."
+    ],
+    "image": "images/funnel-c992d654a672.webp",
+    "photoCredit": "Sylvia Poppell Menold",
+    "photoSource": "https://commons.wikimedia.org/wiki/File:2011_Smithville,_Mississippi_EF5_tornado_at_peak_intensity.jpg",
+    "photoEdit": "Converted to WebP",
+    "photoLicense": "CC BY-SA 4.0",
+    "photoLicenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
+  },
+  {
+    "id": "funnel-591dcff5bf1d",
+    "name": "Philadelphia, Mississippi",
+    "lat": 32.7992,
+    "lng": -89.1088,
+    "date": "2011-04-27",
+    "source": "https://www.weather.gov/jan/2011_04_25_27_svr",
+    "clueType": "funnel",
+    "rating": "EF5",
+    "hints": [
+      "The tornado tracked through Mississippi.",
+      "It occurred between 2010 and 2014."
+    ],
+    "image": "images/funnel-591dcff5bf1d.webp",
+    "photoCredit": "Justin Peden",
+    "photoSource": "https://commons.wikimedia.org/wiki/File:2011_Philadelphia,_MS_tornado.jpg",
+    "photoEdit": "Converted to WebP",
+    "photoLicense": "CC BY-SA 4.0",
+    "photoLicenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
+  },
+  {
+    "id": "funnel-d4f410ce70be",
+    "name": "Hackleburg–Phil Campbell, Alabama",
+    "lat": 34.332975,
+    "lng": -87.693438,
+    "date": "2011-04-27",
+    "source": "https://www.weather.gov/bmx/event_04272011hackleburg",
+    "clueType": "funnel",
+    "rating": "EF5",
+    "hints": [
+      "The tornado tracked through Alabama.",
+      "It occurred between 2010 and 2014."
+    ],
+    "image": "images/funnel-d4f410ce70be.webp",
+    "photoCredit": "Dstnmrgn",
+    "photoSource": "https://commons.wikimedia.org/wiki/File:April_27-2011_img5_(cropped).jpg",
+    "photoEdit": "Converted to WebP",
+    "photoLicense": "CC BY-SA 4.0",
+    "photoLicenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
+  },
+  {
+    "id": "funnel-5831d5e1d2e2",
+    "name": "Rainsville–Sylvania, Alabama",
+    "lat": 34.500567,
+    "lng": -85.844145,
+    "date": "2011-04-27",
+    "source": "https://www.weather.gov/hun/hunsur_2011-04-27_text_summ",
+    "clueType": "funnel",
+    "rating": "EF5",
+    "hints": [
+      "The tornado tracked through Alabama.",
+      "It occurred between 2010 and 2014."
+    ],
+    "image": "images/funnel-5831d5e1d2e2.webp",
+    "photoCredit": "Dana Dobbins",
+    "photoSource": "https://commons.wikimedia.org/wiki/File:Rainsville_Tornado_Dana_Dobbins.png",
+    "photoEdit": "Converted to WebP",
+    "photoLicense": "CC BY-SA 2.0",
+    "photoLicenseUrl": "https://creativecommons.org/licenses/by-sa/2.0"
+  },
+  {
+    "id": "funnel-90e2c90ac678",
+    "name": "Tuscaloosa–Birmingham, Alabama",
+    "lat": 33.236643,
+    "lng": -87.529955,
+    "date": "2011-04-27",
+    "source": "https://www.weather.gov/bmx/event_04272011tuscbirm",
+    "clueType": "funnel",
+    "rating": "EF4",
+    "hints": [
+      "The tornado tracked through Alabama.",
+      "It occurred between 2010 and 2014."
+    ],
+    "image": "images/funnel-90e2c90ac678.webp",
+    "photoCredit": "Fixed security camera (via Wikimedia Commons)",
+    "photoSource": "https://commons.wikimedia.org/wiki/File:Tuscaloosa_tornado_CCTV.jpg",
+    "photoEdit": "Cropped and converted to WebP"
+  },
+  {
+    "id": "funnel-c6c06974125a",
+    "name": "Cullman, Alabama",
+    "lat": 34.182277,
+    "lng": -86.845899,
+    "date": "2011-04-27",
+    "source": "https://www.spc.noaa.gov/wcm/#data",
+    "clueType": "funnel",
+    "rating": "EF4",
+    "hints": [
+      "The tornado tracked through Alabama.",
+      "It occurred between 2010 and 2014."
+    ],
+    "image": "images/funnel-c6c06974125a.webp",
+    "photoCredit": "Dirty Lawson",
+    "photoSource": "https://commons.wikimedia.org/wiki/File:Cullman_tornado.jpg",
+    "photoEdit": "Converted to WebP",
+    "photoLicense": "CC BY 4.0",
+    "photoLicenseUrl": "https://creativecommons.org/licenses/by/4.0"
+  },
+  {
+    "id": "funnel-8dd823e2fedf",
+    "name": "Cordova–Sipsey, Alabama",
+    "lat": 33.79541,
+    "lng": -87.22735,
+    "date": "2011-04-27",
+    "source": "https://www.spc.noaa.gov/wcm/#data",
+    "clueType": "funnel",
+    "rating": "EF4",
+    "hints": [
+      "The tornado tracked through Alabama.",
+      "It occurred between 2010 and 2014."
+    ],
+    "image": "images/funnel-8dd823e2fedf.webp",
+    "photoCredit": "Tina Farmer",
+    "photoSource": "https://commons.wikimedia.org/wiki/File:2011_Cordova_tornado_near_Sipsey.jpg",
+    "photoEdit": "Converted to WebP",
+    "photoLicense": "CC BY-SA 4.0",
+    "photoLicenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
+  },
+  {
+    "id": "funnel-a2f58daae583",
+    "name": "Lake Martin, Alabama",
+    "lat": 32.810642,
+    "lng": -85.766205,
+    "date": "2011-04-27",
+    "source": "https://www.spc.noaa.gov/wcm/#data",
+    "clueType": "funnel",
+    "rating": "EF4",
+    "hints": [
+      "The tornado tracked through Alabama.",
+      "It occurred between 2010 and 2014."
+    ],
+    "image": "images/funnel-a2f58daae583.webp",
+    "photoCredit": "Unamed Firefighter",
+    "photoSource": "https://commons.wikimedia.org/wiki/File:2011_Lake_Martin,_Alabama_EF4_tornado.webp",
+    "photoEdit": "Converted to WebP"
+  },
+  {
+    "id": "funnel-08c6e68d616c",
+    "name": "Joplin, Missouri",
+    "lat": 37.037609,
+    "lng": -94.512426,
+    "date": "2011-05-22",
+    "source": "https://www.weather.gov/media/publications/assessments/Joplin_tornado.pdf",
+    "clueType": "funnel",
+    "rating": "EF5",
+    "hints": [
+      "The tornado tracked through Missouri.",
+      "It occurred between 2010 and 2014."
+    ],
+    "image": "images/funnel-08c6e68d616c.webp",
+    "photoCredit": "Daniel Friskey",
+    "photoSource": "https://commons.wikimedia.org/wiki/File:Joplin,_Missouri_tornado_of_2011.jpg",
+    "photoEdit": "Converted to WebP",
+    "photoLicense": "CC BY-SA 4.0",
+    "photoLicenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
+  },
+  {
+    "id": "funnel-98a90070397c",
+    "name": "El Reno–Piedmont, Oklahoma",
+    "lat": 35.706199,
+    "lng": -97.778502,
+    "date": "2011-05-24",
+    "source": "https://www.weather.gov/oun/events-20110524",
+    "clueType": "funnel",
+    "rating": "EF5",
+    "hints": [
+      "The tornado tracked through Oklahoma.",
+      "It occurred between 2010 and 2014."
+    ],
+    "image": "images/funnel-98a90070397c.webp",
+    "photoCredit": "Dr. Corey Potvin",
+    "photoSource": "https://commons.wikimedia.org/wiki/File:2011_El_Reno-Piedmont,_Oklahoma_EF5_tornado.png",
+    "photoEdit": "Converted to WebP",
+    "photoLicense": "CC BY-SA 4.0",
+    "photoLicenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
+  },
+  {
+    "id": "funnel-e540c8f809a6",
+    "name": "Washington–Goldsby, Oklahoma",
+    "lat": 35.131748,
+    "lng": -97.49958,
+    "date": "2011-05-24",
+    "source": "https://www.spc.noaa.gov/wcm/#data",
+    "clueType": "funnel",
+    "rating": "EF4",
+    "hints": [
+      "The tornado tracked through Oklahoma.",
+      "It occurred between 2010 and 2014."
+    ],
+    "image": "images/funnel-e540c8f809a6.webp",
+    "photoCredit": "Tim Marquis (Storm Prediction Center)",
+    "photoSource": "https://commons.wikimedia.org/wiki/File:2011_Goldsby_tornado_as_seen_from_I-35.jpg",
+    "photoEdit": "Converted to WebP"
+  },
+  {
+    "id": "funnel-0aed692df915",
+    "name": "Chickasha–Newcastle, Oklahoma",
+    "lat": 35.0293,
+    "lng": -97.933742,
+    "date": "2011-05-24",
+    "source": "https://www.spc.noaa.gov/wcm/#data",
+    "clueType": "funnel",
+    "rating": "EF4",
+    "hints": [
+      "The tornado tracked through Oklahoma.",
+      "It occurred between 2010 and 2014."
+    ],
+    "image": "images/funnel-0aed692df915.webp",
+    "photoCredit": "Jeremy Grams",
+    "photoSource": "https://commons.wikimedia.org/wiki/File:2011_Chickasha,_Oklahoma_EF4_tornado.jpg",
+    "photoEdit": "Cropped and converted to WebP"
+  },
+  {
+    "id": "funnel-7ce989151221",
+    "name": "Springfield, Massachusetts",
+    "lat": 42.101691,
+    "lng": -72.539795,
+    "date": "2011-06-01",
+    "source": "https://www.spc.noaa.gov/wcm/#data",
+    "clueType": "funnel",
+    "rating": "EF3",
+    "hints": [
+      "The tornado tracked through Massachusetts.",
+      "It occurred between 2010 and 2014."
+    ],
+    "image": "images/funnel-7ce989151221.webp",
+    "photoCredit": "User:Runningonbrains , original photo by Matt Putzel",
+    "photoSource": "https://commons.wikimedia.org/wiki/File:Springfield,_MA_Tornado_2011,_June_1_cropped.jpg",
+    "photoEdit": "Converted to WebP",
+    "photoLicense": "CC BY-SA 3.0",
+    "photoLicenseUrl": "https://creativecommons.org/licenses/by-sa/3.0"
+  },
+  {
+    "id": "funnel-025fd52d4cc3",
+    "name": "Henryville, Indiana",
+    "lat": 38.539402,
+    "lng": -85.766609,
+    "date": "2012-03-02",
+    "source": "https://www.spc.noaa.gov/wcm/#data",
+    "clueType": "funnel",
+    "rating": "EF4",
+    "hints": [
+      "The tornado tracked through Indiana.",
+      "It occurred between 2010 and 2014."
+    ],
+    "image": "images/funnel-025fd52d4cc3.webp",
+    "photoCredit": "chadhinton",
+    "photoSource": "https://commons.wikimedia.org/wiki/File:2012_tornado_near_New_Pekin,_Indiana.jpg",
+    "photoEdit": "Converted to WebP",
+    "photoLicense": "CC BY 3.0",
+    "photoLicenseUrl": "https://creativecommons.org/licenses/by/3.0"
+  },
+  {
+    "id": "funnel-ae60067e3c7d",
+    "name": "Dexter, Michigan",
+    "lat": 42.335407,
+    "lng": -83.876633,
+    "date": "2012-03-15",
+    "source": "https://www.spc.noaa.gov/wcm/#data",
+    "clueType": "funnel",
+    "rating": "EF3",
+    "hints": [
+      "The tornado tracked through Michigan.",
+      "It occurred between 2010 and 2014."
+    ],
+    "image": "images/funnel-ae60067e3c7d.webp",
+    "photoCredit": "Amtrakfan4",
+    "photoSource": "https://commons.wikimedia.org/wiki/File:Dexter_tornado_outside_Brass_Creek_(Cropped).jpg",
+    "photoEdit": "Converted to WebP",
+    "photoLicense": "CC BY-SA 3.0",
+    "photoLicenseUrl": "https://creativecommons.org/licenses/by-sa/3.0"
+  },
+  {
+    "id": "funnel-4ce9a04ac75a",
+    "name": "Lyons–Salina, Kansas",
+    "lat": 38.892014,
+    "lng": -97.739161,
+    "date": "2012-04-14",
+    "source": "https://www.spc.noaa.gov/wcm/#data",
+    "clueType": "funnel",
+    "rating": "EF4",
+    "hints": [
+      "The tornado tracked through Kansas.",
+      "It occurred between 2010 and 2014."
+    ],
+    "image": "images/funnel-4ce9a04ac75a.webp",
+    "photoCredit": "Tom Roberts",
+    "photoSource": "https://commons.wikimedia.org/wiki/File:2012_Salina_Tornado.jpg",
+    "photoEdit": "Converted to WebP",
+    "photoLicense": "CC BY 3.0",
+    "photoLicenseUrl": "https://creativecommons.org/licenses/by/3.0"
+  },
+  {
+    "id": "funnel-0768d9910bba",
+    "name": "Bennington, Kansas",
+    "lat": 39.0299,
+    "lng": -97.6667,
+    "date": "2013-05-28",
+    "source": "https://www.spc.noaa.gov/wcm/#data",
+    "clueType": "funnel",
+    "rating": "EF3",
+    "hints": [
+      "The tornado tracked through Kansas.",
+      "It occurred between 2010 and 2014."
+    ],
+    "image": "images/funnel-0768d9910bba.webp",
+    "photoCredit": "Andreas Lerchbaumer",
+    "photoSource": "https://commons.wikimedia.org/wiki/File:2013_Bennington,_Kansas_tornado.png",
+    "photoEdit": "Converted to WebP",
+    "photoLicense": "CC BY 3.0",
+    "photoLicenseUrl": "https://creativecommons.org/licenses/by/3.0"
+  },
+  {
+    "id": "funnel-049a21295156",
+    "name": "Washington, Illinois",
+    "lat": 40.698146,
+    "lng": -89.425582,
+    "date": "2013-11-17",
+    "source": "https://www.spc.noaa.gov/wcm/#data",
+    "clueType": "funnel",
+    "rating": "EF4",
+    "hints": [
+      "The tornado tracked through Illinois.",
+      "It occurred between 2010 and 2014."
+    ],
+    "image": "images/funnel-049a21295156.webp",
+    "photoCredit": "LKSNid",
+    "photoSource": "https://commons.wikimedia.org/wiki/File:WashingtonEF4.png",
+    "photoEdit": "Converted to WebP",
+    "photoLicense": "CC BY 3.0",
+    "photoLicenseUrl": "https://creativecommons.org/licenses/by/3.0"
+  },
+  {
+    "id": "funnel-efb83e66ebcc",
+    "name": "Mayflower–Vilonia, Arkansas",
+    "lat": 35.064311,
+    "lng": -92.201519,
+    "date": "2014-04-27",
+    "source": "https://www.spc.noaa.gov/wcm/#data",
+    "clueType": "funnel",
+    "rating": "EF4",
+    "hints": [
+      "The tornado tracked through Arkansas.",
+      "It occurred between 2010 and 2014."
+    ],
+    "image": "images/funnel-efb83e66ebcc.webp",
+    "photoCredit": "Security Camera",
+    "photoSource": "https://commons.wikimedia.org/wiki/File:Vilonia_tornado_security_cam.jpg",
+    "photoEdit": "Converted to WebP"
+  },
+  {
+    "id": "funnel-89528987e4e6",
+    "name": "Louisville, Mississippi",
+    "lat": 33.139411,
+    "lng": -89.072096,
+    "date": "2014-04-28",
+    "source": "https://www.spc.noaa.gov/wcm/#data",
+    "clueType": "funnel",
+    "rating": "EF4",
+    "hints": [
+      "The tornado tracked through Mississippi.",
+      "It occurred between 2010 and 2014."
+    ],
+    "image": "images/funnel-89528987e4e6.webp",
+    "photoCredit": "Charlie Bingham",
+    "photoSource": "https://commons.wikimedia.org/wiki/File:2014_Louisville,_Mississippi_EF4_twister.jpg",
+    "photoEdit": "Converted to WebP",
+    "photoLicense": "CC BY-SA 4.0",
+    "photoLicenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
+  },
+  {
+    "id": "funnel-4f4345950ca2",
+    "name": "Alpena, South Dakota",
+    "lat": 44.183385,
+    "lng": -98.4032,
+    "date": "2014-06-18",
+    "source": "https://www.spc.noaa.gov/wcm/#data",
+    "clueType": "funnel",
+    "rating": "EF4",
+    "hints": [
+      "The tornado tracked through South Dakota.",
+      "It occurred between 2010 and 2014."
+    ],
+    "image": "images/funnel-4f4345950ca2.webp",
+    "photoCredit": "Francis Lavigne-Theriault (NOAA Weather in Focus Photo Contest 2015)",
+    "photoSource": "https://commons.wikimedia.org/wiki/File:The_Alpena,_SD_EF4_tornado_heading_north.jpg",
+    "photoEdit": "Converted to WebP"
+  },
+  {
+    "id": "funnel-32e21e0f5726",
+    "name": "Rochelle–Fairdale, Illinois",
+    "lat": 42.111971,
+    "lng": -88.946671,
+    "date": "2015-04-09",
+    "source": "https://www.spc.noaa.gov/wcm/#data",
+    "clueType": "funnel",
+    "rating": "EF4",
+    "hints": [
+      "The tornado tracked through Illinois.",
+      "It occurred between 2015 and 2019."
+    ],
+    "image": "images/funnel-32e21e0f5726.webp",
+    "photoCredit": "Tom Purdy (No human input was involved)",
+    "photoSource": "https://commons.wikimedia.org/wiki/File:Rochelle_Dash_Cam_still.jpg",
+    "photoEdit": "Converted to WebP"
+  },
+  {
+    "id": "funnel-e642d46511b4",
+    "name": "Holly Springs, Mississippi",
+    "lat": 34.738131,
+    "lng": -89.416115,
+    "date": "2015-12-23",
+    "source": "https://www.spc.noaa.gov/wcm/#data",
+    "clueType": "funnel",
+    "rating": "EF4",
+    "hints": [
+      "The tornado tracked through Mississippi.",
+      "It occurred between 2015 and 2019."
+    ],
+    "image": "images/funnel-e642d46511b4.webp",
+    "photoCredit": "Holly Springs Bank (Security Camera)",
+    "photoSource": "https://commons.wikimedia.org/wiki/File:2015_Holly_Springs,_Mississippi_tornado.png",
+    "photoEdit": "Converted to WebP"
+  },
+  {
+    "id": "funnel-26b1dfe2bed7",
+    "name": "Katie–Wynnewood, Oklahoma",
+    "lat": 34.589,
+    "lng": -97.21,
+    "date": "2016-05-09",
+    "source": "https://www.spc.noaa.gov/wcm/#data",
+    "clueType": "funnel",
+    "rating": "EF4",
+    "hints": [
+      "The tornado tracked through Oklahoma.",
+      "It occurred between 2015 and 2019."
+    ],
+    "image": "images/funnel-26b1dfe2bed7.webp",
+    "photoCredit": "Josh Edelson",
+    "photoSource": "https://commons.wikimedia.org/wiki/File:Violent_tornado_near_Katie,_Oklahoma.jpg",
+    "photoEdit": "Converted to WebP",
+    "photoLicense": "CC BY 3.0",
+    "photoLicenseUrl": "https://creativecommons.org/licenses/by/3.0"
+  },
+  {
+    "id": "funnel-630e6d865688",
+    "name": "Chapman, Kansas",
+    "lat": 38.960384,
+    "lng": -97.025337,
+    "date": "2016-05-25",
+    "source": "https://www.spc.noaa.gov/wcm/#data",
+    "clueType": "funnel",
+    "rating": "EF4",
+    "hints": [
+      "The tornado tracked through Kansas.",
+      "It occurred between 2015 and 2019."
+    ],
+    "image": "images/funnel-630e6d865688.webp",
+    "photoCredit": "Aaron Harvey",
+    "photoSource": "https://commons.wikimedia.org/wiki/File:Photo_of_the_Chapman,_Kansas_tornado.png",
+    "photoEdit": "Converted to WebP",
+    "photoLicense": "CC BY 3.0",
+    "photoLicenseUrl": "https://creativecommons.org/licenses/by/3.0"
+  },
+  {
+    "id": "funnel-ba8f31f95ecd",
+    "name": "New Orleans East, Louisiana",
+    "lat": 30.016095,
+    "lng": -89.930527,
+    "date": "2017-02-07",
+    "source": "https://www.spc.noaa.gov/wcm/#data",
+    "clueType": "funnel",
+    "rating": "EF3",
+    "hints": [
+      "The tornado tracked through Louisiana.",
+      "It occurred between 2015 and 2019."
+    ],
+    "image": "images/funnel-ba8f31f95ecd.webp",
+    "photoCredit": "NASA",
+    "photoSource": "https://commons.wikimedia.org/wiki/File:2017_New_Orleans_tornado_over_Michoud_area.png",
+    "photoEdit": "Converted to WebP"
+  },
+  {
+    "id": "funnel-545c315e0d77",
+    "name": "Dayton, Ohio",
+    "lat": 39.775228,
+    "lng": -84.202773,
+    "date": "2019-05-27",
+    "source": "https://www.spc.noaa.gov/wcm/#data",
+    "clueType": "funnel",
+    "rating": "EF4",
+    "hints": [
+      "The tornado tracked through Ohio.",
+      "It occurred between 2015 and 2019."
+    ],
+    "image": "images/funnel-545c315e0d77.webp",
+    "photoCredit": "Josh Martinez (Published through Northridge History)",
+    "photoSource": "https://commons.wikimedia.org/wiki/File:2019_Dayton_tornado,_seen_from_Northridge_(Cropped).jpg",
+    "photoEdit": "Converted to WebP",
+    "photoLicense": "CC BY-SA 2.0",
+    "photoLicenseUrl": "https://creativecommons.org/licenses/by-sa/2.0"
+  },
+  {
+    "id": "funnel-f9fef06b4e3c",
+    "name": "Linwood, Kansas",
+    "lat": 39.014013,
+    "lng": -95.048384,
+    "date": "2019-05-28",
+    "source": "https://www.spc.noaa.gov/wcm/#data",
+    "clueType": "funnel",
+    "rating": "EF4",
+    "hints": [
+      "The tornado tracked through Kansas.",
+      "It occurred between 2015 and 2019."
+    ],
+    "image": "images/funnel-f9fef06b4e3c.webp",
+    "photoCredit": "Roger Heflin",
+    "photoSource": "https://commons.wikimedia.org/wiki/File:CCTV_Linwood_KS_EF4_tornado_2019.png",
+    "photoEdit": "Converted to WebP"
+  },
+  {
+    "id": "funnel-92520eec2301",
+    "name": "Nashville, Tennessee",
+    "lat": 36.16918,
+    "lng": -86.779782,
+    "date": "2020-03-03",
+    "source": "https://www.spc.noaa.gov/wcm/#data",
+    "clueType": "funnel",
+    "rating": "EF3",
+    "hints": [
+      "The tornado tracked through Tennessee.",
+      "It occurred between 2020 and 2024."
+    ],
+    "image": "images/funnel-92520eec2301.webp",
+    "photoCredit": "Security camera",
+    "photoSource": "https://commons.wikimedia.org/wiki/File:2020_Nashville_tornado_CCTV.jpg",
+    "photoEdit": "Converted to WebP"
+  },
+  {
+    "id": "funnel-a3636d0b93a0",
+    "name": "Ashby, Minnesota",
+    "lat": 46.133195,
+    "lng": -95.862053,
+    "date": "2020-07-08",
+    "source": "https://www.spc.noaa.gov/wcm/#data",
+    "clueType": "funnel",
+    "rating": "EF4",
+    "hints": [
+      "The tornado tracked through Minnesota.",
+      "It occurred between 2020 and 2024."
+    ],
+    "image": "images/funnel-a3636d0b93a0.webp",
+    "photoCredit": "Holden Smith (No Human Input was involved)",
+    "photoSource": "https://commons.wikimedia.org/wiki/File:2020_Ashby_tornado_still.jpg",
+    "photoEdit": "Converted to WebP"
+  },
+  {
+    "id": "funnel-8765c74cb3c8",
+    "name": "Boscobel, Wisconsin",
+    "lat": 43.129246,
+    "lng": -90.715946,
+    "date": "2021-08-07",
+    "source": "https://www.spc.noaa.gov/wcm/#data",
+    "clueType": "funnel",
+    "rating": "EF3",
+    "hints": [
+      "The tornado tracked through Wisconsin.",
+      "It occurred between 2020 and 2024."
+    ],
+    "image": "images/funnel-8765c74cb3c8.webp",
+    "photoCredit": "WI River Outings",
+    "photoSource": "https://commons.wikimedia.org/wiki/File:2021_Boscobel,_Wisconsin_tornado.jpg",
+    "photoEdit": "Converted to WebP",
+    "photoLicense": "CC BY-SA 4.0",
+    "photoLicenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
+  },
+  {
+    "id": "funnel-2aa5c733b656",
+    "name": "Monette–Samburg, Tennessee",
+    "lat": 36.483,
+    "lng": -89.135,
+    "date": "2021-12-10",
+    "source": "https://www.spc.noaa.gov/wcm/#data",
+    "clueType": "funnel",
+    "rating": "EF4",
+    "hints": [
+      "The tornado tracked through Tennessee.",
+      "It occurred between 2020 and 2024."
+    ],
+    "image": "images/funnel-2aa5c733b656.webp",
+    "photoCredit": "Avancuren",
+    "photoSource": "https://commons.wikimedia.org/wiki/File:2021_Samburg_tornado.png",
+    "photoEdit": "Converted to WebP"
+  },
+  {
+    "id": "funnel-f8d6c11afe0c",
+    "name": "Winterset, Iowa",
+    "lat": 41.321493,
+    "lng": -93.995326,
+    "date": "2022-03-05",
+    "source": "https://services.dat.noaa.gov/arcgis/rest/services/nws_damageassessmenttoolkit/DamageViewer/FeatureServer/1/1379883",
+    "clueType": "funnel",
+    "rating": "EF4",
+    "hints": [
+      "The tornado tracked through Iowa.",
+      "It occurred between 2020 and 2024."
+    ],
+    "image": "images/funnel-f8d6c11afe0c.webp",
+    "photoCredit": "Chriske627",
+    "photoSource": "https://commons.wikimedia.org/wiki/File:2022_Winterset_EF4.png",
+    "photoEdit": "Converted to WebP",
+    "photoLicense": "CC0",
+    "photoLicenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/deed.en"
+  },
+  {
+    "id": "funnel-95e65809f7ae",
+    "name": "Andover, Kansas",
+    "lat": 37.693638,
+    "lng": -97.145327,
+    "date": "2022-04-29",
+    "source": "https://services.dat.noaa.gov/arcgis/rest/services/nws_damageassessmenttoolkit/DamageViewer/FeatureServer/1/1482290",
+    "clueType": "funnel",
+    "rating": "EF3",
+    "hints": [
+      "The tornado tracked through Kansas.",
+      "It occurred between 2020 and 2024."
+    ],
+    "image": "images/funnel-95e65809f7ae.webp",
+    "photoCredit": "JR Hehnly",
+    "photoSource": "https://commons.wikimedia.org/wiki/File:2022_Andover_Tornado.jpg",
+    "photoEdit": "Converted to WebP",
+    "photoLicense": "CC BY 3.0",
+    "photoLicenseUrl": "https://creativecommons.org/licenses/by/3.0"
+  },
+  {
+    "id": "funnel-d036adcee9b4",
+    "name": "Selma, Alabama",
+    "lat": 32.39751,
+    "lng": -87.024811,
+    "date": "2023-01-12",
+    "source": "https://services.dat.noaa.gov/arcgis/rest/services/nws_damageassessmenttoolkit/DamageViewer/FeatureServer/1/1675885",
+    "clueType": "funnel",
+    "rating": "EF2",
+    "hints": [
+      "The tornado tracked through Alabama.",
+      "It occurred between 2020 and 2024."
+    ],
+    "image": "images/funnel-d036adcee9b4.webp",
+    "photoCredit": "Alabama Power Co.",
+    "photoSource": "https://commons.wikimedia.org/wiki/File:January_12,_2023_Selma_EF2_tornado.png",
+    "photoEdit": "Converted to WebP"
+  },
+  {
+    "id": "funnel-1495c086f136",
+    "name": "Keota, Iowa",
+    "lat": 41.372837,
+    "lng": -91.967348,
+    "date": "2023-03-31",
+    "source": "https://services.dat.noaa.gov/arcgis/rest/services/nws_damageassessmenttoolkit/DamageViewer/FeatureServer/1/1786687",
+    "clueType": "funnel",
+    "rating": "EF4",
+    "hints": [
+      "The tornado tracked through Iowa.",
+      "It occurred between 2020 and 2024."
+    ],
+    "image": "images/funnel-1495c086f136.webp",
+    "photoCredit": "Andre Wehrle",
+    "photoSource": "https://commons.wikimedia.org/wiki/File:(EF4_keota).jpg",
+    "photoEdit": "Converted to WebP"
+  },
+  {
+    "id": "funnel-02e7d0e56a6d",
+    "name": "Minden, Iowa",
+    "lat": 41.46865,
+    "lng": -95.54061,
+    "date": "2024-04-26",
+    "source": "https://services.dat.noaa.gov/arcgis/rest/services/nws_damageassessmenttoolkit/DamageViewer/FeatureServer/1/2043140",
+    "clueType": "funnel",
+    "rating": "EF3",
+    "hints": [
+      "The tornado tracked through Iowa.",
+      "It occurred between 2020 and 2024."
+    ],
+    "image": "images/funnel-02e7d0e56a6d.webp",
+    "photoCredit": "Wxtrackercody",
+    "photoSource": "https://commons.wikimedia.org/wiki/File:Minden,_Iowa_Tornado_2024-04-26_2244Z.jpg",
+    "photoEdit": "Converted to WebP",
+    "photoLicense": "CC BY 4.0",
+    "photoLicenseUrl": "https://creativecommons.org/licenses/by/4.0"
+  },
+  {
+    "id": "funnel-735372e04a3b",
+    "name": "Barnsdall, Oklahoma",
+    "lat": 36.550121,
+    "lng": -96.138396,
+    "date": "2024-05-06",
+    "source": "https://services.dat.noaa.gov/arcgis/rest/services/nws_damageassessmenttoolkit/DamageViewer/FeatureServer/1/2056727",
+    "clueType": "funnel",
+    "rating": "EF4",
+    "hints": [
+      "The tornado tracked through Oklahoma.",
+      "It occurred between 2020 and 2024."
+    ],
+    "image": "images/funnel-735372e04a3b.webp",
+    "photoCredit": "Oklahoma Highway Patrol Officer Landon Miller",
+    "photoSource": "https://commons.wikimedia.org/wiki/File:2024_Barnsdall_OHP_still.jpg",
+    "photoEdit": "Converted to WebP"
+  },
+  {
+    "id": "funnel-4f086d6bd1cc",
+    "name": "Greenfield, Iowa",
+    "lat": 41.29148,
+    "lng": -94.438636,
+    "date": "2024-05-21",
+    "source": "https://www.weather.gov/dmx/2024-May-21-Iowa-TornadoesWindsFlooding",
+    "clueType": "funnel",
+    "rating": "EF4",
+    "hints": [
+      "The tornado tracked through Iowa.",
+      "It occurred between 2020 and 2024."
+    ],
+    "image": "images/funnel-4f086d6bd1cc.webp",
+    "photoCredit": "Kyle McAleer",
+    "photoSource": "https://commons.wikimedia.org/wiki/File:2024_Greenfield_Tornado.jpg",
+    "photoEdit": "Converted to WebP",
+    "photoLicense": "CC BY-SA 4.0",
+    "photoLicenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
+  },
+  {
+    "id": "funnel-c2a4399175fc",
+    "name": "Fort Pierce, Florida",
+    "lat": 27.438463,
+    "lng": -80.413169,
+    "date": "2024-10-09",
+    "source": "https://services.dat.noaa.gov/arcgis/rest/services/nws_damageassessmenttoolkit/DamageViewer/FeatureServer/1/2262373",
+    "clueType": "funnel",
+    "rating": "EF3",
+    "hints": [
+      "The tornado tracked through Florida.",
+      "It occurred between 2020 and 2024."
+    ],
+    "image": "images/funnel-c2a4399175fc.webp",
+    "photoCredit": "Florida Department of Transportation (FDOT)",
+    "photoSource": "https://commons.wikimedia.org/wiki/File:Fort_Pierce_Tornado_FDOT_Still.jpg",
+    "photoEdit": "Converted to WebP"
+  },
+  {
+    "id": "funnel-c4a3cae77dbd",
+    "name": "Fifty-Six–Fairdealing, Arkansas and Missouri",
+    "lat": 35.948304,
+    "lng": -92.222467,
+    "date": "2025-03-14",
+    "source": "https://services.dat.noaa.gov/arcgis/rest/services/nws_damageassessmenttoolkit/DamageViewer/FeatureServer/1/2328500",
+    "clueType": "funnel",
+    "rating": "EF4",
+    "hints": [
+      "The track crossed from Arkansas into Missouri.",
+      "It occurred between 2025 and 2029."
+    ],
+    "image": "images/funnel-c4a3cae77dbd.webp",
+    "photoCredit": "Tristan White",
+    "photoSource": "https://commons.wikimedia.org/wiki/File:14_March_2025_Long_Track_EF4_Tornado.jpg",
+    "photoEdit": "Converted to WebP",
+    "photoLicense": "CC BY 3.0",
+    "photoLicenseUrl": "https://creativecommons.org/licenses/by/3.0"
+  },
+  {
+    "id": "funnel-d1c9d664911a",
+    "name": "Bakersfield–West Plains, Missouri",
+    "lat": 36.513552,
+    "lng": -92.13587,
+    "date": "2025-03-14",
+    "source": "https://www.weather.gov/sgf/march_14_2025_postevent",
+    "clueType": "funnel",
+    "rating": "EF3",
+    "hints": [
+      "The track crossed from Arkansas into Missouri.",
+      "It occurred between 2025 and 2029."
+    ],
+    "image": "images/funnel-d1c9d664911a.webp",
+    "photoCredit": "Wikiwillz",
+    "photoSource": "https://commons.wikimedia.org/wiki/File:Bakersfield-West_Plains_Tornado.jpg",
+    "photoEdit": "Converted to WebP",
+    "photoLicense": "CC BY-SA 4.0",
+    "photoLicenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
+  },
+  {
+    "id": "funnel-2b61e74da208",
+    "name": "Lake City–Monette, Arkansas",
+    "lat": 35.804709,
+    "lng": -90.435049,
+    "date": "2025-04-02",
+    "source": "https://services.dat.noaa.gov/arcgis/rest/services/nws_damageassessmenttoolkit/DamageViewer/FeatureServer/1/2385981",
+    "clueType": "funnel",
+    "rating": "EF3",
+    "hints": [
+      "The tornado tracked through Arkansas.",
+      "It occurred between 2025 and 2029."
+    ],
+    "image": "images/funnel-2b61e74da208.webp",
+    "photoCredit": "Stephanie Lynn Shempert (No Human Input was involved)",
+    "photoSource": "https://commons.wikimedia.org/wiki/File:Lake_City_tornado_2025_CCTV_still.jpg",
+    "photoEdit": "Converted to WebP"
+  },
+  {
+    "id": "funnel-739d0c4da5d3",
+    "name": "Somerset–London, Kentucky",
+    "lat": 37.077736,
+    "lng": -84.072531,
+    "date": "2025-05-16",
+    "source": "https://services.dat.noaa.gov/arcgis/rest/services/nws_damageassessmenttoolkit/DamageViewer/FeatureServer/1/2408014",
+    "clueType": "funnel",
+    "rating": "EF4",
+    "hints": [
+      "The tornado tracked through Kentucky.",
+      "It occurred between 2025 and 2029."
+    ],
+    "image": "images/funnel-739d0c4da5d3.webp",
+    "photoCredit": "Cody Smith",
+    "photoSource": "https://commons.wikimedia.org/wiki/File:EF4_tornado_in_Somerset,_KY,_taken_by_Cody_Smith.png",
+    "photoEdit": "Converted to WebP",
+    "photoLicense": "CC BY-SA 4.0",
+    "photoLicenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
+  },
+  {
+    "id": "funnel-b7866773210f",
+    "name": "Marion, Illinois",
+    "lat": 37.657792,
+    "lng": -88.939215,
+    "date": "2025-05-16",
+    "source": "https://services.dat.noaa.gov/arcgis/rest/services/nws_damageassessmenttoolkit/DamageViewer/FeatureServer/1/2390408",
+    "clueType": "funnel",
+    "rating": "EF4",
+    "hints": [
+      "The tornado tracked through Illinois.",
+      "It occurred between 2025 and 2029."
+    ],
+    "image": "images/funnel-b7866773210f.webp",
+    "photoCredit": "Cam McCurdy / CCTV Camera (No Human input was involved)",
+    "photoSource": "https://commons.wikimedia.org/wiki/File:Marion_Tower_Cam.png",
+    "photoEdit": "Cropped and converted to WebP"
+  },
+  {
+    "id": "funnel-5914c5615797",
+    "name": "St. Louis, Missouri",
+    "lat": 38.658176,
+    "lng": -90.261342,
+    "date": "2025-05-16",
+    "source": "https://www.weather.gov/lsx/STLTornado",
+    "clueType": "funnel",
+    "rating": "EF3",
+    "hints": [
+      "The tornado tracked through Missouri.",
+      "It occurred between 2025 and 2029."
+    ],
+    "image": "images/funnel-5914c5615797.webp",
+    "photoCredit": "CCTV",
+    "photoSource": "https://commons.wikimedia.org/wiki/File:St._Louis_Tornado_2025.jpg",
+    "photoEdit": "Converted to WebP"
+  },
+  {
+    "id": "funnel-aca2965f7b46",
+    "name": "Enderlin, North Dakota",
+    "lat": 46.621479,
+    "lng": -97.595309,
+    "date": "2025-06-20",
+    "source": "https://www.weather.gov/fgf/2025_06_20_Summary",
+    "clueType": "funnel",
+    "rating": "EF5",
+    "hints": [
+      "The tornado tracked through North Dakota.",
+      "It occurred between 2025 and 2029."
+    ],
+    "image": "images/funnel-aca2965f7b46.webp",
+    "photoCredit": "Alex Resel",
+    "photoSource": "https://commons.wikimedia.org/wiki/File:Enderlin_Tornado.jpg",
+    "photoEdit": "Converted to WebP",
+    "photoLicense": "CC BY-SA 4.0",
+    "photoLicenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
+  },
+  {
+    "id": "funnel-4bd866e74bd6",
+    "name": "Three Rivers, Michigan",
+    "lat": 41.942885,
+    "lng": -85.627677,
+    "date": "2026-03-06",
+    "source": "https://services.dat.noaa.gov/arcgis/rest/services/nws_damageassessmenttoolkit/DamageViewer/FeatureServer/1/2583181",
+    "clueType": "funnel",
+    "rating": "EF2",
+    "hints": [
+      "The tornado tracked through Michigan.",
+      "It occurred between 2025 and 2029."
+    ],
+    "image": "images/funnel-4bd866e74bd6.webp",
+    "photoCredit": "RJ Lee",
+    "photoSource": "https://commons.wikimedia.org/wiki/File:Security_camera_still_of_the_Three_Rivers,_MI_tornado.png",
+    "photoEdit": "Converted to WebP"
+  },
+  {
+    "id": "funnel-0c637dce9766",
+    "name": "Kankakee–Roselawn, Illinois and Indiana",
+    "lat": 41.085777,
+    "lng": -87.859452,
+    "date": "2026-03-10",
+    "source": "https://www.weather.gov/lot/2026_03_10_Severe_Weather",
+    "clueType": "funnel",
+    "rating": "EF3",
+    "hints": [
+      "The track crossed from Illinois into Indiana.",
+      "It occurred between 2025 and 2029."
+    ],
+    "image": "images/funnel-0c637dce9766.webp",
+    "photoCredit": "Kankakee Community College",
+    "photoSource": "https://commons.wikimedia.org/wiki/File:A_tornado_near_Kankakee_Community_College,_as_seen_on_a_security_camera_(wider_shot).png",
+    "photoEdit": "Cropped and converted to WebP"
+  },
+  {
+    "id": "funnel-757803d374bc",
+    "name": "Enid, Oklahoma",
+    "lat": 36.37599,
+    "lng": -97.838836,
+    "date": "2026-04-23",
+    "source": "https://www.weather.gov/oun/events-20260423",
+    "clueType": "funnel",
+    "rating": "EF4",
+    "hints": [
+      "The tornado tracked through Oklahoma.",
+      "It occurred between 2025 and 2029."
+    ],
+    "image": "images/funnel-757803d374bc.webp",
+    "photoCredit": "Brittany Berg",
+    "photoSource": "https://commons.wikimedia.org/wiki/File:2026_Enid,_Oklahoma_tornado.jpg",
+    "photoEdit": "Converted to WebP"
+  },
+  {
+    "id": "funnel-ad3dda54c93c",
+    "name": "St. Libory, Nebraska",
+    "lat": 41.132596,
+    "lng": -98.35634,
+    "date": "2026-05-17",
+    "source": "https://services.dat.noaa.gov/arcgis/rest/services/nws_damageassessmenttoolkit/DamageViewer/FeatureServer/1/2677977",
+    "clueType": "funnel",
+    "rating": "EF3",
+    "hints": [
+      "The tornado tracked through Nebraska.",
+      "It occurred between 2025 and 2029."
+    ],
+    "image": "images/funnel-ad3dda54c93c.webp",
+    "photoCredit": "Dr. Sean Waugh, NOAA NSSL Field Project Coordinator",
+    "photoSource": "https://commons.wikimedia.org/wiki/File:St._Libory_NE_EF3_tornado_17_May_2026.png",
+    "photoEdit": "Converted to WebP"
+  },
+  {
+    "id": "funnel-6380d1efed9b",
+    "name": "Streator, Illinois",
+    "lat": 41.111244,
+    "lng": -88.807447,
+    "date": "2026-06-11",
+    "source": "https://www.weather.gov/lot/2026_06_11_SevereWeather",
+    "clueType": "funnel",
+    "rating": "EF3",
+    "hints": [
+      "The tornado tracked through Illinois.",
+      "It occurred between 2025 and 2029."
+    ],
+    "image": "images/funnel-6380d1efed9b.webp",
+    "photoCredit": "Meso Storm Chasing",
+    "photoSource": "https://commons.wikimedia.org/wiki/File:Streator,_Illinois_EF-3_Tornado_NE_of_Ancona.jpg",
+    "photoEdit": "Converted to WebP",
+    "photoLicense": "CC BY 4.0",
+    "photoLicenseUrl": "https://creativecommons.org/licenses/by/4.0"
   }
 ]

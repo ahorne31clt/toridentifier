@@ -27,6 +27,9 @@ function validateCatalog() {
         event.hints.some(hint => typeof hint !== 'string' || !hint.trim()))) {
       throw new Error('Use an array of non-empty hint strings for event ' + event.id);
     }
+    if (event.clueType !== 'funnel' || !/^(?:EF|F)[0-5U]$/.test(event.rating || '')) {
+      throw new Error('Supply a verified funnel photo and official rating for event ' + event.id);
+    }
     if (!/^images\/[\w.-]+\.(?:jpe?g|png|webp)$/i.test(event.image) ||
         !existsSync(new URL(event.image, root)) || images.has(event.image)) {
       throw new Error('Use an existing, unique image for event ' + event.id);

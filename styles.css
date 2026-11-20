@@ -65,6 +65,7 @@ body::before {
 }
 .mode-card h2 { font-size: 1.15rem; }
 .mode-card p { color: var(--muted); line-height: 1.5; }
+.mode-card .archive-size { color: var(--cream); font-size: .875rem; }
 .mode-card .button { min-width: 120px; }
 .mode-card .message { color: var(--gold); }
 .intro { display: flex; align-items: end; justify-content: space-between; gap: 24px; padding: 37px 0 25px; }
@@ -99,8 +100,9 @@ h1 { font-size: clamp(2rem, 4.45vw, 4.2rem); line-height: 1.03; letter-spacing: 
 #hint-status { color: var(--gold); }
 #answer p { color: var(--cream); }
 #event-date, #event-source, #track-source { display: inline-block; margin: 5px 12px 0 0; font-size: .875rem; }
+#event-rating { display: inline-block; margin: 5px 12px 0 0; color: var(--gold); font-size: .875rem; font-weight: 700; }
 #photo-credit { margin-top: 10px; font-size: .875rem; }
-#photo-license { margin-left: 7px; }
+#photo-license, #photo-edit { margin-left: 7px; }
 a { color: var(--red); }
 .sr-only {
   position: absolute;
@@ -162,6 +164,12 @@ a { color: var(--red); }
 .target.actual { border-color: var(--gold); }
 .target.actual::before { background: var(--gold); }
 #guess-form { display: grid; gap: 12px; padding: 14px 16px; }
+#arcade-score-form { display: grid; gap: 8px; margin: 0 16px 12px; padding: 13px; border: 1px solid var(--line); }
+#arcade-run-score { font-weight: 700; }
+.arcade-fields { display: flex; gap: 8px; }
+.arcade-fields input { width: 0; flex: 1; }
+#next-round { display: block; width: calc(100% - 32px); margin: 0 16px 14px; }
+.coming-soon { color: var(--muted); font-size: .875rem; }
 .button { background: #292e34; color: var(--cream); border: 1px solid #4d5862; border-radius: 0; min-height: 42px; padding: 9px 13px; font: 700 .9375rem/1.2 Arial, sans-serif; cursor: pointer; }
 .button:hover:not(:disabled) { background: #38434d; }
 .button:disabled { cursor: default; opacity: .55; }

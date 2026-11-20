@@ -10,6 +10,7 @@ import {roundsPerRun, scoreGuess, validDate, validPoint} from './scoring.mjs';
 const deriveKey = promisify(scrypt);
 const tracks = JSON.parse(readFileSync(new URL('./dat-tracks.json', import.meta.url), 'utf8'));
 const catalog = JSON.parse(readFileSync(new URL('./tornadoes.json', import.meta.url), 'utf8'))
+  .filter(event => event.clueType === 'funnel')
   .map(event => tracks[event.id] ? {...event, track: tracks[event.id]} : event);
 const events = new Map(catalog.map(event => [event.id, event]));
 const assets = new Map([

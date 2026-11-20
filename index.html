@@ -30,7 +30,8 @@
         <h1 id="home-title" tabindex="-1">Choose a game mode</h1>
         <section class="mode-card" aria-labelledby="photo-mode-title">
           <h2 id="photo-mode-title">Tornado Photo Challenge</h2>
-          <p>Use real tornado photos to guess where they happened. Each run has five photos and an optional date guess.</p>
+          <p>Identify real tornadoes by their funnel and surroundings. Guess the location and, if you want, the date.</p>
+          <p id="archive-size" class="archive-size" hidden></p>
           <button class="button primary" type="button" id="play-button">Play game</button>
           <p id="home-status" class="message" role="status" hidden></p>
         </section>
@@ -62,7 +63,7 @@
             </div>
           </header>
           <div class="photo-frame">
-            <img id="round-image" alt="Tornado to identify" hidden>
+            <img id="round-image" alt="Photo clue for the tornado to identify" hidden>
             <p id="photo-status" role="status">Loading the archive…</p>
           </div>
           <div class="photo-foot">
@@ -78,11 +79,13 @@
               <span class="eyebrow">Recorded event</span>
               <p><strong id="event-name"></strong></p>
               <span id="event-date"></span>
-              <a id="event-source" target="_blank" rel="noopener">Event report</a>
+              <span id="event-rating" hidden></span>
+              <a id="event-source" target="_blank" rel="noopener">Event source</a>
               <a id="track-source" target="_blank" rel="noopener" hidden>NWS DAT track</a>
               <p id="photo-credit" hidden>
                 Photo by <a id="photo-source" target="_blank" rel="noopener"></a>
                 <a id="photo-license" target="_blank" rel="noopener" hidden></a>
+              <span id="photo-edit" hidden></span>
               </p>
             </div>
           </div>
@@ -119,8 +122,17 @@
             </div>
             <p id="game-status" class="message" role="status" hidden></p>
             <button id="submit-guess" class="button primary" disabled>Lock in guess</button>
-            <button id="next-round" class="button primary" type="button" hidden>Next photo</button>
           </form>
+          <form id="arcade-score-form" hidden>
+            <p id="arcade-run-score" tabindex="-1"></p>
+            <label for="arcade-gamertag">Your gamertag</label>
+            <div class="arcade-fields">
+              <input id="arcade-gamertag" type="text" required minlength="2" maxlength="20" autocomplete="nickname">
+              <button type="submit" class="button outline">Save score</button>
+            </div>
+            <p id="arcade-message" class="message" role="status" hidden></p>
+          </form>
+          <button id="next-round" class="button primary" type="button" hidden>Next photo</button>
         </section>
       </div>
     </section>
@@ -139,7 +151,7 @@
       <h2 id="full-photo-title">Full photo</h2>
       <form method="dialog"><button class="button outline" aria-label="Close full photo">Close</button></form>
     </header>
-    <img id="full-photo-image" alt="Uncropped tornado photo">
+    <img id="full-photo-image" alt="Uncropped photo clue">
   </dialog>
   <dialog id="leaderboard-dialog" aria-labelledby="leaderboard-title">
     <header class="panel-head">
@@ -162,6 +174,7 @@
           <tbody></tbody>
         </table>
       </div>
+      <p id="online-leaderboard-status" class="coming-soon" hidden>Online leaderboard coming soon</p>
     </div>
   </dialog>
   <dialog id="account-dialog" aria-labelledby="account-title">

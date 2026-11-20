@@ -4,6 +4,8 @@ import {setupCitySearch} from './city-search.mjs';
 const el = id => document.getElementById(id);
 const archiveKey = 'tornado-identifier-guest-scores-v1';
 const soundKey = 'tornado-guesser-score-sounds';
+const seenPhotosKey = 'tornado-guesser-seen-photos';
+const arcadeKey = 'tornado-guesser-local-arcade';
 const number = new Intl.NumberFormat('en-US', {maximumFractionDigits: 1});
 const dateFormat = new Intl.DateTimeFormat('en-US', {dateStyle: 'long', timeZone: 'UTC'});
 const milesText = miles => miles > 0 && miles < 0.1 ? '<0.1 mi' : number.format(miles) + ' mi';
@@ -26,11 +28,21 @@ let roundId, runId, lastId, deckPosition = 0;
 let leaderboardRequest = 0;
 let signedIn = {username: null, history: [], total: 0};
 let guest = {history: [], total: 0};
+let seenPhotos = new Set();
+let arcadeScores = [], runDistances = [];
+let arcadeAverage = null;
 
 try {
   const saved = JSON.parse(localStorage.getItem(archiveKey));
   if (Array.isArray(saved?.history) && Number.isInteger(saved.total)) guest = saved;
   soundEnabled = localStorage.getItem(soundKey) !== 'off';
+  const seen = JSON.parse(localStorage.getItem(seenPhotosKey));
+  if (Array.isArray(seen)) seenPhotos = new Set(seen.filter(id => typeof id === 'string'));
+  const savedScores = JSON.parse(localStorage.getItem(arcadeKey));
+  if (Array.isArray(savedScores)) {
+    arcadeScores = savedScores.filter(score => typeof score?.username === 'string' &&
+      Number.isFinite(score.averageMiles) && score.averageMiles >= 0).slice(0, 25);
+  }
 } catch {
   // Guest play can continue if browser storage is unavailable.
 }
@@ -178,13 +190,37 @@ function shuffle(entries) {
   return shuffled;
 }
 
+function selectRun() {
+  const length = roundsPerRun(catalog.length);
+  const unseen = shuffle(catalog.filter(event => !seenPhotos.has(event.id))).slice(0, length);
+  if (unseen.length === length) return unseen;
+  const previouslySeen = shuffle(catalog.filter(event => seenPhotos.has(event.id)));
+  return unseen.concat(previouslySeen.slice(0, length - unseen.length));
+}
+
+function markPhotoSeen(id) {
+  if (seenPhotos.size === catalog.length) seenPhotos.clear();
+  seenPhotos.add(id);
+  try {
+    localStorage.setItem(seenPhotosKey, JSON.stringify([...seenPhotos]));
+  } catch {
+    // Keep repeat prevention for the current session when storage is unavailable.
+  }
+}
+
 function loadRound() {
   resetCitySearch();
   if (!deck.length) {
-    deck = shuffle(catalog).slice(0, roundsPerRun(catalog.length));
+    deck = selectRun();
     deckPosition = 0;
     runId = makeId();
+    runDistances = [];
   }
+  arcadeAverage = null;
+  el('arcade-score-form').hidden = true;
+  el('arcade-gamertag').disabled = false;
+  el('arcade-score-form').querySelector('button').disabled = false;
+  showMessage('arcade-message');
   active = deck.shift();
   lastId = active.id;
   roundId = makeId();
@@ -261,6 +297,7 @@ function renderResult({event, record, point: guess}) {
   el('map-state').textContent = hasTrack ? 'Red guess · Gold track' : 'Red guess · Gold event';
   el('event-name').textContent = event.name;
   el('event-date').textContent = dateFormat.format(new Date(event.date));
+  showMessage('event-rating', event.rating);
   el('event-source').href = event.source;
   el('track-source').hidden = !hasTrack;
   if (hasTrack) {
@@ -272,6 +309,7 @@ function renderResult({event, record, point: guess}) {
   el('photo-license').hidden = !event.photoLicense;
   el('photo-license').textContent = event.photoLicense || '';
   el('photo-license').href = event.photoLicenseUrl || '';
+  showMessage('photo-edit', event.photoEdit);
   el('grade').textContent = record.grade;
   el('grade').dataset.grade = record.grade;
   el('distance-label').textContent = hasTrack ? 'Distance to track' : 'Distance to event';
@@ -316,7 +354,9 @@ async function submit(event) {
         showMessage('game-status', 'Your browser could not save the guest score.');
       }
     }
+    markPhotoSeen(result.event.id);
     renderResult(result);
+    recordArcadeRound(result.record.miles);
     playScoreSound(result.record.grade);
     renderProfile();
   } catch (error) {
@@ -329,13 +369,55 @@ async function submit(event) {
   }
 }
 
+function recordArcadeRound(miles) {
+  if (!isStatic) return;
+  runDistances.push(miles);
+  if (runDistances.length !== roundsPerRun(catalog.length)) return;
+  const mean = runDistances.reduce((sum, distance) => sum + distance, 0) / runDistances.length;
+  arcadeAverage = Math.round(mean * 10) / 10;
+  el('arcade-run-score').textContent = 'Run average · ' + milesText(arcadeAverage);
+  el('arcade-score-form').hidden = false;
+  el('arcade-run-score').focus({preventScroll: true});
+}
+
+function saveArcadeScore(event) {
+  event.preventDefault();
+  if (arcadeAverage === null) return;
+  const field = el('arcade-gamertag');
+  const username = field.value.trim();
+  if (!/^[\p{L}\p{N} _-]{2,20}$/u.test(username)) {
+    showMessage('arcade-message', 'Use 2–20 letters, numbers, spaces, hyphens or underscores.');
+    return;
+  }
+  const key = username.toLowerCase();
+  const best = arcadeScores.find(score => score.username.toLowerCase() === key);
+  if (!best || arcadeAverage < best.averageMiles) {
+    arcadeScores = arcadeScores.filter(score => score.username.toLowerCase() !== key)
+      .concat({username, averageMiles: arcadeAverage})
+      .sort((a, b) => a.averageMiles - b.averageMiles || a.username.localeCompare(b.username))
+      .slice(0, 25);
+  }
+  let status = best && arcadeAverage >= best.averageMiles ? 'Your previous best still stands.' :
+    arcadeScores.some(score => score.username.toLowerCase() === key) ? 'Saved to the arcade leaderboard.' :
+      'This score finished outside the top 25.';
+  try {
+    localStorage.setItem(arcadeKey, JSON.stringify(arcadeScores));
+  } catch {
+    status = 'Scores are available for this session. Browser storage is unavailable.';
+  }
+  el('arcade-gamertag').disabled = true;
+  event.currentTarget.querySelector('button').disabled = true;
+  arcadeAverage = null;
+  showMessage('arcade-message', status);
+}
+
 function renderProfile() {
   const {username} = signedIn;
   const {history, total} = username ? signedIn : guest;
   el('account-button').textContent = username || isStatic ? 'My scores' : 'Sign in';
   el('round-summary').textContent = total + (total === 1 ? ' round played' : ' rounds played');
   el('account-state').textContent = username ? 'Signed in as ' + username + '.' :
-    isStatic ? 'Guest scores are saved on this browser. Sign-in requires the game server.' :
+    isStatic ? 'Online sign-in coming soon. Guest scores are saved on this browser.' :
       'Guest scores stay on this browser. Sign in to save new rounds to your account.';
   el('account-form').hidden = Boolean(username) || isStatic;
   el('sign-out').hidden = !username;
@@ -369,17 +451,37 @@ function renderProfile() {
   container.append(title, table);
 }
 
+function renderLeaderboardRows(entries) {
+  const table = el('leaderboard-table');
+  const body = table.tBodies[0];
+  for (const entry of entries) {
+    const row = body.insertRow();
+    if (entry.username === signedIn.username) row.classList.add('current-player');
+    for (const value of [entry.place, entry.username, milesText(entry.averageMiles)]) {
+      row.insertCell().textContent = value;
+    }
+  }
+  table.hidden = !entries.length;
+}
+
 async function loadLeaderboard() {
   const request = ++leaderboardRequest;
   const table = el('leaderboard-table');
   const body = table.tBodies[0];
   const legacy = el('leaderboard-ruleset').value === 'point';
   el('leaderboard-mode').hidden = isStatic;
+  el('online-leaderboard-status').hidden = !isStatic;
+  el('leaderboard-title').textContent = isStatic ? 'Arcade leaderboard' : 'Leaderboard';
   table.hidden = true;
   el('leaderboard-rules').hidden = true;
   body.replaceChildren();
-  showMessage('leaderboard-status', isStatic ? 'The shared leaderboard requires the game server.' : 'Loading rankings…');
-  if (isStatic) return;
+  if (isStatic) {
+    showMessage('leaderboard-rules', 'Finish a run and enter a gamertag to save your best average distance on this browser.');
+    showMessage('leaderboard-status', arcadeScores.length ? '' : 'No arcade scores yet.');
+    renderLeaderboardRows(arcadeScores.map((entry, index) => ({...entry, place: index + 1})));
+    return;
+  }
+  showMessage('leaderboard-status', 'Loading rankings…');
   try {
     const {rounds, entries} = await api(legacy ? 'leaderboard?rules=point' : 'leaderboard');
     if (request !== leaderboardRequest) return;
@@ -387,14 +489,7 @@ async function loadLeaderboard() {
       'Play all ' + rounds + ' photos while signed in to qualify. The lowest average distance wins. ' +
       'Where available, surveyed tracks are used to measure distance.');
     showMessage('leaderboard-status', entries.length ? '' : 'No ranked runs yet.');
-    for (const entry of entries) {
-      const row = body.insertRow();
-      if (entry.username === signedIn.username) row.classList.add('current-player');
-      for (const value of [entry.place, entry.username, milesText(entry.averageMiles)]) {
-        row.insertCell().textContent = value;
-      }
-    }
-    table.hidden = !entries.length;
+    renderLeaderboardRows(entries);
   } catch {
     if (request === leaderboardRequest) {
       showMessage('leaderboard-status', 'The leaderboard could not load. Reopen it to try again.');
@@ -453,6 +548,7 @@ el('sound-toggle').addEventListener('click', () => {
   }
 });
 el('guess-form').addEventListener('submit', submit);
+el('arcade-score-form').addEventListener('submit', saveArcadeScore);
 el('next-round').addEventListener('click', () => {
   loadRound();
   el('photo-heading').focus();
@@ -470,11 +566,16 @@ async function loadArchive() {
       if (!response.ok) throw new Error('The archive could not load. Reload to try again.');
       if (!trackResponse.ok) throw new Error('The survey tracks could not load. Reload to try again.');
       const tracks = await trackResponse.json();
-      catalog = (await response.json()).map(event => tracks[event.id] ? {...event, track: tracks[event.id]} : event);
+      catalog = (await response.json()).filter(event => event.clueType === 'funnel')
+        .map(event => tracks[event.id] ? {...event, track: tracks[event.id]} : event);
     } else {
       signedIn = await api('profile') || signedIn;
     }
     if (!Array.isArray(catalog) || !catalog.length) throw new Error('The archive has no playable photos.');
+    const ids = new Set(catalog.map(event => event.id));
+    seenPhotos = new Set([...seenPhotos].filter(id => ids.has(id)));
+    lastId = [...seenPhotos].at(-1);
+    showMessage('archive-size', number.format(catalog.length) + ' events · ' + roundsPerRun(catalog.length) + ' photos per run');
   } finally {
     renderProfile();
     el('account-button').disabled = false;
