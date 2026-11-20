@@ -495,14 +495,15 @@ async function saveArcadeScore(event) {
     showMessage('arcade-message', 'Saving score…');
     try {
       const guesses = arcadeRounds.map(({id, point}) => ({id, point}));
-      const {averageMiles, bestMiles} = await arcadeApi(currentMode, {username, runId, guesses,
+      const {username: savedName, averageMiles, bestMiles} = await arcadeApi(currentMode, {username, runId, guesses,
         ...(currentMode === 'daily' && {day: daily.day})});
       arcadeAverage = null;
       if (currentMode === 'daily') {
         dailySaved = true;
-        dailyShareResult = {username, averageMiles};
+        if (averageMiles === bestMiles) dailyShareResult = {username: savedName || username, averageMiles};
         writeDailyProgress();
         el('daily-share-open').hidden = !getDailyShareResult();
+        if (!el('play-screen').hidden) openDailyShare();
       }
       showMessage('arcade-message', currentMode === 'daily' && averageMiles !== bestMiles ?
         'The first score for this gamertag still stands.' : averageMiles > bestMiles ?
@@ -718,7 +719,7 @@ el('sound-toggle').addEventListener('click', () => {
 });
 el('guess-form').addEventListener('submit', submit);
 el('arcade-score-form').addEventListener('submit', saveArcadeScore);
-setupDailyShare(getDailyShareResult);
+const openDailyShare = setupDailyShare(getDailyShareResult);
 el('next-round').addEventListener('click', () => {
   if (currentMode === 'daily' && arcadeRounds.length === daily.ids.length) {
     showHome();

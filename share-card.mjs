@@ -99,9 +99,9 @@ export function setupDailyShare(getResult) {
   let image;
   let generation = 0;
 
-  el('daily-share-open').addEventListener('click', () => {
+  function openDailyShare() {
     const result = getResult();
-    if (!result) return;
+    if (!result || dialog.open) return;
     const {username, day, date, distance, rank, grades} = result;
     const text = [
       'Tornado Guesser Daily · ' + date,
@@ -125,8 +125,9 @@ export function setupDailyShare(getResult) {
       download.hidden = false;
       nativeShare.hidden = !navigator.canShare?.({files: [image]});
     }, 'image/png');
-  });
+  }
 
+  el('daily-share-open').addEventListener('click', openDailyShare);
   el('daily-share-copy').addEventListener('click', async () => {
     try {
       await navigator.clipboard.writeText(textBox.value);
@@ -153,4 +154,5 @@ export function setupDailyShare(getResult) {
     if (url) URL.revokeObjectURL(url);
     url = image = null;
   });
+  return openDailyShare;
 }

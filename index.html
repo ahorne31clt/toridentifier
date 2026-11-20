@@ -29,9 +29,10 @@
       <div class="home-content">
         <h1 id="home-title" tabindex="-1">Choose a game mode</h1>
         <details class="release-notes">
-          <summary><strong>Tornado Guesser v1.3</strong><span>What’s new</span></summary>
+          <summary><strong>Tornado Guesser v1.3.1</strong><span>What’s new</span></summary>
           <ul>
-            <li><strong>Daily share cards.</strong> Share your gamertag, five grades, average distance, and player rank as an image or text.</li>
+            <li><strong>Share card pops up after saving.</strong> Download the image or copy your spoiler-free result.</li>
+            <li><strong>One daily score per gamertag.</strong> The leaderboard accepts one run under each name per day.</li>
           </ul>
           <p>From v1.2</p>
           <ul>
@@ -198,8 +199,8 @@
     <div class="dialog-body">
       <canvas id="daily-share-card" width="1080" height="1080" role="img"></canvas>
       <div class="daily-share-actions">
-        <button id="daily-share-native" type="button" class="button primary" hidden>Share image</button>
-        <a id="daily-share-download" class="button outline" download hidden>Download PNG</a>
+        <button id="daily-share-native" type="button" class="button outline" hidden>Share image</button>
+        <a id="daily-share-download" class="button primary" download hidden>Download PNG</a>
         <button id="daily-share-copy" type="button" class="button outline">Copy text</button>
       </div>
       <p id="daily-share-status" class="message" role="status"></p>
