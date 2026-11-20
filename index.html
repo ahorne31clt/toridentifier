@@ -28,6 +28,14 @@
     <section id="home-screen" class="home-screen" aria-labelledby="home-title">
       <div class="home-content">
         <h1 id="home-title" tabindex="-1">Choose a game mode</h1>
+        <details class="release-notes">
+          <summary><strong>Tornado Guesser v1.2</strong><span>What’s new</span></summary>
+          <ul>
+            <li><strong>Daily Challenge.</strong> Everyone gets the same five tornado photos. A fresh lineup starts at midnight Eastern.</li>
+            <li><strong>Mode leaderboards.</strong> Compare scores within Full Archive, Iconic EF4 / EF5, Past Year, or Daily Challenge.</li>
+            <li><strong>Previous scores.</strong> Earlier rankings are available under Previous combined scores.</li>
+          </ul>
+        </details>
         <div class="mode-grid">
         <section class="mode-card" data-mode="all" aria-labelledby="photo-mode-title">
           <h2 id="photo-mode-title">Tornado Photo Challenge</h2>
@@ -49,8 +57,14 @@
           <p id="recent-size" class="archive-size" hidden></p>
           <button class="button primary" type="button" data-play-mode="recent">Play past year</button>
         </section>
+        <section class="mode-card" id="daily-card" data-mode="daily" aria-labelledby="daily-title" hidden>
+          <h2 id="daily-title">Daily Challenge</h2>
+          <p>Everyone gets the same five tornadoes. A new lineup starts at midnight Eastern.</p>
+          <p id="daily-size" class="archive-size" hidden></p>
+          <button class="button primary" type="button" data-play-mode="daily">Play daily</button>
+        </section>
         </div>
-        <p class="mode-switch-note">Switching modes starts a new run. Leaderboard standings combine all modes.</p>
+        <p class="mode-switch-note">Each game mode has its own leaderboard.</p>
         <p id="home-status" class="message" role="status" hidden></p>
       </div>
     </section>
@@ -176,6 +190,16 @@
       <form method="dialog"><button class="button outline" aria-label="Close leaderboard">Close</button></form>
     </header>
     <div class="dialog-body">
+      <label class="leaderboard-mode">
+        Game mode
+        <select id="leaderboard-game-mode">
+          <option value="all">Tornado Photo Challenge</option>
+          <option value="iconic">Iconic EF4 / EF5</option>
+          <option value="recent">Past Year</option>
+          <option value="daily" hidden>Daily Challenge</option>
+          <option value="combined">Previous combined scores</option>
+        </select>
+      </label>
       <label class="leaderboard-mode" id="leaderboard-mode" hidden>
         Scoring rules
         <select id="leaderboard-ruleset">

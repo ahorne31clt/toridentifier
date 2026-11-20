@@ -1,4 +1,4 @@
-import {eventModes} from './modes.mjs';
+import {eventModes, gameModes, modeCatalog} from './modes.mjs';
 import {createServer} from 'node:http';
 import {mkdirSync, readFileSync} from 'node:fs';
 import {resolve} from 'node:path';
@@ -93,7 +93,7 @@ const insertRankedRound = database.prepare('INSERT OR IGNORE INTO ranked_rounds 
 const leaderboard = database.prepare(`
   WITH complete_runs AS (
     SELECT user_id, AVG(miles) AS average_miles
-    FROM ranked_rounds WHERE (archive GLOB 'dat-v1:*') = ?
+    FROM ranked_rounds WHERE CASE WHEN ? IS NULL THEN archive NOT GLOB 'dat-v*:*' ELSE archive GLOB ? END
     GROUP BY archive, user_id, run_id HAVING COUNT(*) = ?
   ), player_bests AS (
     SELECT user_id, MIN(ROUND(average_miles, 1)) AS average_miles
@@ -190,7 +190,7 @@ async function authenticate(request, response, route, token, input) {
 }
 
 function submitGuess(response, user, input) {
-  const {id, point, date, roundId, runId} = input;
+  const {id, point, date, roundId, runId, mode} = input;
   const event = events.get(id);
   if (!event || !validPoint(point) || (date !== null && !validDate(date)) ||
       typeof roundId !== 'string' || !/^[a-f0-9]{32}$/.test(roundId)) {
@@ -199,6 +199,10 @@ function submitGuess(response, user, input) {
   if (runId !== undefined && (typeof runId !== 'string' || !/^[a-f0-9]{32}$/.test(runId))) {
     fail(400, 'Invalid run. Reload to start a new run.');
   }
+  if (mode !== undefined && (!Object.hasOwn(gameModes, mode) || !eventModes(event).includes(mode))) {
+    fail(400, 'This photo is unavailable in the selected mode.');
+  }
+  const rankedArchive = mode === undefined ? archive : `dat-v2:${mode}:${archive.slice(7)}`;
   const score = scoreGuess(event, point, date);
   const record = {name: event.name, ...score, playedAt: new Date().toISOString()};
   let result = {event, record, point};
@@ -207,7 +211,7 @@ function submitGuess(response, user, input) {
     try {
       const inserted = insertScore.run(user.id, roundId, record.playedAt, JSON.stringify(result));
       if (inserted.changes && runId) {
-        insertRankedRound.run(archive, user.id, runId, event.id, roundId, record.miles);
+        insertRankedRound.run(rankedArchive, user.id, runId, event.id, roundId, record.miles);
       } else if (!inserted.changes) {
         result = JSON.parse(roundScore.get(user.id, roundId).result);
       }
@@ -243,8 +247,12 @@ const server = createServer(async (request, response) => {
       return json(response, 200, {hint});
     }
     if (request.method === 'GET' && route === '/api/leaderboard') {
-      const legacy = searchParams.get('rules') === 'point';
-      return json(response, 200, {rounds: runLength, entries: leaderboard.all(legacy ? 0 : 1, runLength)});
+      const mode = searchParams.get('mode');
+      if (mode !== null && !Object.hasOwn(gameModes, mode)) fail(400, 'Unknown game mode.');
+      const legacy = !mode && searchParams.get('rules') === 'point';
+      const scope = mode ? `dat-v2:${mode}:*` : legacy ? null : 'dat-v1:*';
+      const rounds = mode ? roundsPerRun(modeCatalog(catalog, mode).length) : runLength;
+      return json(response, 200, {rounds, entries: leaderboard.all(scope, scope, rounds)});
     }
     const token = sessionToken(request);
     const user = token ? getUser.get(hashToken(token), Date.now()) : null;

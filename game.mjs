@@ -7,6 +7,9 @@ const archiveKey = 'tornado-identifier-guest-scores-v1';
 const soundKey = 'tornado-guesser-score-sounds';
 const seenPhotosKey = 'tornado-guesser-seen-photos';
 const arcadeKey = 'tornado-guesser-local-arcade';
+const dailyKey = 'tornado-guesser-daily';
+const modeTitles = {...gameModes, daily: 'Daily Challenge'};
+const startLabels = {all: 'Play game', iconic: 'Play iconic', recent: 'Play past year', daily: 'Play daily'};
 const arcadeUrl = 'https://tornado-guesser-leaderboard.ahorne31.workers.dev/leaderboard';
 const arcadeHosts = new Set(['tornadoguesser.app', 'www.tornadoguesser.app', 'ahorne31clt.github.io']);
 const number = new Intl.NumberFormat('en-US', {maximumFractionDigits: 1});
@@ -25,7 +28,13 @@ const scoreNotes = {
 let map, layers, deck = [], catalog = [], active, point, marker;
 let currentMode = 'all';
 let resetCitySearch;
-const playableCatalog = () => modeCatalog(catalog, currentMode);
+const playableCatalog = () => currentMode === 'daily' ?
+  daily.ids.map(id => catalog.find(event => event.id === id)) : modeCatalog(catalog, currentMode);
+const onlineArcade = () => isStatic && arcadeHosts.has(location.hostname);
+let daily;
+let dailySaved = false;
+let isSavingScore = false;
+let isChoosingMode = false;
 let archiveRequest, audioContext;
 let soundEnabled = true;
 let isStatic = false, isRevealed = false, isSubmitting = false, isPhotoReady = false;
@@ -34,7 +43,7 @@ let leaderboardRequest = 0;
 let signedIn = {username: null, history: [], total: 0};
 let guest = {history: [], total: 0};
 let seenPhotos = new Set();
-let arcadeScores = [], arcadeRounds = [];
+let arcadeRounds = [];
 let arcadeAverage = null;
 
 try {
@@ -43,11 +52,7 @@ try {
   soundEnabled = localStorage.getItem(soundKey) !== 'off';
   const seen = JSON.parse(localStorage.getItem(seenPhotosKey));
   if (Array.isArray(seen)) seenPhotos = new Set(seen.filter(id => typeof id === 'string'));
-  const savedScores = JSON.parse(localStorage.getItem(arcadeKey));
-  if (Array.isArray(savedScores)) {
-    arcadeScores = savedScores.filter(score => typeof score?.username === 'string' &&
-      Number.isFinite(score.averageMiles) && score.averageMiles >= 0).slice(0, 25);
-  }
+
 } catch {
   // Guest play can continue if browser storage is unavailable.
 }
@@ -214,13 +219,23 @@ function markPhotoSeen(id) {
   }
 }
 
-function loadRound() {
+function loadRound(restoreDaily = false) {
   resetCitySearch();
   if (!deck.length) {
-    deck = selectRun();
-    deckPosition = 0;
-    runId = makeId();
-    arcadeRounds = [];
+    const pool = playableCatalog();
+    const progress = currentMode === 'daily' && restoreDaily ? readDailyProgress() : null;
+    if (currentMode === 'daily') {
+      arcadeRounds = progress?.rounds || [];
+      dailySaved = Boolean(progress?.saved);
+      deckPosition = Math.min(arcadeRounds.length, pool.length - 1);
+      deck = pool.slice(deckPosition);
+      runId = progress?.runId || makeId();
+    } else {
+      deck = selectRun();
+      deckPosition = 0;
+      runId = makeId();
+      arcadeRounds = [];
+    }
   }
   arcadeAverage = null;
   el('arcade-score-form').hidden = true;
@@ -238,13 +253,13 @@ function loadRound() {
   el('map').parentElement.classList.remove('revealed');
   el('map-state').textContent = 'Click map to place target';
   el('round-count').textContent = 'Photo ' + deckPosition + ' of ' + roundsPerRun(playableCatalog().length);
+  el('next-round').textContent = 'Next photo';
   el('submit-guess').hidden = false;
   el('submit-guess').disabled = true;
   el('center-target').hidden = false;
   el('center-target').disabled = true;
   el('zoom-track').hidden = true;
   el('next-round').hidden = true;
-  el('next-round').textContent = 'Next photo';
   el('guess-date').value = '';
   for (const id of ['answer', 'result']) el(id).hidden = true;
   el('photo-prompt').hidden = false;
@@ -268,11 +283,17 @@ function loadRound() {
     el('center-target').disabled = false;
     el('submit-guess').disabled = !point;
     showMessage('photo-status');
+    if (currentMode === 'daily' && arcadeRounds.length === daily.ids.length) {
+      const last = arcadeRounds.at(-1);
+      renderResult({event: active, point: last.point, record: scoreGuess(active, last.point, last.date)});
+      showArcadeResult();
+    }
   };
   image.onerror = () => {
-    showMessage('photo-status', 'This photo could not load.');
+    showMessage('photo-status', currentMode === 'daily' ?
+      'This photo could not load. Reload to resume the daily run.' : 'This photo could not load.');
     el('submit-guess').hidden = true;
-    el('next-round').hidden = false;
+    el('next-round').hidden = currentMode === 'daily';
   };
   image.src = './' + active.image;
 }
@@ -347,7 +368,7 @@ async function submit(event) {
       const record = {name: active.name, ...scoreGuess(active, point, date), playedAt: new Date().toISOString()};
       result = {event: active, point, record, profile: null};
     } else {
-      result = await api('guess', {id: active.id, point, date, roundId, runId});
+      result = await api('guess', {id: active.id, point, date, roundId, runId, mode: currentMode});
       if (!result) throw new Error('The game server is unavailable. Try again.');
     }
     if (result.profile) signedIn = result.profile;
@@ -377,23 +398,60 @@ async function submit(event) {
 
 function recordArcadeRound({event, point: guess, record}) {
   if (!isStatic) return;
-  arcadeRounds.push({id: event.id, point: guess, miles: record.miles});
-  if (arcadeRounds.length !== roundsPerRun(playableCatalog().length)) return;
+  arcadeRounds.push({id: event.id, point: guess, miles: record.miles, date: record.dateGuess});
+  if (currentMode === 'daily') writeDailyProgress();
+  showArcadeResult();
+}
+
+function readDailyProgress() {
+  try {
+    const saved = JSON.parse(localStorage.getItem(dailyKey));
+    if (saved?.day === daily.day && /^[a-f0-9]{32}$/.test(saved.runId) && Array.isArray(saved.rounds) &&
+        saved.rounds.length <= daily.ids.length && saved.rounds.every((round, i) =>
+          round.id === daily.ids[i] && Number.isFinite(round.miles) &&
+          Number.isFinite(round.point?.lat) && Number.isFinite(round.point?.lng))) return saved;
+  } catch {
+    // A session can continue when browser storage is unavailable.
+  }
+  return null;
+}
+
+function writeDailyProgress() {
+  try {
+    localStorage.setItem(dailyKey, JSON.stringify({day: daily.day, runId, rounds: arcadeRounds, saved: dailySaved}));
+  } catch {
+    // A session can continue when browser storage is unavailable.
+  }
+}
+
+function showArcadeResult() {
+  if (arcadeRounds.length !== roundsPerRun(playableCatalog().length) || (onlineArcade() && arcadeRounds.length < 5)) return;
   const mean = arcadeRounds.reduce((sum, round) => sum + round.miles, 0) / arcadeRounds.length;
   arcadeAverage = Math.round(mean * 10) / 10;
   el('arcade-run-score').textContent = 'Run average · ' + milesText(arcadeAverage) + ' · Player rank ' + playerRank(arcadeAverage);
   el('arcade-score-form').hidden = false;
+  if (currentMode === 'daily') {
+    el('next-round').textContent = 'Back to modes';
+    if (dailySaved) {
+      el('arcade-gamertag').disabled = true;
+      el('arcade-score-form').querySelector('button').disabled = true;
+      arcadeAverage = null;
+      showMessage('arcade-message', 'Your daily score has been saved.');
+    }
+  }
   el('arcade-run-score').focus({preventScroll: true});
 }
 
-async function arcadeApi(input) {
+async function arcadeApi(mode, input, dailyLineup = false) {
   const options = {signal: AbortSignal.timeout(10000)};
   if (input) {
     options.method = 'POST';
     options.headers = {'Content-Type': 'application/json'};
     options.body = JSON.stringify(input);
   }
-  const response = await fetch(arcadeUrl, options);
+  const url = new URL(dailyLineup ? './daily' : arcadeUrl, arcadeUrl);
+  if (!dailyLineup && mode !== 'combined') url.searchParams.set('mode', mode);
+  const response = await fetch(url, options);
   if (!response.headers.get('content-type')?.includes('application/json')) {
     throw new Error('The online leaderboard is unavailable. Try again.');
   }
@@ -411,27 +469,36 @@ async function saveArcadeScore(event) {
     showMessage('arcade-message', 'Use 2–20 letters, numbers, spaces, hyphens or underscores.');
     return;
   }
-  if (arcadeHosts.has(location.hostname)) {
+  if (onlineArcade()) {
     const submitButton = event.currentTarget.querySelector('button');
     const nextButton = el('next-round');
+    isSavingScore = true;
     field.disabled = submitButton.disabled = nextButton.disabled = true;
     showMessage('arcade-message', 'Saving score…');
     try {
       const guesses = arcadeRounds.map(({id, point}) => ({id, point}));
-      const {averageMiles, bestMiles} = await arcadeApi({username, runId, guesses});
+      const {averageMiles, bestMiles} = await arcadeApi(currentMode, {username, runId, guesses,
+        ...(currentMode === 'daily' && {day: daily.day})});
       arcadeAverage = null;
-      showMessage('arcade-message', averageMiles > bestMiles ? 'Your previous best still stands.' :
-        'Saved to the online arcade leaderboard.');
+      if (currentMode === 'daily') {
+        dailySaved = true;
+        writeDailyProgress();
+      }
+      showMessage('arcade-message', currentMode === 'daily' && averageMiles !== bestMiles ?
+        'The first score for this gamertag still stands.' : averageMiles > bestMiles ?
+          'Your previous best still stands.' : 'Saved to the ' + modeTitles[currentMode] + ' leaderboard.');
     } catch (error) {
       field.disabled = submitButton.disabled = false;
       showMessage('arcade-message', error instanceof TypeError || error.name === 'TimeoutError' ?
         'The online leaderboard is unavailable. Try saving again.' : error.message);
     } finally {
+      isSavingScore = false;
       nextButton.disabled = false;
     }
     return;
   }
   const key = username.toLowerCase();
+  let arcadeScores = localBoard(currentMode);
   const best = arcadeScores.find(score => score.username.toLowerCase() === key);
   if (!best || arcadeAverage < best.averageMiles) {
     arcadeScores = arcadeScores.filter(score => score.username.toLowerCase() !== key)
@@ -443,7 +510,7 @@ async function saveArcadeScore(event) {
     arcadeScores.some(score => score.username.toLowerCase() === key) ? 'Saved to the arcade leaderboard.' :
       'This score finished outside the top 25.';
   try {
-    localStorage.setItem(arcadeKey, JSON.stringify(arcadeScores));
+    localStorage.setItem(arcadeKey + ':' + currentMode, JSON.stringify(arcadeScores));
   } catch {
     status = 'Scores are available for this session. Browser storage is unavailable.';
   }
@@ -512,22 +579,38 @@ function renderLeaderboardRows(entries) {
   table.hidden = !entries.length;
 }
 
+function localBoard(mode) {
+  try {
+    const key = mode === 'combined' ? arcadeKey : arcadeKey + ':' + mode;
+    const scores = JSON.parse(localStorage.getItem(key));
+    return Array.isArray(scores) ? scores.filter(score => typeof score?.username === 'string' &&
+      Number.isFinite(score.averageMiles) && score.averageMiles >= 0).slice(0, 25) : [];
+  } catch {
+    return [];
+  }
+}
+
 async function loadLeaderboard() {
   const request = ++leaderboardRequest;
   const table = el('leaderboard-table');
   const body = table.tBodies[0];
-  const legacy = el('leaderboard-ruleset').value === 'point';
-  el('leaderboard-mode').hidden = isStatic;
+  const mode = el('leaderboard-game-mode').value;
+  const legacy = mode === 'combined' && el('leaderboard-ruleset').value === 'point';
+  el('leaderboard-mode').hidden = isStatic || mode !== 'combined';
+  const combinedText = 'Scores from before mode-specific rankings.';
   el('leaderboard-title').textContent = isStatic ? 'Arcade leaderboard' : 'Leaderboard';
   table.hidden = true;
   el('leaderboard-rules').hidden = true;
   body.replaceChildren();
-  if (isStatic && arcadeHosts.has(location.hostname)) {
-    showMessage('leaderboard-rules', 'Finish five photos and enter a gamertag. The lowest average distance wins.');
+  if (onlineArcade()) {
+    showMessage('leaderboard-rules', mode === 'combined' ? combinedText :
+      'Finish five photos and enter a gamertag. The lowest average distance wins.');
     showMessage('leaderboard-status', 'Loading rankings…');
     try {
-      const {entries} = await arcadeApi();
+      const {entries, day} = await arcadeApi(mode);
       if (request !== leaderboardRequest) return;
+      if (day) showMessage('leaderboard-rules', dateFormat.format(new Date(day + 'T00:00:00Z')) +
+        ' · First score per gamertag · Lowest average distance wins');
       showMessage('leaderboard-status', entries.length ? '' : 'No arcade scores yet.');
       renderLeaderboardRows(entries);
     } catch {
@@ -538,14 +621,16 @@ async function loadLeaderboard() {
     return;
   }
   if (isStatic) {
-    showMessage('leaderboard-rules', 'Finish a run and enter a gamertag to save your best average distance on this browser.');
+    const arcadeScores = localBoard(mode);
+    showMessage('leaderboard-rules', mode === 'combined' ? combinedText :
+      'Finish a run and enter a gamertag to save your best average distance on this browser.');
     showMessage('leaderboard-status', arcadeScores.length ? '' : 'No arcade scores yet.');
     renderLeaderboardRows(arcadeScores.map((entry, index) => ({...entry, place: index + 1})));
     return;
   }
   showMessage('leaderboard-status', 'Loading rankings…');
   try {
-    const {rounds, entries} = await api(legacy ? 'leaderboard?rules=point' : 'leaderboard');
+    const {rounds, entries} = await api(mode === 'combined' ? (legacy ? 'leaderboard?rules=point' : 'leaderboard') : 'leaderboard?mode=' + mode);
     if (request !== leaderboardRequest) return;
     showMessage('leaderboard-rules', legacy ? 'Scores from before DAT track scoring was introduced.' :
       'Play all ' + rounds + ' photos while signed in to qualify. The lowest average distance wins. ' +
@@ -583,10 +668,12 @@ el('account-form').addEventListener('submit', event => {
 });
 el('sign-out').addEventListener('click', () => updateAccount('logout', {}));
 el('leaderboard-button').addEventListener('click', () => {
+  el('leaderboard-game-mode').value = currentMode;
   el('leaderboard-dialog').showModal();
   loadLeaderboard();
 });
 el('leaderboard-ruleset').addEventListener('change', loadLeaderboard);
+el('leaderboard-game-mode').addEventListener('change', loadLeaderboard);
 el('account-button').addEventListener('click', () => {
   showMessage('account-message');
   renderProfile();
@@ -612,6 +699,11 @@ el('sound-toggle').addEventListener('click', () => {
 el('guess-form').addEventListener('submit', submit);
 el('arcade-score-form').addEventListener('submit', saveArcadeScore);
 el('next-round').addEventListener('click', () => {
+  if (currentMode === 'daily' && arcadeRounds.length === daily.ids.length) {
+    showPlayScreen(false);
+    el('home-title').focus();
+    return;
+  }
   loadRound();
   el('photo-heading').focus();
 });
@@ -634,6 +726,8 @@ async function loadArchive() {
       signedIn = await api('profile') || signedIn;
     }
     if (!Array.isArray(catalog) || !catalog.length) throw new Error('The archive has no playable photos.');
+    el('daily-card').hidden = !onlineArcade();
+    el('leaderboard-game-mode').querySelector('[value="daily"]').hidden = !onlineArcade();
     const ids = new Set(catalog.map(event => event.id));
     seenPhotos = new Set([...seenPhotos].filter(id => ids.has(id)));
     lastId = [...seenPhotos].at(-1);
@@ -666,28 +760,38 @@ function showPlayScreen(playing) {
 
 for (const button of document.querySelectorAll('[data-play-mode]')) {
   button.addEventListener('click', async () => {
-    if (isSubmitting) return;
+    if (isSubmitting || isSavingScore || isChoosingMode) return;
+    isChoosingMode = true;
     button.disabled = true;
     showMessage('home-status', 'Loading the photo archive…');
     try {
       if (!await prepareArchive()) return;
       const mode = button.dataset.playMode;
-      if (!modeCatalog(catalog, mode).length) throw new Error('No photos are available in this mode yet.');
-      const startNew = !active || currentMode !== mode;
+      const previousDay = daily?.day;
+      if (mode === 'daily') {
+        const lineup = await arcadeApi(mode, undefined, true);
+        if (!Array.isArray(lineup.ids) || lineup.ids.length !== 5 ||
+            lineup.ids.some(id => !catalog.some(event => event.id === id))) {
+          throw new Error('Today’s photos could not load. Refresh and try again.');
+        }
+        daily = lineup;
+        showMessage('daily-size', dateFormat.format(new Date(daily.day + 'T00:00:00Z')));
+      } else if (!modeCatalog(catalog, mode).length) {
+        throw new Error('No photos are available in this mode yet.');
+      }
+      const startNew = !active || currentMode !== mode || (mode === 'daily' && daily.day !== previousDay);
       currentMode = mode;
       document.body.dataset.gameMode = mode;
-      el('active-mode-title').textContent = gameModes[mode];
+      el('active-mode-title').textContent = modeTitles[mode];
       showPlayScreen(true);
       if (map) map.invalidateSize({pan: false});
       else buildMap();
       if (startNew) {
         deck = [];
-        loadRound();
+        loadRound(mode === 'daily');
       }
       for (const choice of document.querySelectorAll('[data-play-mode]')) {
-        choice.textContent = choice.dataset.playMode === mode ? 'Resume game' :
-          choice.dataset.playMode === 'all' ? 'Play game' :
-          choice.dataset.playMode === 'iconic' ? 'Play iconic' : 'Play past year';
+        choice.textContent = choice.dataset.playMode === mode ? 'Resume game' : startLabels[choice.dataset.playMode];
       }
       showMessage('home-status');
       el('title').focus();
@@ -696,6 +800,7 @@ for (const button of document.querySelectorAll('[data-play-mode]')) {
       showMessage('home-status', error.message);
     } finally {
       button.disabled = false;
+      isChoosingMode = false;
       if (!el('home-screen').hidden) button.focus();
     }
   });

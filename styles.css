@@ -266,14 +266,34 @@ dialog::backdrop { background: #0b0c10bc; }
 
 .home-content h1 { max-width: none; }
 .home-content { padding: clamp(20px, 3vw, 44px); }
+.release-notes {
+  width: fit-content;
+  max-width: 100%;
+  margin: 0 0 18px;
+  border: 1px solid var(--line);
+  background: var(--panel);
+  font-size: .875rem;
+  line-height: 1.5;
+}
+.release-notes summary { padding: 10px 13px; cursor: pointer; }
+.release-notes summary::marker { color: var(--red); }
+.release-notes summary span { margin-inline-start: 10px; color: var(--muted); }
+.release-notes ul { margin: 0; padding: 4px 16px 12px 32px; color: var(--muted); }
+.release-notes li + li { margin-top: 5px; }
+.release-notes li strong { color: var(--cream); }
 .mode-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; }
 .mode-card { width: 100%; grid-template-rows: auto; align-content: start; --mode-accent: var(--red); border-top: 3px solid var(--mode-accent); border-left-color: var(--mode-accent); }
 .mode-card[data-mode="iconic"] { --mode-accent: #f2cd63; background: linear-gradient(145deg, #403820e8, #202328f5); }
 .mode-card[data-mode="recent"] { --mode-accent: #82c7ff; background: linear-gradient(145deg, #203b50ed, #202328f5); }
+.mode-card[data-mode="daily"] { --mode-accent: #d4b9f2; background: linear-gradient(145deg, #3a2b4bed, #202328f5); }
+@media (min-width: 961px) {
+  .mode-grid:has(#daily-card:not([hidden])) { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+}
 .mode-card h2, .mode-card .mode-kicker { color: var(--mode-accent); }
 .mode-card .mode-kicker { font-size: .72rem; text-transform: uppercase; letter-spacing: .09em; font-weight: 700; }
 .mode-card .primary { background: var(--mode-accent); border-color: var(--mode-accent); color: #17191c; }
 .mode-switch-note { margin-top: 18px; font-size: .85rem; color: var(--muted); line-height: 1.5; }
 body[data-game-mode="iconic"] .eyebrow { color: #f2cd63; }
 body[data-game-mode="recent"] .eyebrow { color: #82c7ff; }
+body[data-game-mode="daily"] .eyebrow { color: #d4b9f2; }
 @media (max-width: 960px) { .mode-grid { grid-template-columns: 1fr; } .home-screen { min-height: auto; } }
