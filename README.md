@@ -62,3 +62,17 @@ Leaderboard entries show a player rank based on the best run's average miles, ro
 ## Game modes
 
 The selection screen offers the full archive, a yellow Iconic EF4 / EF5 mode (including historic F4/F5 events), and a blue Past Year mode. The iconic selection is curated in `modes.mjs`; Past Year filters the archive to the rolling last 12 months, excluding future events. Each run uses up to five distinct photos from its mode. Returning to the same mode resumes it; switching modes starts a fresh run. Existing leaderboard standings combine all modes. Both static hosting and the Node server support mode selection.
+
+## November 2026 archive expansion
+
+Added 15 distinct tornado events, bringing the full archive to 112 events. As of November 19, 2026, Iconic EF4 / EF5 contains 25 events and Past Year contains 15. Past Year membership continues to roll with the calendar.
+
+Nine new recent events: Appleton–Menasha, Ringle, Ottawa, Lena–Orangeville, Beggs, Hebron–Kouts, west of Fairview, Rowe–Dwight, and Dix. All nine have verified NWS DAT survey geometry saved locally. Their dates and official ratings were checked against NWS event reports and the matching survey records.
+
+Six new iconic events: Topeka (1966), Xenia (1974), Fargo (1957), Niles–Wheatland (1985), Dunlap–Midway (1965), and Russiaville–Kokomo (1965). These use documented affected-town reference coordinates when no verified DAT geometry is available. Historic ratings remain F4/F5, rather than being relabeled as EF ratings.
+
+Images were visually reviewed for a visible tornado, optimized as WebP, and assigned neutral filenames. Ringle and Fairview camera timestamps and Fargo's archive caption were cropped out. Author credits, source links, reuse licenses, and edit notices are stored per event in `tornadoes.json` and appear after the answer is revealed. Source contrast adjustments for Ringle and Ottawa are disclosed. No tornado imagery was generated. The larger tornado is the scored event in the Hebron–Kouts twin-tornado image.
+
+### Shared leaderboard deployment
+
+The online arcade leaderboard is a separate Cloudflare Worker, whose source is not included in this repository. If that Worker uses its own event catalog or track snapshot, update those with the new events before accepting their ranked submissions. Static gameplay and the included Node server have been checked with the expanded catalog; new-event submissions to the separate production Worker have not been verified.

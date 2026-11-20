@@ -1797,5 +1797,305 @@
     "photoEdit": "Converted to WebP",
     "photoLicense": "CC BY 4.0",
     "photoLicenseUrl": "https://creativecommons.org/licenses/by/4.0"
+  },
+  {
+    "id": "funnel-e3fface27cd4",
+    "name": "Appleton–Menasha, Wisconsin",
+    "lat": 44.277554,
+    "lng": -88.437824,
+    "date": "2026-07-27",
+    "source": "https://www.weather.gov/grb/07272026_SevereStorms",
+    "clueType": "funnel",
+    "rating": "EF3",
+    "hints": [
+      "Look west of Lake Michigan, near the northern end of a large inland lake.",
+      "The event occurred in the 2020s."
+    ],
+    "image": "images/funnel-e3fface27cd4.webp",
+    "photoCredit": "Appleton Tower Camera (No human input was involved)",
+    "photoSource": "https://commons.wikimedia.org/wiki/File:2026_Appleton_tornado_skycam_photo.jpg",
+    "photoEdit": "resized and converted to WebP",
+    "photoLicense": "Public domain",
+    "photoLicenseUrl": "https://commons.wikimedia.org/wiki/File:2026_Appleton_tornado_skycam_photo.jpg"
+  },
+  {
+    "id": "funnel-13399a685ce3",
+    "name": "Ringle, Wisconsin",
+    "lat": 44.841447,
+    "lng": -89.56611,
+    "date": "2026-04-17",
+    "source": "https://www.weather.gov/grb/041726_tornadoes",
+    "clueType": "funnel",
+    "rating": "EF3",
+    "hints": [
+      "Look in north-central Wisconsin, east of Wausau.",
+      "The event occurred in the 2020s."
+    ],
+    "image": "images/funnel-13399a685ce3.webp",
+    "photoCredit": "\"Wanta & Son, Inc\" Security Camera",
+    "photoSource": "https://commons.wikimedia.org/wiki/File:2026_Ringle,_Wisconsin_Twister.jpg",
+    "photoEdit": "Cropped to remove timestamp or archive caption; resized and converted to WebP; source image includes contrast adjustments",
+    "photoLicense": "Public domain",
+    "photoLicenseUrl": "https://commons.wikimedia.org/wiki/File:2026_Ringle,_Wisconsin_Twister.jpg"
+  },
+  {
+    "id": "funnel-9c50c6705ad1",
+    "name": "Ottawa, Kansas",
+    "lat": 38.601216,
+    "lng": -95.320977,
+    "date": "2026-04-13",
+    "source": "https://www.weather.gov/top/OttawaTornado260413",
+    "clueType": "funnel",
+    "rating": "EF2",
+    "hints": [
+      "Look in eastern Kansas, southwest of the Kansas City metro.",
+      "The event occurred in the 2020s."
+    ],
+    "image": "images/funnel-9c50c6705ad1.webp",
+    "photoCredit": "Augustcm",
+    "photoSource": "https://commons.wikimedia.org/wiki/File:Ottawa,_KS_Tornado.jpg",
+    "photoEdit": "resized and converted to WebP; source photographer applied contrast enhancement",
+    "photoLicense": "CC BY 4.0",
+    "photoLicenseUrl": "https://creativecommons.org/licenses/by/4.0"
+  },
+  {
+    "id": "funnel-3e126c874a87",
+    "name": "Lena–Orangeville, Illinois",
+    "lat": 42.35466,
+    "lng": -89.873824,
+    "date": "2026-04-17",
+    "source": "https://www.weather.gov/dvn/summary_041726",
+    "clueType": "funnel",
+    "rating": "EF2",
+    "hints": [
+      "Look in northwestern Illinois, just south of the Wisconsin border.",
+      "The event occurred in the 2020s."
+    ],
+    "image": "images/funnel-3e126c874a87.webp",
+    "photoCredit": "Wikiwillz",
+    "photoSource": "https://commons.wikimedia.org/wiki/File:EF2_Lena_Tornado.png",
+    "photoEdit": "resized and converted to WebP",
+    "photoLicense": "CC BY-SA 4.0",
+    "photoLicenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
+  },
+  {
+    "id": "funnel-5133769dd844",
+    "name": "Beggs, Oklahoma",
+    "lat": 35.748089,
+    "lng": -96.088135,
+    "date": "2026-03-06",
+    "source": "https://www.weather.gov/oun/tornadodata-ok-2026",
+    "clueType": "funnel",
+    "rating": "EF3",
+    "hints": [
+      "Look in northeastern Oklahoma, south of Tulsa.",
+      "The event occurred in the 2020s."
+    ],
+    "image": "images/funnel-5133769dd844.webp",
+    "photoCredit": "Tanner Charles",
+    "photoSource": "https://commons.wikimedia.org/wiki/File:2026_Beggs_tornado.jpg",
+    "photoEdit": "resized and converted to WebP",
+    "photoLicense": "CC BY-SA 4.0",
+    "photoLicenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
+  },
+  {
+    "id": "funnel-f84ab50357e8",
+    "name": "Hebron–Kouts, Indiana",
+    "lat": 41.242206,
+    "lng": -87.276758,
+    "date": "2026-06-11",
+    "source": "https://www.weather.gov/lot/2026_06_11_SevereWeather",
+    "clueType": "funnel",
+    "rating": "EF3",
+    "hints": [
+      "The larger tornado is the target. Look in northwestern Indiana, south of Lake Michigan.",
+      "The event occurred in the 2020s."
+    ],
+    "image": "images/funnel-f84ab50357e8.webp",
+    "photoCredit": "Tara Kirk",
+    "photoSource": "https://commons.wikimedia.org/wiki/File:2026_Kouts,_Indiana_twin_tornadoes.jpg",
+    "photoEdit": "resized and converted to WebP",
+    "photoLicense": "CC BY-SA 4.0",
+    "photoLicenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
+  },
+  {
+    "id": "funnel-a4f7396d4870",
+    "name": "West of Fairview, Oklahoma",
+    "lat": 36.198663,
+    "lng": -98.675896,
+    "date": "2026-03-05",
+    "source": "https://www.weather.gov/oun/tornadodata-ok-2026",
+    "clueType": "funnel",
+    "rating": "EF2",
+    "hints": [
+      "Look in northwestern Oklahoma, west of Enid.",
+      "The event occurred in the 2020s."
+    ],
+    "image": "images/funnel-a4f7396d4870.webp",
+    "photoCredit": "Security Camera",
+    "photoSource": "https://commons.wikimedia.org/wiki/File:Security_camera_still_of_a_deadly_EF2_tornado_near_Fairview,_OK.png",
+    "photoEdit": "Cropped to remove timestamp or archive caption; resized and converted to WebP",
+    "photoLicense": "Public domain",
+    "photoLicenseUrl": "https://commons.wikimedia.org/wiki/File:Security_camera_still_of_a_deadly_EF2_tornado_near_Fairview,_OK.png"
+  },
+  {
+    "id": "funnel-f2faa63fac34",
+    "name": "Rowe–Dwight, Illinois",
+    "lat": 40.946349,
+    "lng": -88.657453,
+    "date": "2026-06-11",
+    "source": "https://www.weather.gov/lot/2026_06_11_SevereWeather",
+    "clueType": "funnel",
+    "rating": "EF1",
+    "hints": [
+      "Look in north-central Illinois, southwest of Chicago.",
+      "The event occurred in the 2020s."
+    ],
+    "image": "images/funnel-f2faa63fac34.webp",
+    "photoCredit": "Timcigar12",
+    "photoSource": "https://commons.wikimedia.org/wiki/File:DwightIL_2026_1.jpg",
+    "photoEdit": "resized and converted to WebP",
+    "photoLicense": "CC0",
+    "photoLicenseUrl": "http://creativecommons.org/publicdomain/zero/1.0/deed.en"
+  },
+  {
+    "id": "funnel-62665c4273e0",
+    "name": "Dix, Illinois",
+    "lat": 38.404042,
+    "lng": -88.928729,
+    "date": "2026-06-21",
+    "source": "https://www.weather.gov/pah/June21_2026Tornadoes",
+    "clueType": "funnel",
+    "rating": "EF3",
+    "hints": [
+      "Look in southern Illinois, north of Mount Vernon.",
+      "The event occurred in the 2020s."
+    ],
+    "image": "images/funnel-62665c4273e0.webp",
+    "photoCredit": "David Barron",
+    "photoSource": "https://commons.wikimedia.org/wiki/File:Video_still_of_an_EF3_tornado_near_Dix,_Illinois_on_June_21,_2026.png",
+    "photoEdit": "resized and converted to WebP",
+    "photoLicense": "CC BY-SA 4.0",
+    "photoLicenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
+  },
+  {
+    "id": "funnel-65eacd44c4f5",
+    "name": "Topeka, Kansas",
+    "lat": 39.04,
+    "lng": -95.69,
+    "date": "1966-06-08",
+    "source": "https://www.weather.gov/top/1966topekatornado",
+    "clueType": "funnel",
+    "rating": "F5",
+    "hints": [
+      "Look at a state capital in the central Great Plains.",
+      "The event occurred in the 1960s."
+    ],
+    "image": "images/funnel-65eacd44c4f5.webp",
+    "photoCredit": "Perry Riddle",
+    "photoSource": "https://commons.wikimedia.org/wiki/File:1966_Topeka,_Kansas_F5_tornado.jpg",
+    "photoEdit": "resized and converted to WebP",
+    "photoLicense": "Public domain",
+    "photoLicenseUrl": "https://commons.wikimedia.org/wiki/File:1966_Topeka,_Kansas_F5_tornado.jpg"
+  },
+  {
+    "id": "funnel-e1ea9c64523b",
+    "name": "Xenia, Ohio",
+    "lat": 39.68,
+    "lng": -83.93,
+    "date": "1974-04-03",
+    "source": "https://www.weather.gov/iln/19740403_trackmap",
+    "clueType": "funnel",
+    "rating": "F5",
+    "hints": [
+      "Look in southwestern Ohio, southeast of Dayton.",
+      "The event occurred in the 1970s."
+    ],
+    "image": "images/funnel-e1ea9c64523b.webp",
+    "photoCredit": "Unknown photographer / The Journal Herald archive",
+    "photoSource": "https://commons.wikimedia.org/wiki/File:1974_Xenia,_Ohio_tornado.jpg",
+    "photoEdit": "resized and converted to WebP",
+    "photoLicense": "Public domain",
+    "photoLicenseUrl": "https://commons.wikimedia.org/wiki/File:1974_Xenia,_Ohio_tornado.jpg"
+  },
+  {
+    "id": "funnel-18b0a62a9989",
+    "name": "Fargo, North Dakota",
+    "lat": 46.9,
+    "lng": -96.82,
+    "date": "1957-06-20",
+    "source": "https://www.weather.gov/fgf/fargo57tornado",
+    "clueType": "funnel",
+    "rating": "F5",
+    "hints": [
+      "Look near the North Dakota–Minnesota border along the Red River.",
+      "The event occurred in the 1950s."
+    ],
+    "image": "images/funnel-18b0a62a9989.webp",
+    "photoCredit": "Chet Gebert / U.S. Weather Bureau research archive",
+    "photoSource": "https://commons.wikimedia.org/wiki/File:1957_Fargo_tornado.jpg",
+    "photoEdit": "Cropped to remove timestamp or archive caption; resized and converted to WebP",
+    "photoLicense": "Public domain",
+    "photoLicenseUrl": "https://commons.wikimedia.org/wiki/File:1957_Fargo_tornado.jpg"
+  },
+  {
+    "id": "funnel-5d8e773d2a41",
+    "name": "Niles–Wheatland, Ohio and Pennsylvania",
+    "lat": 41.2,
+    "lng": -80.5,
+    "date": "1985-05-31",
+    "source": "https://www.weather.gov/cle/event_19850531_85outbreak",
+    "clueType": "funnel",
+    "rating": "F5",
+    "hints": [
+      "Look along the Ohio–Pennsylvania border, north of Youngstown.",
+      "The event occurred in the 1980s."
+    ],
+    "image": "images/funnel-5d8e773d2a41.webp",
+    "photoCredit": "Cindy Schwartz",
+    "photoSource": "https://commons.wikimedia.org/wiki/File:Wheatland_F5_tornado.jpg",
+    "photoEdit": "resized and converted to WebP",
+    "photoLicense": "Public domain",
+    "photoLicenseUrl": "https://commons.wikimedia.org/wiki/File:Wheatland_F5_tornado.jpg"
+  },
+  {
+    "id": "funnel-7babe5bf0c81",
+    "name": "Dunlap–Midway, Indiana",
+    "lat": 41.64,
+    "lng": -85.92,
+    "date": "1965-04-11",
+    "source": "https://www.weather.gov/iwx/1965_palmsunday_50",
+    "clueType": "funnel",
+    "rating": "F4",
+    "hints": [
+      "Look in northern Indiana, southeast of South Bend.",
+      "The event occurred in the 1960s."
+    ],
+    "image": "images/funnel-7babe5bf0c81.webp",
+    "photoCredit": "Paul Huffman / The Elkhart Truth",
+    "photoSource": "https://commons.wikimedia.org/wiki/File:1965_Elkhart_Double_Tornado-Palm_Sunday.jpg",
+    "photoEdit": "resized and converted to WebP",
+    "photoLicense": "Public domain",
+    "photoLicenseUrl": "https://commons.wikimedia.org/wiki/File:1965_Elkhart_Double_Tornado-Palm_Sunday.jpg"
+  },
+  {
+    "id": "funnel-83fa8c2ec4d2",
+    "name": "Russiaville–Kokomo, Indiana",
+    "lat": 40.45,
+    "lng": -86.13,
+    "date": "1965-04-11",
+    "source": "https://www.weather.gov/ind/palmsuntor",
+    "clueType": "funnel",
+    "rating": "F4",
+    "hints": [
+      "Look in north-central Indiana, north of Indianapolis.",
+      "The event occurred in the 1960s."
+    ],
+    "image": "images/funnel-83fa8c2ec4d2.webp",
+    "photoCredit": "Tom Harrell",
+    "photoSource": "https://commons.wikimedia.org/wiki/File:1965_Kokomo_tornado.png",
+    "photoEdit": "resized and converted to WebP",
+    "photoLicense": "Public domain",
+    "photoLicenseUrl": "https://commons.wikimedia.org/wiki/File:1965_Kokomo_tornado.png"
   }
 ]

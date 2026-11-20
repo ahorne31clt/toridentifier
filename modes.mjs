@@ -6,6 +6,7 @@ export const gameModes = {
 
 // A curated selection, including historic F-scale counterparts.
 const iconicIds = new Set([
+  'funnel-65eacd44c4f5', 'funnel-e1ea9c64523b', 'funnel-18b0a62a9989', 'funnel-5d8e773d2a41', 'funnel-7babe5bf0c81', 'funnel-83fa8c2ec4d2',
   '003', '004', '005', '014', 'funnel-e0da045344f1', 'funnel-0e4a22c1d761',
   'funnel-06e9736df8f3', 'funnel-6752051853bc', 'funnel-c992d654a672',
   'funnel-591dcff5bf1d', 'funnel-d4f410ce70be', 'funnel-5831d5e1d2e2',
