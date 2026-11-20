@@ -28,7 +28,9 @@ body::before {
 .masthead { background: #181b1fe8; border-bottom: 1px solid var(--line); }
 .masthead-inner { min-height: 72px; display: flex; align-items: center; justify-content: space-between; gap: 16px; }
 .masthead-actions { display: flex; align-items: center; gap: 8px; }
-.identity { display: flex; align-items: center; gap: 11px; }
+.identity { display: flex; align-items: center; gap: 11px; color: var(--cream); text-decoration: none; }
+.identity:hover .wordmark { text-decoration: underline; text-underline-offset: .22em; }
+.identity:focus-visible { outline: 2px solid var(--red); outline-offset: 5px; }
 .brand-mark { display: block; width: 46px; height: 46px; }
 .wordmark {
   font-size: 1.2rem;
@@ -278,6 +280,7 @@ dialog::backdrop { background: #0b0c10bc; }
 .release-notes summary { padding: 10px 13px; cursor: pointer; }
 .release-notes summary::marker { color: var(--red); }
 .release-notes summary span { margin-inline-start: 10px; color: var(--muted); }
+.release-notes p { padding-inline: 13px; color: var(--cream); font-weight: 700; }
 .release-notes ul { margin: 0; padding: 4px 16px 12px 32px; color: var(--muted); }
 .release-notes li + li { margin-top: 5px; }
 .release-notes li strong { color: var(--cream); }

@@ -14,10 +14,10 @@
 <body>
   <header class="masthead">
     <div class="shell masthead-inner">
-      <div class="identity">
+      <a class="identity" id="home-link" href="./" aria-label="Tornado Guesser home">
         <img class="brand-mark" src="./logo.png" alt="" width="46" height="46">
         <span class="wordmark">Tornado <strong>Guesser</strong></span>
-      </div>
+      </a>
       <div class="masthead-actions">
         <button type="button" id="leaderboard-button" class="button outline" disabled>Leaderboard</button>
         <button type="button" id="account-button" class="button outline">Sign in</button>
@@ -29,7 +29,11 @@
       <div class="home-content">
         <h1 id="home-title" tabindex="-1">Choose a game mode</h1>
         <details class="release-notes">
-          <summary><strong>Tornado Guesser v1.2</strong><span>What’s new</span></summary>
+          <summary><strong>Tornado Guesser v1.2.1</strong><span>What’s new</span></summary>
+          <ul>
+            <li>Click the logo or game name to return to the mode picker and resume your run later.</li>
+          </ul>
+          <p>From v1.2</p>
           <ul>
             <li><strong>Daily Challenge.</strong> Everyone gets the same five tornado photos. A fresh lineup starts at midnight Eastern.</li>
             <li><strong>Mode leaderboards.</strong> Compare scores within Full Archive, Iconic EF4 / EF5, Past Year, or Daily Challenge.</li>

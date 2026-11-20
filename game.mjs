@@ -700,8 +700,7 @@ el('guess-form').addEventListener('submit', submit);
 el('arcade-score-form').addEventListener('submit', saveArcadeScore);
 el('next-round').addEventListener('click', () => {
   if (currentMode === 'daily' && arcadeRounds.length === daily.ids.length) {
-    showPlayScreen(false);
-    el('home-title').focus();
+    showHome();
     return;
   }
   loadRound();
@@ -806,9 +805,16 @@ for (const button of document.querySelectorAll('[data-play-mode]')) {
   });
 }
 
-el('modes-button').addEventListener('click', () => {
+function showHome() {
   showPlayScreen(false);
   el('home-title').focus();
+}
+
+el('modes-button').addEventListener('click', showHome);
+el('home-link').addEventListener('click', event => {
+  if (event.button !== 0 || event.metaKey || event.ctrlKey || event.altKey || event.shiftKey) return;
+  event.preventDefault();
+  showHome();
 });
 
 renderSoundToggle();
