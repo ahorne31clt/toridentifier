@@ -451,24 +451,32 @@ function getDailyShareResult() {
   if (currentMode !== 'daily' || !dailySaved || arcadeRounds.length !== 5) return null;
   const {username, averageMiles} = dailyShareResult || {};
   if (typeof username !== 'string' || !Number.isFinite(averageMiles) || averageMiles < 0) return null;
+  const grades = arcadeRounds.map(round => gradeBands.find(([, limit]) => round.miles <= limit)[0]);
+  return dailyShareDetails({username, day: daily.day, averageMiles, grades});
+}
+
+function dailyShareDetails({username, day, averageMiles, grades}) {
   return {
-    username, day: daily.day,
-    date: dateFormat.format(new Date(daily.day + 'T00:00:00Z')),
+    username, day, grades,
+    date: dateFormat.format(new Date(day + 'T00:00:00Z')),
     distance: milesText(averageMiles),
     rank: playerRank(averageMiles),
-    grades: arcadeRounds.map(round => gradeBands.find(([, limit]) => round.miles <= limit)[0]),
   };
 }
 
-async function arcadeApi(mode, input, dailyLineup = false) {
+function arcadeApi(mode, input, dailyLineup = false) {
+  const url = new URL(dailyLineup ? './daily' : arcadeUrl, arcadeUrl);
+  if (!dailyLineup && mode !== 'combined') url.searchParams.set('mode', mode);
+  return workerRequest(url, input);
+}
+
+async function workerRequest(url, input) {
   const options = {signal: AbortSignal.timeout(10000)};
   if (input) {
     options.method = 'POST';
     options.headers = {'Content-Type': 'application/json'};
     options.body = JSON.stringify(input);
   }
-  const url = new URL(dailyLineup ? './daily' : arcadeUrl, arcadeUrl);
-  if (!dailyLineup && mode !== 'combined') url.searchParams.set('mode', mode);
   const response = await fetch(url, options);
   if (!response.headers.get('content-type')?.includes('application/json')) {
     throw new Error('The online leaderboard is unavailable. Try again.');
@@ -720,6 +728,53 @@ el('sound-toggle').addEventListener('click', () => {
 el('guess-form').addEventListener('submit', submit);
 el('arcade-score-form').addEventListener('submit', saveArcadeScore);
 const openDailyShare = setupDailyShare(getDailyShareResult);
+const dailyLookup = el('daily-lookup-dialog');
+let lookedUpDailyScore;
+let lookupRequest = 0;
+
+el('find-daily').addEventListener('click', () => dailyLookup.showModal());
+dailyLookup.addEventListener('close', () => {
+  lookupRequest++;
+  el('daily-lookup-form').querySelector('button').disabled = false;
+});
+el('daily-lookup-form').addEventListener('submit', async event => {
+  event.preventDefault();
+  const request = ++lookupRequest;
+  const button = event.currentTarget.querySelector('button');
+  const gamertag = el('daily-lookup-tag').value.trim();
+  const day = el('daily-lookup-date').value;
+  el('daily-lookup-result').hidden = true;
+  if (!/^[\p{L}\p{N} _-]{2,20}$/u.test(gamertag) || (day && !validDate(day))) {
+    showMessage('daily-lookup-status', 'Enter a valid gamertag and challenge date.');
+    return;
+  }
+  button.disabled = true;
+  showMessage('daily-lookup-status', 'Finding score…');
+  const url = new URL('./daily-score', arcadeUrl);
+  url.searchParams.set('gamertag', gamertag);
+  if (day) url.searchParams.set('day', day);
+  try {
+    const score = await workerRequest(url);
+    if (request !== lookupRequest) return;
+    lookedUpDailyScore = dailyShareDetails(score);
+    const {username, date, distance, rank} = lookedUpDailyScore;
+    el('daily-lookup-name').textContent = username;
+    el('daily-lookup-score').textContent = date + ' · Place #' + number.format(score.place) + ' · ' + distance + ' · ' + rank;
+    el('daily-lookup-result').hidden = false;
+    showMessage('daily-lookup-status');
+  } catch (error) {
+    if (request !== lookupRequest) return;
+    showMessage('daily-lookup-status', error instanceof TypeError || error.name === 'TimeoutError' ?
+      'The score search is unavailable. Try again.' : error.message);
+  } finally {
+    if (request === lookupRequest) button.disabled = false;
+  }
+});
+el('daily-lookup-share').addEventListener('click', () => {
+  dailyLookup.close();
+  openDailyShare(lookedUpDailyScore);
+});
+
 el('next-round').addEventListener('click', () => {
   if (currentMode === 'daily' && arcadeRounds.length === daily.ids.length) {
     showHome();

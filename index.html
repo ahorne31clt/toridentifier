@@ -29,9 +29,10 @@
       <div class="home-content">
         <h1 id="home-title" tabindex="-1">Choose a game mode</h1>
         <details class="release-notes">
-          <summary><strong>Tornado Guesser v1.3.1</strong><span>What’s new</span></summary>
+          <summary><strong>Tornado Guesser v1.4</strong><span>What’s new</span></summary>
           <ul>
-            <li><strong>Share card pops up after saving.</strong> Download the image or copy your spoiler-free result.</li>
+            <li><strong>Find a daily score.</strong> Search for a gamertag and date to see the score, leaderboard place, and share card.</li>
+            <li>Share cards open automatically after saving a daily score.</li>
             <li><strong>One daily score per gamertag.</strong> The leaderboard accepts one run under each name per day.</li>
           </ul>
           <p>From v1.2</p>
@@ -68,6 +69,7 @@
           <p>Everyone gets the same five tornadoes. A new lineup starts at midnight Eastern.</p>
           <p id="daily-size" class="archive-size" hidden></p>
           <button class="button primary" type="button" data-play-mode="daily">Play daily</button>
+          <button class="button outline" id="find-daily" type="button">Find a daily score</button>
         </section>
         </div>
         <p class="mode-switch-note">Each game mode has its own leaderboard.</p>
@@ -190,6 +192,28 @@
       <form method="dialog"><button class="button outline" aria-label="Close full photo">Close</button></form>
     </header>
     <img id="full-photo-image" alt="Uncropped photo clue">
+  </dialog>
+  <dialog id="daily-lookup-dialog" aria-labelledby="daily-lookup-title">
+    <header class="panel-head">
+      <h2 id="daily-lookup-title">Find a daily score</h2>
+      <form method="dialog"><button class="button outline" aria-label="Close daily score search">Close</button></form>
+    </header>
+    <div class="dialog-body">
+      <form id="daily-lookup-form">
+        <label for="daily-lookup-tag">Gamertag</label>
+        <input id="daily-lookup-tag" type="text" autocomplete="nickname" minlength="2" maxlength="20" required autofocus>
+        <label for="daily-lookup-date">Challenge date (optional)</label>
+        <input id="daily-lookup-date" type="date" aria-describedby="daily-lookup-date-help">
+        <small id="daily-lookup-date-help">Leave blank to search today’s challenge.</small>
+        <button type="submit" class="button primary">Find score</button>
+      </form>
+      <p id="daily-lookup-status" role="status" hidden></p>
+      <section id="daily-lookup-result" aria-label="Daily score" hidden>
+        <strong id="daily-lookup-name"></strong>
+        <p id="daily-lookup-score"></p>
+        <button id="daily-lookup-share" class="button outline" type="button">Share result</button>
+      </section>
+    </div>
   </dialog>
   <dialog id="daily-share-dialog" aria-labelledby="daily-share-title">
     <header class="panel-head">

@@ -66,7 +66,13 @@ function drawCard(canvas, {username, date, distance, rank, grades}, logo) {
   text('PLAYER RANK', 743, 542, 'bold 22px Arial', muted);
   text(rank, 743, 612, 'bold 58px Arial', purple, 230);
 
-  grades.forEach((grade, index) => {
+  if (!grades) {
+    ctx.fillStyle = '#181b21ed';
+    ctx.fillRect(76, 696, 928, 160);
+    text('ROUND GRADES', 104, 751, 'bold 22px Arial', muted);
+    text('Unavailable for this score', 104, 814, 'bold 38px Arial', cream);
+  }
+  grades?.forEach((grade, index) => {
     const x = 76 + index * 189;
     const width = 172;
     const color = gradeColors[grade];
@@ -99,14 +105,13 @@ export function setupDailyShare(getResult) {
   let image;
   let generation = 0;
 
-  function openDailyShare() {
-    const result = getResult();
+  function openDailyShare(result = getResult()) {
     if (!result || dialog.open) return;
     const {username, day, date, distance, rank, grades} = result;
     const text = [
       'Tornado Guesser Daily · ' + date,
       username + ' · ' + rank,
-      grades.join(' · ') + ' · Average distance ' + distance,
+      (grades ? grades.join(' · ') + ' · ' : '') + 'Average distance ' + distance,
       'https://tornadoguesser.app/',
     ].join('\n');
     textBox.value = text;
@@ -127,7 +132,7 @@ export function setupDailyShare(getResult) {
     }, 'image/png');
   }
 
-  el('daily-share-open').addEventListener('click', openDailyShare);
+  el('daily-share-open').addEventListener('click', () => openDailyShare());
   el('daily-share-copy').addEventListener('click', async () => {
     try {
       await navigator.clipboard.writeText(textBox.value);
