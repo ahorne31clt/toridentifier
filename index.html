@@ -168,9 +168,14 @@
       </label>
       <p id="leaderboard-rules" hidden></p>
       <p id="leaderboard-status" role="status"></p>
+      <details class="rank-guide">
+        <summary>How player ranks work</summary>
+        <p>Closer guesses earn higher ranks. Your rank uses your best run’s average distance, rounded to one decimal place. These are game ranks, separate from actual tornado intensity ratings.</p>
+        <ul id="player-rank-bands"></ul>
+      </details>
       <div class="score-table">
         <table id="leaderboard-table" hidden>
-          <thead><tr><th scope="col">Rank</th><th scope="col">Player</th><th scope="col">Average distance</th></tr></thead>
+          <thead><tr><th scope="col">Place</th><th scope="col">Player</th><th scope="col">Player rank</th><th scope="col">Average distance</th></tr></thead>
           <tbody></tbody>
         </table>
       </div>

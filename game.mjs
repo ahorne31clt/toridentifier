@@ -1,4 +1,4 @@
-import {gradeBands, roundsPerRun, scoreGuess, trackPaths, validDate} from './scoring.mjs';
+import {playerRank, playerRankBands, gradeBands, roundsPerRun, scoreGuess, trackPaths, validDate} from './scoring.mjs';
 import {setupCitySearch} from './city-search.mjs';
 
 const el = id => document.getElementById(id);
@@ -377,7 +377,7 @@ function recordArcadeRound({event, point: guess, record}) {
   if (arcadeRounds.length !== roundsPerRun(catalog.length)) return;
   const mean = arcadeRounds.reduce((sum, round) => sum + round.miles, 0) / arcadeRounds.length;
   arcadeAverage = Math.round(mean * 10) / 10;
-  el('arcade-run-score').textContent = 'Run average · ' + milesText(arcadeAverage);
+  el('arcade-run-score').textContent = 'Run average · ' + milesText(arcadeAverage) + ' · Player rank ' + playerRank(arcadeAverage);
   el('arcade-score-form').hidden = false;
   el('arcade-run-score').focus({preventScroll: true});
 }
@@ -495,9 +495,15 @@ function renderLeaderboardRows(entries) {
   for (const entry of entries) {
     const row = body.insertRow();
     if (entry.username === signedIn.username) row.classList.add('current-player');
-    for (const value of [entry.place, entry.username, milesText(entry.averageMiles)]) {
+    for (const value of [entry.place, entry.username]) {
       row.insertCell().textContent = value;
     }
+    const badge = document.createElement('span');
+    badge.className = 'player-rank';
+    badge.textContent = playerRank(entry.averageMiles);
+    badge.dataset.rank = badge.textContent;
+    row.insertCell().append(badge);
+    row.insertCell().textContent = milesText(entry.averageMiles);
   }
   table.hidden = !entries.length;
 }
@@ -680,3 +686,12 @@ el('modes-button').addEventListener('click', () => {
 
 renderSoundToggle();
 prepareArchive();
+
+const rankLegend = el('player-rank-bands');
+for (const [index, [rank, limit]] of playerRankBands.entries()) {
+  const item = document.createElement('li');
+  const lower = playerRankBands[index - 1]?.[1];
+  item.textContent = rank + ': ' + (index === 0 ? '0–' + limit :
+    Number.isFinite(limit) ? 'over ' + lower + '–' + limit : 'over ' + lower) + ' mi';
+  rankLegend.append(item);
+}

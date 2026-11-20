@@ -252,3 +252,14 @@ dialog::backdrop { background: #0b0c10bc; }
   .brand-mark { width: 34px; height: 34px; }
   .site-credit span { display: block; margin-left: 0; }
 }
+
+.player-rank { display: inline-block; padding: 3px 8px; border: 1px solid currentColor; border-radius: 5px; font-weight: 700; white-space: nowrap; color: var(--muted); }
+.player-rank[data-rank="EF-5"] { color: #e8b1ff; }
+.player-rank[data-rank="EF-4"] { color: var(--red); }
+.player-rank[data-rank="EF-3"] { color: var(--gold); }
+.player-rank[data-rank="EF-2"] { color: #9bd9ad; }
+.player-rank[data-rank="EF-1"] { color: #9fcfff; }
+.rank-guide { margin-block: 16px; color: var(--muted); font-size: .875rem; line-height: 1.6; }
+.rank-guide summary { cursor: pointer; color: var(--cream); }
+.rank-guide p { margin-top: 10px; }
+.rank-guide ul { padding-left: 22px; columns: 2; }

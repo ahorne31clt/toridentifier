@@ -1,3 +1,15 @@
+// Player ranks use the same one-decimal average displayed on the leaderboard.
+export const playerRankBands = [
+  ['EF-5', 10], ['EF-4', 25], ['EF-3', 75], ['EF-2', 150],
+  ['EF-1', 300], ['EF-0', 600], ['EF-U', Infinity],
+];
+
+export function playerRank(averageMiles) {
+  if (!Number.isFinite(averageMiles) || averageMiles < 0) return '—';
+  const displayedMiles = Math.round(averageMiles * 10) / 10;
+  return playerRankBands.find(([, limit]) => displayedMiles <= limit)[0];
+}
+
 export const gradeBands = [
   ['A', 25], ['B', 75], ['C', 150], ['D', 300], ['F', Infinity],
 ];
