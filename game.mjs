@@ -6,6 +6,8 @@ const archiveKey = 'tornado-identifier-guest-scores-v1';
 const soundKey = 'tornado-guesser-score-sounds';
 const seenPhotosKey = 'tornado-guesser-seen-photos';
 const arcadeKey = 'tornado-guesser-local-arcade';
+const arcadeUrl = 'https://tornado-guesser-leaderboard.ahorne31.workers.dev/leaderboard';
+const arcadeHosts = new Set(['tornadoguesser.app', 'www.tornadoguesser.app', 'ahorne31clt.github.io']);
 const number = new Intl.NumberFormat('en-US', {maximumFractionDigits: 1});
 const dateFormat = new Intl.DateTimeFormat('en-US', {dateStyle: 'long', timeZone: 'UTC'});
 const milesText = miles => miles > 0 && miles < 0.1 ? '<0.1 mi' : number.format(miles) + ' mi';
@@ -29,7 +31,7 @@ let leaderboardRequest = 0;
 let signedIn = {username: null, history: [], total: 0};
 let guest = {history: [], total: 0};
 let seenPhotos = new Set();
-let arcadeScores = [], runDistances = [];
+let arcadeScores = [], arcadeRounds = [];
 let arcadeAverage = null;
 
 try {
@@ -214,7 +216,7 @@ function loadRound() {
     deck = selectRun();
     deckPosition = 0;
     runId = makeId();
-    runDistances = [];
+    arcadeRounds = [];
   }
   arcadeAverage = null;
   el('arcade-score-form').hidden = true;
@@ -356,7 +358,7 @@ async function submit(event) {
     }
     markPhotoSeen(result.event.id);
     renderResult(result);
-    recordArcadeRound(result.record.miles);
+    recordArcadeRound(result);
     playScoreSound(result.record.grade);
     renderProfile();
   } catch (error) {
@@ -369,24 +371,60 @@ async function submit(event) {
   }
 }
 
-function recordArcadeRound(miles) {
+function recordArcadeRound({event, point: guess, record}) {
   if (!isStatic) return;
-  runDistances.push(miles);
-  if (runDistances.length !== roundsPerRun(catalog.length)) return;
-  const mean = runDistances.reduce((sum, distance) => sum + distance, 0) / runDistances.length;
+  arcadeRounds.push({id: event.id, point: guess, miles: record.miles});
+  if (arcadeRounds.length !== roundsPerRun(catalog.length)) return;
+  const mean = arcadeRounds.reduce((sum, round) => sum + round.miles, 0) / arcadeRounds.length;
   arcadeAverage = Math.round(mean * 10) / 10;
   el('arcade-run-score').textContent = 'Run average · ' + milesText(arcadeAverage);
   el('arcade-score-form').hidden = false;
   el('arcade-run-score').focus({preventScroll: true});
 }
 
-function saveArcadeScore(event) {
+async function arcadeApi(input) {
+  const options = {signal: AbortSignal.timeout(10000)};
+  if (input) {
+    options.method = 'POST';
+    options.headers = {'Content-Type': 'application/json'};
+    options.body = JSON.stringify(input);
+  }
+  const response = await fetch(arcadeUrl, options);
+  if (!response.headers.get('content-type')?.includes('application/json')) {
+    throw new Error('The online leaderboard is unavailable. Try again.');
+  }
+  const data = await response.json();
+  if (!response.ok) throw new Error(data.message || 'The online leaderboard is unavailable. Try again.');
+  return data;
+}
+
+async function saveArcadeScore(event) {
   event.preventDefault();
   if (arcadeAverage === null) return;
   const field = el('arcade-gamertag');
   const username = field.value.trim();
   if (!/^[\p{L}\p{N} _-]{2,20}$/u.test(username)) {
     showMessage('arcade-message', 'Use 2–20 letters, numbers, spaces, hyphens or underscores.');
+    return;
+  }
+  if (arcadeHosts.has(location.hostname)) {
+    const submitButton = event.currentTarget.querySelector('button');
+    const nextButton = el('next-round');
+    field.disabled = submitButton.disabled = nextButton.disabled = true;
+    showMessage('arcade-message', 'Saving score…');
+    try {
+      const guesses = arcadeRounds.map(({id, point}) => ({id, point}));
+      const {averageMiles, bestMiles} = await arcadeApi({username, runId, guesses});
+      arcadeAverage = null;
+      showMessage('arcade-message', averageMiles > bestMiles ? 'Your previous best still stands.' :
+        'Saved to the online arcade leaderboard.');
+    } catch (error) {
+      field.disabled = submitButton.disabled = false;
+      showMessage('arcade-message', error instanceof TypeError || error.name === 'TimeoutError' ?
+        'The online leaderboard is unavailable. Try saving again.' : error.message);
+    } finally {
+      nextButton.disabled = false;
+    }
     return;
   }
   const key = username.toLowerCase();
@@ -470,11 +508,25 @@ async function loadLeaderboard() {
   const body = table.tBodies[0];
   const legacy = el('leaderboard-ruleset').value === 'point';
   el('leaderboard-mode').hidden = isStatic;
-  el('online-leaderboard-status').hidden = !isStatic;
   el('leaderboard-title').textContent = isStatic ? 'Arcade leaderboard' : 'Leaderboard';
   table.hidden = true;
   el('leaderboard-rules').hidden = true;
   body.replaceChildren();
+  if (isStatic && arcadeHosts.has(location.hostname)) {
+    showMessage('leaderboard-rules', 'Finish five photos and enter a gamertag. The lowest average distance wins.');
+    showMessage('leaderboard-status', 'Loading rankings…');
+    try {
+      const {entries} = await arcadeApi();
+      if (request !== leaderboardRequest) return;
+      showMessage('leaderboard-status', entries.length ? '' : 'No arcade scores yet.');
+      renderLeaderboardRows(entries);
+    } catch {
+      if (request === leaderboardRequest) {
+        showMessage('leaderboard-status', 'The online leaderboard is unavailable. Reopen it to try again.');
+      }
+    }
+    return;
+  }
   if (isStatic) {
     showMessage('leaderboard-rules', 'Finish a run and enter a gamertag to save your best average distance on this browser.');
     showMessage('leaderboard-status', arcadeScores.length ? '' : 'No arcade scores yet.');
