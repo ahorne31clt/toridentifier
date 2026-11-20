@@ -1,6 +1,7 @@
 import {gameModes, modeCatalog} from './modes.mjs';
 import {playerRank, playerRankBands, gradeBands, roundsPerRun, scoreGuess, trackPaths, validDate} from './scoring.mjs';
 import {setupCitySearch} from './city-search.mjs';
+import {setupDailyShare} from './share-card.mjs';
 
 const el = id => document.getElementById(id);
 const archiveKey = 'tornado-identifier-guest-scores-v1';
@@ -33,6 +34,7 @@ const playableCatalog = () => currentMode === 'daily' ?
 const onlineArcade = () => isStatic && arcadeHosts.has(location.hostname);
 let daily;
 let dailySaved = false;
+let dailyShareResult;
 let isSavingScore = false;
 let isChoosingMode = false;
 let archiveRequest, audioContext;
@@ -227,6 +229,7 @@ function loadRound(restoreDaily = false) {
     if (currentMode === 'daily') {
       arcadeRounds = progress?.rounds || [];
       dailySaved = Boolean(progress?.saved);
+      dailyShareResult = progress?.share;
       deckPosition = Math.min(arcadeRounds.length, pool.length - 1);
       deck = pool.slice(deckPosition);
       runId = progress?.runId || makeId();
@@ -239,6 +242,7 @@ function loadRound(restoreDaily = false) {
   }
   arcadeAverage = null;
   el('arcade-score-form').hidden = true;
+  el('daily-share-open').hidden = true;
   el('arcade-gamertag').disabled = false;
   el('arcade-score-form').querySelector('button').disabled = false;
   showMessage('arcade-message');
@@ -418,7 +422,7 @@ function readDailyProgress() {
 
 function writeDailyProgress() {
   try {
-    localStorage.setItem(dailyKey, JSON.stringify({day: daily.day, runId, rounds: arcadeRounds, saved: dailySaved}));
+    localStorage.setItem(dailyKey, JSON.stringify({day: daily.day, runId, rounds: arcadeRounds, saved: dailySaved, share: dailyShareResult}));
   } catch {
     // A session can continue when browser storage is unavailable.
   }
@@ -437,9 +441,23 @@ function showArcadeResult() {
       el('arcade-score-form').querySelector('button').disabled = true;
       arcadeAverage = null;
       showMessage('arcade-message', 'Your daily score has been saved.');
+      el('daily-share-open').hidden = !getDailyShareResult();
     }
   }
   el('arcade-run-score').focus({preventScroll: true});
+}
+
+function getDailyShareResult() {
+  if (currentMode !== 'daily' || !dailySaved || arcadeRounds.length !== 5) return null;
+  const {username, averageMiles} = dailyShareResult || {};
+  if (typeof username !== 'string' || !Number.isFinite(averageMiles) || averageMiles < 0) return null;
+  return {
+    username, day: daily.day,
+    date: dateFormat.format(new Date(daily.day + 'T00:00:00Z')),
+    distance: milesText(averageMiles),
+    rank: playerRank(averageMiles),
+    grades: arcadeRounds.map(round => gradeBands.find(([, limit]) => round.miles <= limit)[0]),
+  };
 }
 
 async function arcadeApi(mode, input, dailyLineup = false) {
@@ -482,7 +500,9 @@ async function saveArcadeScore(event) {
       arcadeAverage = null;
       if (currentMode === 'daily') {
         dailySaved = true;
+        dailyShareResult = {username, averageMiles};
         writeDailyProgress();
+        el('daily-share-open').hidden = !getDailyShareResult();
       }
       showMessage('arcade-message', currentMode === 'daily' && averageMiles !== bestMiles ?
         'The first score for this gamertag still stands.' : averageMiles > bestMiles ?
@@ -698,6 +718,7 @@ el('sound-toggle').addEventListener('click', () => {
 });
 el('guess-form').addEventListener('submit', submit);
 el('arcade-score-form').addEventListener('submit', saveArcadeScore);
+setupDailyShare(getDailyShareResult);
 el('next-round').addEventListener('click', () => {
   if (currentMode === 'daily' && arcadeRounds.length === daily.ids.length) {
     showHome();

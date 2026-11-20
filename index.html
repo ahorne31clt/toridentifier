@@ -29,15 +29,16 @@
       <div class="home-content">
         <h1 id="home-title" tabindex="-1">Choose a game mode</h1>
         <details class="release-notes">
-          <summary><strong>Tornado Guesser v1.2.1</strong><span>What’s new</span></summary>
+          <summary><strong>Tornado Guesser v1.3</strong><span>What’s new</span></summary>
           <ul>
-            <li>Click the logo or game name to return to the mode picker and resume your run later.</li>
+            <li><strong>Daily share cards.</strong> Share your gamertag, five grades, average distance, and player rank as an image or text.</li>
           </ul>
           <p>From v1.2</p>
           <ul>
             <li><strong>Daily Challenge.</strong> Everyone gets the same five tornado photos. A fresh lineup starts at midnight Eastern.</li>
             <li><strong>Mode leaderboards.</strong> Compare scores within Full Archive, Iconic EF4 / EF5, Past Year, or Daily Challenge.</li>
             <li><strong>Previous scores.</strong> Earlier rankings are available under Previous combined scores.</li>
+            <li>Click the top-bar logo or title to return to the mode picker.</li>
           </ul>
         </details>
         <div class="mode-grid">
@@ -167,6 +168,7 @@
             </div>
             <p id="arcade-message" class="message" role="status" hidden></p>
           </form>
+          <button id="daily-share-open" class="button outline" type="button" hidden>Share result</button>
           <button id="next-round" class="button primary" type="button" hidden>Next photo</button>
         </section>
       </div>
@@ -187,6 +189,22 @@
       <form method="dialog"><button class="button outline" aria-label="Close full photo">Close</button></form>
     </header>
     <img id="full-photo-image" alt="Uncropped photo clue">
+  </dialog>
+  <dialog id="daily-share-dialog" aria-labelledby="daily-share-title">
+    <header class="panel-head">
+      <h2 id="daily-share-title">Share your daily result</h2>
+      <form method="dialog"><button class="button outline" aria-label="Close daily result">Close</button></form>
+    </header>
+    <div class="dialog-body">
+      <canvas id="daily-share-card" width="1080" height="1080" role="img"></canvas>
+      <div class="daily-share-actions">
+        <button id="daily-share-native" type="button" class="button primary" hidden>Share image</button>
+        <a id="daily-share-download" class="button outline" download hidden>Download PNG</a>
+        <button id="daily-share-copy" type="button" class="button outline">Copy text</button>
+      </div>
+      <p id="daily-share-status" class="message" role="status"></p>
+      <textarea id="daily-share-text" aria-label="Daily result text" rows="5" readonly hidden></textarea>
+    </div>
   </dialog>
   <dialog id="leaderboard-dialog" aria-labelledby="leaderboard-title">
     <header class="panel-head">

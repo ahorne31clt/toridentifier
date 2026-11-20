@@ -23,6 +23,7 @@ const assets = new Map([
   ['/game.mjs', ['game.mjs', 'text/javascript; charset=utf-8']],
   ['/city-search.mjs', ['city-search.mjs', 'text/javascript; charset=utf-8']],
   ['/city-index.json', ['city-index.json', 'application/json; charset=utf-8']],
+  ['/share-card.mjs', ['share-card.mjs', 'text/javascript; charset=utf-8']],
   ['/scoring.mjs', ['scoring.mjs', 'text/javascript; charset=utf-8']],
 ]);
 for (const event of catalog) {
