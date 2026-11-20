@@ -1,3 +1,4 @@
+import {eventModes} from './modes.mjs';
 import {createServer} from 'node:http';
 import {mkdirSync, readFileSync} from 'node:fs';
 import {resolve} from 'node:path';
@@ -18,6 +19,7 @@ const assets = new Map([
   ['/index.html', ['index.html', 'text/html; charset=utf-8']],
   ['/logo.png', ['logo.png', 'image/png']],
   ['/styles.css', ['styles.css', 'text/css; charset=utf-8']],
+  ['/modes.mjs', ['modes.mjs', 'text/javascript; charset=utf-8']],
   ['/game.mjs', ['game.mjs', 'text/javascript; charset=utf-8']],
   ['/city-search.mjs', ['city-search.mjs', 'text/javascript; charset=utf-8']],
   ['/city-index.json', ['city-index.json', 'application/json; charset=utf-8']],
@@ -218,7 +220,8 @@ function submitGuess(response, user, input) {
   json(response, 200, {...result, profile: user ? profile(user) : null});
 }
 
-const prompts = catalog.map(({id, image, hints}) => ({id, image, hintCount: hints?.length || 0}));
+const prompts = () => catalog.map(event => ({id: event.id, image: event.image,
+  hintCount: event.hints?.length || 0, modes: eventModes(event)}));
 const server = createServer(async (request, response) => {
   response.setHeader('X-Content-Type-Options', 'nosniff');
   response.setHeader('Referrer-Policy', 'strict-origin-when-cross-origin');
@@ -231,7 +234,7 @@ const server = createServer(async (request, response) => {
       response.end(body);
       return;
     }
-    if (request.method === 'GET' && route === '/api/catalog') return json(response, 200, prompts);
+    if (request.method === 'GET' && route === '/api/catalog') return json(response, 200, prompts());
     if (request.method === 'GET' && route === '/api/hint') {
       const index = searchParams.get('index');
       const event = events.get(searchParams.get('event'));

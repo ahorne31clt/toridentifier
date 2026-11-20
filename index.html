@@ -28,19 +28,36 @@
     <section id="home-screen" class="home-screen" aria-labelledby="home-title">
       <div class="home-content">
         <h1 id="home-title" tabindex="-1">Choose a game mode</h1>
-        <section class="mode-card" aria-labelledby="photo-mode-title">
+        <div class="mode-grid">
+        <section class="mode-card" data-mode="all" aria-labelledby="photo-mode-title">
           <h2 id="photo-mode-title">Tornado Photo Challenge</h2>
           <p>Identify real tornadoes by their funnel and surroundings. Guess the location and, if you want, the date.</p>
           <p id="archive-size" class="archive-size" hidden></p>
-          <button class="button primary" type="button" id="play-button">Play game</button>
-          <p id="home-status" class="message" role="status" hidden></p>
+          <button class="button primary" type="button" id="play-button" data-play-mode="all">Play game</button>
         </section>
+        <section class="mode-card" data-mode="iconic" aria-labelledby="iconic-title">
+          <p class="mode-kicker">The unforgettable storms</p>
+          <h2 id="iconic-title">Iconic EF4 / EF5</h2>
+          <p>Recognize Joplin, Enderlin, Moore and other iconic violent tornadoes, including historic F4/F5 events.</p>
+          <p id="iconic-size" class="archive-size" hidden></p>
+          <button class="button primary" type="button" data-play-mode="iconic">Play iconic</button>
+        </section>
+        <section class="mode-card" data-mode="recent" aria-labelledby="recent-title">
+          <p class="mode-kicker">Fresh in your memory</p>
+          <h2 id="recent-title">Past Year</h2>
+          <p>Test your memory of tornadoes from the past 12 months, including Kankakee and Union City, Michigan.</p>
+          <p id="recent-size" class="archive-size" hidden></p>
+          <button class="button primary" type="button" data-play-mode="recent">Play past year</button>
+        </section>
+        </div>
+        <p class="mode-switch-note">Switching modes starts a new run. Leaderboard standings combine all modes.</p>
+        <p id="home-status" class="message" role="status" hidden></p>
       </div>
     </section>
     <section id="play-screen" aria-labelledby="title" hidden>
       <div class="intro">
         <div>
-          <p class="eyebrow">Tornado photo challenge</p>
+          <p class="eyebrow" id="active-mode-title">Tornado photo challenge</p>
           <h1 id="title" tabindex="-1">Where did this tornado happen?</h1>
           <p class="intro-copy">Study the photo, then click or tap the map to place your guess.</p>
         </div>

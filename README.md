@@ -58,3 +58,7 @@ Distance is measured along Earth's surface to the nearest point on the surveyed 
 ## Player ranks
 
 Leaderboard entries show a player rank based on the best run's average miles, rounded to one decimal place: EF-5 at 0–10, EF-4 over 10–25, EF-3 over 25–75, EF-2 over 75–150, EF-1 over 150–300, EF-0 over 300–600, and EF-U over 600. These game ranks are separate from tornado intensity ratings. The arcade run summary also shows the rank earned for that run. Thresholds are defined in `playerRankBands` in `scoring.mjs`.
+
+## Game modes
+
+The selection screen offers the full archive, a yellow Iconic EF4 / EF5 mode (including historic F4/F5 events), and a blue Past Year mode. The iconic selection is curated in `modes.mjs`; Past Year filters the archive to the rolling last 12 months, excluding future events. Each run uses up to five distinct photos from its mode. Returning to the same mode resumes it; switching modes starts a fresh run. Existing leaderboard standings combine all modes. Both static hosting and the Node server support mode selection.

@@ -1,3 +1,4 @@
+import {gameModes, modeCatalog} from './modes.mjs';
 import {playerRank, playerRankBands, gradeBands, roundsPerRun, scoreGuess, trackPaths, validDate} from './scoring.mjs';
 import {setupCitySearch} from './city-search.mjs';
 
@@ -22,7 +23,9 @@ const scoreNotes = {
   F: [261.63, 196],
 };
 let map, layers, deck = [], catalog = [], active, point, marker;
+let currentMode = 'all';
 let resetCitySearch;
+const playableCatalog = () => modeCatalog(catalog, currentMode);
 let archiveRequest, audioContext;
 let soundEnabled = true;
 let isStatic = false, isRevealed = false, isSubmitting = false, isPhotoReady = false;
@@ -193,10 +196,11 @@ function shuffle(entries) {
 }
 
 function selectRun() {
-  const length = roundsPerRun(catalog.length);
-  const unseen = shuffle(catalog.filter(event => !seenPhotos.has(event.id))).slice(0, length);
+  const pool = playableCatalog();
+  const length = roundsPerRun(pool.length);
+  const unseen = shuffle(pool.filter(event => !seenPhotos.has(event.id))).slice(0, length);
   if (unseen.length === length) return unseen;
-  const previouslySeen = shuffle(catalog.filter(event => seenPhotos.has(event.id)));
+  const previouslySeen = shuffle(pool.filter(event => seenPhotos.has(event.id)));
   return unseen.concat(previouslySeen.slice(0, length - unseen.length));
 }
 
@@ -233,7 +237,7 @@ function loadRound() {
   map.setView(...defaultView, {animate: false});
   el('map').parentElement.classList.remove('revealed');
   el('map-state').textContent = 'Click map to place target';
-  el('round-count').textContent = 'Photo ' + deckPosition + ' of ' + roundsPerRun(catalog.length);
+  el('round-count').textContent = 'Photo ' + deckPosition + ' of ' + roundsPerRun(playableCatalog().length);
   el('submit-guess').hidden = false;
   el('submit-guess').disabled = true;
   el('center-target').hidden = false;
@@ -374,7 +378,7 @@ async function submit(event) {
 function recordArcadeRound({event, point: guess, record}) {
   if (!isStatic) return;
   arcadeRounds.push({id: event.id, point: guess, miles: record.miles});
-  if (arcadeRounds.length !== roundsPerRun(catalog.length)) return;
+  if (arcadeRounds.length !== roundsPerRun(playableCatalog().length)) return;
   const mean = arcadeRounds.reduce((sum, round) => sum + round.miles, 0) / arcadeRounds.length;
   arcadeAverage = Math.round(mean * 10) / 10;
   el('arcade-run-score').textContent = 'Run average · ' + milesText(arcadeAverage) + ' · Player rank ' + playerRank(arcadeAverage);
@@ -633,7 +637,12 @@ async function loadArchive() {
     const ids = new Set(catalog.map(event => event.id));
     seenPhotos = new Set([...seenPhotos].filter(id => ids.has(id)));
     lastId = [...seenPhotos].at(-1);
-    showMessage('archive-size', number.format(catalog.length) + ' events · ' + roundsPerRun(catalog.length) + ' photos per run');
+    for (const mode of Object.keys(gameModes)) {
+      const count = modeCatalog(catalog, mode).length;
+      showMessage(mode === 'all' ? 'archive-size' : mode + '-size',
+        number.format(count) + ' events · ' + roundsPerRun(count) + ' photos per run');
+      document.querySelector('[data-play-mode="' + mode + '"]').disabled = !count;
+    }
   } finally {
     renderProfile();
     el('account-button').disabled = false;
@@ -655,29 +664,42 @@ function showPlayScreen(playing) {
   for (const id of ['play-screen', 'grade-details', 'round-summary']) el(id).hidden = !playing;
 }
 
-el('play-button').addEventListener('click', async () => {
-  const button = el('play-button');
-  button.disabled = true;
-  showMessage('home-status', 'Loading the photo archive…');
-  try {
-    if (!await prepareArchive()) return;
-    showPlayScreen(true);
-    if (map) map.invalidateSize({pan: false});
-    else {
-      buildMap();
-      loadRound();
+for (const button of document.querySelectorAll('[data-play-mode]')) {
+  button.addEventListener('click', async () => {
+    if (isSubmitting) return;
+    button.disabled = true;
+    showMessage('home-status', 'Loading the photo archive…');
+    try {
+      if (!await prepareArchive()) return;
+      const mode = button.dataset.playMode;
+      if (!modeCatalog(catalog, mode).length) throw new Error('No photos are available in this mode yet.');
+      const startNew = !active || currentMode !== mode;
+      currentMode = mode;
+      document.body.dataset.gameMode = mode;
+      el('active-mode-title').textContent = gameModes[mode];
+      showPlayScreen(true);
+      if (map) map.invalidateSize({pan: false});
+      else buildMap();
+      if (startNew) {
+        deck = [];
+        loadRound();
+      }
+      for (const choice of document.querySelectorAll('[data-play-mode]')) {
+        choice.textContent = choice.dataset.playMode === mode ? 'Resume game' :
+          choice.dataset.playMode === 'all' ? 'Play game' :
+          choice.dataset.playMode === 'iconic' ? 'Play iconic' : 'Play past year';
+      }
+      showMessage('home-status');
+      el('title').focus();
+    } catch (error) {
+      showPlayScreen(false);
+      showMessage('home-status', error.message);
+    } finally {
+      button.disabled = false;
+      if (!el('home-screen').hidden) button.focus();
     }
-    showMessage('home-status');
-    button.textContent = 'Resume game';
-    el('title').focus();
-  } catch (error) {
-    showPlayScreen(false);
-    showMessage('home-status', error.message);
-  } finally {
-    button.disabled = false;
-    if (!el('home-screen').hidden) button.focus();
-  }
-});
+  });
+}
 
 el('modes-button').addEventListener('click', () => {
   showPlayScreen(false);
