@@ -1,0 +1,322 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#17191c">
+  <title>Feedback Dashboard | Tornado Guesser</title>
+  <link rel="icon" type="image/png" href="./logo.png">
+  <style>
+    :root {
+      color-scheme: dark;
+      font-family: Arial, Helvetica, sans-serif;
+      color: #f3f0e7;
+      background: #17191c;
+      --cream: #f3f0e7;
+      --muted: #b5bcc3;
+      --red: #f38b86;
+      --gold: #e5ba79;
+      --line: #383e45;
+      --panel: #202328;
+    }
+    * { box-sizing: border-box; }
+    [hidden] { display: none !important; }
+    body { margin: 0; min-width: 300px; min-height: 100vh; }
+    body::before {
+      content: ""; position: fixed; inset: 0; z-index: -1;
+      background:
+        linear-gradient(105deg, #17191c 8%, #17191c80 44%, #17191c11 100%),
+        repeating-radial-gradient(ellipse at 83% -17%, transparent 0 16px, #a7b9c21d 17px 18px, transparent 19px 28px),
+        repeating-radial-gradient(ellipse at 100% 14%, transparent 0 23px, #929fa710 24px 25px, transparent 26px 37px),
+        radial-gradient(ellipse at 78% 0%, #423338, #17191c 68%);
+    }
+    .shell { width: min(100% - 64px, 1376px); margin-inline: auto; }
+    .masthead { background: #181b1fe8; border-bottom: 1px solid var(--line); }
+    .masthead-inner { min-height: 72px; display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+    .identity { display: flex; align-items: center; gap: 11px; color: var(--cream); text-decoration: none; }
+    .identity:focus-visible, :focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
+    .brand-mark { display: block; width: 46px; height: 46px; }
+    .wordmark { font-size: 1.2rem; line-height: 1; font-weight: 800; text-transform: uppercase; letter-spacing: .055em; white-space: nowrap; }
+    .wordmark strong { color: var(--red); }
+    main { padding-block: 34px 56px; }
+    .page-heading { display: flex; align-items: end; justify-content: space-between; gap: 18px; margin-bottom: 22px; }
+    .eyebrow { color: var(--red); font-size: .875rem; font-weight: 700; text-transform: uppercase; letter-spacing: .11em; }
+    h1 { margin: 7px 0 8px; font-size: clamp(2rem, 4vw, 3.4rem); line-height: 1; letter-spacing: -.04em; }
+    h2 { margin: 0; font-size: 1.05rem; }
+    .intro, .muted { color: var(--muted); line-height: 1.5; }
+    .panel { min-width: 0; border: 1px solid var(--line); border-top: 2px solid #798b96; background: var(--panel); box-shadow: 0 12px 32px #0004; }
+    .import-panel { padding: 16px; margin-bottom: 16px; border-top-color: var(--red); }
+    .import-row { display: flex; align-items: end; flex-wrap: wrap; gap: 12px; }
+    .import-row label { display: grid; gap: 7px; font-weight: 700; }
+    input[type=file] { max-width: 100%; color: var(--muted); font: inherit; }
+    input[type=file]::file-selector-button, .button { min-height: 42px; padding: 9px 13px; border: 1px solid #4d5862; border-radius: 0; background: #292e34; color: var(--cream); font: 700 .9375rem/1.2 Arial, sans-serif; cursor: pointer; }
+    input[type=file]::file-selector-button { margin-right: 10px; }
+    .button.primary { background: var(--red); border-color: var(--red); color: #231415; }
+    .button:hover { background-color: #38434d; }
+    .button.primary:hover { background: #ffaaa4; }
+    .privacy-note { margin: 12px 0 0; color: var(--muted); font-size: .875rem; line-height: 1.5; }
+    .status { min-height: 1.4em; margin: 12px 0 0; color: var(--gold); }
+    .stats { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; margin-bottom: 16px; }
+    .stat-card { padding: 16px; border: 1px solid var(--line); border-top: 2px solid var(--red); background: #202328eb; }
+    .stat-card span { display: block; color: var(--muted); font-size: .875rem; }
+    .stat-card strong { display: block; margin-top: 6px; font-size: 1.9rem; }
+    .analytics-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; margin-bottom: 16px; }
+    .analytics-panel { padding: 16px; }
+    .analytics-panel h2 { margin-bottom: 16px; }
+    .bar-list { display: grid; gap: 12px; margin: 0; padding: 0; list-style: none; }
+    .bar-row { display: grid; grid-template-columns: minmax(90px, .7fr) 2fr auto; align-items: center; gap: 10px; font-size: .9rem; }
+    .bar-label { overflow-wrap: anywhere; color: var(--muted); }
+    .bar-track { height: 12px; background: #111417; border: 1px solid #383e45; }
+    .bar-fill { height: 100%; min-width: 0; background: var(--red); }
+    .bar-value { min-width: 2ch; text-align: right; font-weight: 700; }
+    .recent-panel { border-top-color: var(--gold); }
+    .table-wrap { overflow: auto; }
+    table { width: 100%; border-collapse: collapse; text-align: left; font-size: .9rem; }
+    th, td { padding: 11px 10px; border-bottom: 1px solid var(--line); vertical-align: top; }
+    th { color: var(--muted); font-size: .8rem; text-transform: uppercase; letter-spacing: .06em; }
+    td.message-cell { min-width: 260px; max-width: 560px; white-space: pre-wrap; overflow-wrap: anywhere; line-height: 1.45; }
+    .empty { padding: 18px 10px; color: var(--muted); text-align: center; }
+    .back-link { display: inline-block; margin-top: 18px; color: var(--red); }
+    @media (max-width: 760px) {
+      .shell { width: calc(100% - 28px); }
+      .masthead-inner { min-height: 62px; }
+      .wordmark { font-size: 1rem; }
+      .brand-mark { width: 38px; height: 38px; }
+      .stats { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .analytics-grid { grid-template-columns: 1fr; }
+      .page-heading { align-items: start; flex-direction: column; }
+    }
+    @media (max-width: 420px) {
+      .wordmark strong { display: block; }
+      .bar-row { grid-template-columns: 85px 1fr auto; gap: 7px; font-size: .82rem; }
+      .stat-card { padding: 12px; }
+    }
+  </style>
+</head>
+<body>
+  <header class="masthead">
+    <div class="shell masthead-inner">
+      <a class="identity" href="./" aria-label="Tornado Guesser home">
+        <img class="brand-mark" src="./logo.png" alt="" width="46" height="46">
+        <span class="wordmark">Tornado <strong>Guesser</strong></span>
+      </a>
+    </div>
+  </header>
+  <main class="shell">
+    <div class="page-heading">
+      <div>
+        <span class="eyebrow">Feedback overview</span>
+        <h1>Dashboard</h1>
+        <p class="intro">Review responses and see a quick breakdown of player feedback.</p>
+      </div>
+    </div>
+
+    <section class="panel import-panel" aria-labelledby="import-title">
+      <div class="import-row">
+        <label id="import-title" for="csv-file">Load feedback CSV
+          <input id="csv-file" type="file" accept=".csv,text/csv">
+        </label>
+        <button id="clear-button" class="button" type="button" hidden>Clear data</button>
+      </div>
+      <p class="privacy-note">Export submissions as a CSV from your form provider and select it here. The file is processed in this browser only; it is not uploaded or saved. Keep this dashboard private if your export contains email addresses.</p>
+      <p id="status" class="status" role="status" aria-live="polite">No feedback loaded yet.</p>
+    </section>
+
+    <section class="stats" aria-label="Feedback summary">
+      <article class="stat-card"><span>Total responses</span><strong id="total-stat">—</strong></article>
+      <article class="stat-card"><span>Positive experience</span><strong id="positive-stat">—</strong></article>
+      <article class="stat-card"><span>Needs work</span><strong id="negative-stat">—</strong></article>
+      <article class="stat-card"><span>Latest response</span><strong id="latest-stat" style="font-size:1.15rem">—</strong></article>
+    </section>
+
+    <div class="analytics-grid">
+      <section class="panel analytics-panel" aria-labelledby="types-title">
+        <h2 id="types-title">Feedback types</h2>
+        <ul id="types-chart" class="bar-list"><li class="empty">Load a CSV to see statistics.</li></ul>
+      </section>
+      <section class="panel analytics-panel" aria-labelledby="ratings-title">
+        <h2 id="ratings-title">Experience ratings</h2>
+        <ul id="ratings-chart" class="bar-list"><li class="empty">Load a CSV to see statistics.</li></ul>
+      </section>
+    </div>
+
+    <section class="panel recent-panel" aria-labelledby="responses-title">
+      <header style="padding:16px"><h2 id="responses-title">Responses</h2></header>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th scope="col">Date</th><th scope="col">Type</th><th scope="col">Rating</th><th scope="col">Message</th><th scope="col">Email</th></tr></thead>
+          <tbody id="responses-body"><tr><td class="empty" colspan="5">No feedback loaded yet.</td></tr></tbody>
+        </table>
+      </div>
+    </section>
+    <a class="back-link" href="./">← Back to Tornado Guesser</a>
+  </main>
+
+  <script>
+    const fileInput = document.querySelector('#csv-file');
+    const clearButton = document.querySelector('#clear-button');
+    const status = document.querySelector('#status');
+
+    function parseCsv(text) {
+      const rows = [];
+      let row = [];
+      let value = '';
+      let quoted = false;
+      for (let i = 0; i < text.length; i += 1) {
+        const char = text[i];
+        if (quoted) {
+          if (char === '"' && text[i + 1] === '"') { value += '"'; i += 1; }
+          else if (char === '"') quoted = false;
+          else value += char;
+        } else if (char === '"') quoted = true;
+        else if (char === ',') { row.push(value); value = ''; }
+        else if (char === '\n') { row.push(value.replace(/\r$/, '')); rows.push(row); row = []; value = ''; }
+        else value += char;
+      }
+      if (value || row.length) { row.push(value.replace(/\r$/, '')); rows.push(row); }
+      return rows.filter((item) => item.some((cell) => cell.trim() !== ''));
+    }
+
+    function normalizeKey(key) {
+      return key.trim().toLowerCase().replace(/[^a-z0-9]/g, '');
+    }
+
+    function pick(record, names) {
+      for (const name of names) {
+        const key = Object.keys(record).find((candidate) => normalizeKey(candidate) === name);
+        if (key && record[key] != null) return String(record[key]).trim();
+      }
+      return '';
+    }
+
+    function showBars(container, counts, total) {
+      container.replaceChildren();
+      const entries = [...counts.entries()].sort((a, b) => b[1] - a[1]);
+      if (!entries.length) {
+        const empty = document.createElement('li');
+        empty.className = 'empty';
+        empty.textContent = 'No responses found.';
+        container.append(empty);
+        return;
+      }
+      for (const [label, count] of entries) {
+        const item = document.createElement('li');
+        item.className = 'bar-row';
+        const name = document.createElement('span');
+        name.className = 'bar-label';
+        name.textContent = label;
+        const track = document.createElement('span');
+        track.className = 'bar-track';
+        track.setAttribute('aria-label', `${count} of ${total}`);
+        const fill = document.createElement('span');
+        fill.className = 'bar-fill';
+        fill.style.display = 'block';
+        fill.style.width = `${Math.max(0, Math.min(100, (count / total) * 100))}%`;
+        track.append(fill);
+        const number = document.createElement('span');
+        number.className = 'bar-value';
+        number.textContent = String(count);
+        item.append(name, track, number);
+        container.append(item);
+      }
+    }
+
+    function render(records) {
+      const total = records.length;
+      const positive = records.filter((record) => /good|positive|great|excellent/i.test(record.rating)).length;
+      const negative = records.filter((record) => /needs work|negative|poor/i.test(record.rating)).length;
+      const typeCounts = new Map();
+      const ratingCounts = new Map();
+      for (const record of records) {
+        const type = record.type || 'Unspecified';
+        const rating = record.rating || 'Unspecified';
+        typeCounts.set(type, (typeCounts.get(type) || 0) + 1);
+        ratingCounts.set(rating, (ratingCounts.get(rating) || 0) + 1);
+      }
+
+      document.querySelector('#total-stat').textContent = String(total);
+      document.querySelector('#positive-stat').textContent = total ? `${Math.round((positive / total) * 100)}%` : '0%';
+      document.querySelector('#negative-stat').textContent = total ? `${Math.round((negative / total) * 100)}%` : '0%';
+      const latest = records.map((record) => new Date(record.date)).filter((date) => !Number.isNaN(date.valueOf())).sort((a, b) => b - a)[0];
+      document.querySelector('#latest-stat').textContent = latest ? latest.toLocaleDateString() : '—';
+      showBars(document.querySelector('#types-chart'), typeCounts, total || 1);
+      showBars(document.querySelector('#ratings-chart'), ratingCounts, total || 1);
+
+      const tbody = document.querySelector('#responses-body');
+      tbody.replaceChildren();
+      if (!records.length) {
+        const tr = document.createElement('tr');
+        const td = document.createElement('td');
+        td.className = 'empty';
+        td.colSpan = 5;
+        td.textContent = 'No responses in this file.';
+        tr.append(td);
+        tbody.append(tr);
+      }
+      [...records].reverse().forEach((record) => {
+        const tr = document.createElement('tr');
+        const values = [record.date, record.type, record.rating, record.message, record.email];
+        values.forEach((value, index) => {
+          const td = document.createElement('td');
+          if (index === 3) td.className = 'message-cell';
+          const date = index === 0 && value && !Number.isNaN(new Date(value).valueOf()) ? new Date(value).toLocaleString() : value;
+          td.textContent = date || '—';
+          tr.append(td);
+        });
+        tbody.append(tr);
+      });
+      clearButton.hidden = false;
+    }
+
+    fileInput.addEventListener('change', async () => {
+      const file = fileInput.files?.[0];
+      if (!file) return;
+      try {
+        const rows = parseCsv(await file.text());
+        if (rows.length < 2) throw new Error('The CSV has no response rows.');
+        const headers = rows[0].map((header) => header.trim());
+        const records = rows.slice(1).map((cells) => {
+          const raw = Object.fromEntries(headers.map((header, index) => [header, cells[index] || '']));
+          return {
+            date: pick(raw, ['createdat', 'created', 'date', 'submittedat', 'submissiondate', 'timestamp']),
+            type: pick(raw, ['feedbacktype', 'type', 'category']),
+            rating: pick(raw, ['rating', 'experience', 'overallrating']),
+            message: pick(raw, ['message', 'feedback', 'comment', 'comments']),
+            email: pick(raw, ['email', 'emailaddress'])
+          };
+        }).filter((record) => record.message || record.type || record.rating || record.email);
+        if (!records.length) throw new Error('No feedback rows found. Check that the CSV includes form submissions.');
+        render(records);
+        status.textContent = `Loaded ${records.length} response${records.length === 1 ? '' : 's'} from ${file.name}.`;
+      } catch (error) {
+        status.textContent = error.message || 'Could not read that CSV. Please try exporting it again.';
+      }
+    });
+
+    clearButton.addEventListener('click', () => {
+      fileInput.value = '';
+      clearButton.hidden = true;
+      document.querySelector('#total-stat').textContent = '—';
+      document.querySelector('#positive-stat').textContent = '—';
+      document.querySelector('#negative-stat').textContent = '—';
+      document.querySelector('#latest-stat').textContent = '—';
+      for (const id of ['types-chart', 'ratings-chart']) {
+        const list = document.querySelector(`#${id}`);
+        list.replaceChildren();
+        const empty = document.createElement('li');
+        empty.className = 'empty';
+        empty.textContent = 'Load a CSV to see statistics.';
+        list.append(empty);
+      }
+      const row = document.createElement('tr');
+      const cell = document.createElement('td');
+      cell.className = 'empty';
+      cell.colSpan = 5;
+      cell.textContent = 'No feedback loaded yet.';
+      row.append(cell);
+      document.querySelector('#responses-body').replaceChildren(row);
+      status.textContent = 'No feedback loaded yet.';
+    });
+  </script>
+</body>
+</html>
