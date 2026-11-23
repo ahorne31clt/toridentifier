@@ -2097,5 +2097,33 @@
     "photoEdit": "resized and converted to WebP",
     "photoLicense": "Public domain",
     "photoLicenseUrl": "https://commons.wikimedia.org/wiki/File:1965_Kokomo_tornado.png"
+  },
+  {
+    "id": "funnel-f406b9725f61",
+    "name": "Clear Lake–Gary, South Dakota",
+    "lat": 44.7535,
+    "lng": -96.6318,
+    "date": "2025-06-28",
+    "source": "https://www.weather.gov/abr/20250628TornadosandFlooding",
+    "clueType": "funnel",
+    "rating": "EF3",
+    "hints": [
+      "Look in eastern South Dakota, just west of the Minnesota border.",
+      "The event occurred in the middle of the 2020s."
+    ],
+    "image": "images/funnel-f406b9725f61.jpg",
+    "photoCredit": "User-supplied photo (photographer unconfirmed)",
+    "photoSource": "images/funnel-f406b9725f61.jpg",
+    "photoEdit": "Original supplied JPEG; no edits.",
+    "datEventId": "Gary",
+    "startTimeUtc": "2025-06-29T01:10:00.000Z",
+    "endTimeUtc": "2025-06-29T01:49:00.000Z",
+    "endLat": 44.778,
+    "endLng": -96.5026,
+    "maxWindMph": 165,
+    "pathLengthMiles": 9.7811,
+    "pathWidthYards": 100,
+    "injuries": 2,
+    "fatalities": 0
   }
 ]

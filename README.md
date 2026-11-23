@@ -76,3 +76,11 @@ Images were visually reviewed for a visible tornado, optimized as WebP, and assi
 ### Shared leaderboard deployment
 
 The online arcade leaderboard is a separate Cloudflare Worker, whose source is not included in this repository. If that Worker uses its own event catalog or track snapshot, update those with the new events before accepting their ranked submissions. Static gameplay and the included Node server have been checked with the expanded catalog; new-event submissions to the separate production Worker have not been verified.
+
+## Clear Lake–Gary addition (November 23, 2026)
+
+Added the June 28, 2025 Clear Lake–Gary, South Dakota EF3 tornado using the supplied original JPEG. The catalog uses the local date, June 28; the live DAT record starts at June 29, 2025 01:10 UTC and ends at 01:49 UTC. The matching ABR survey GlobalID is `{A31C423D-F86B-4308-8F20-2DAAE93E9D51}`. The CSV export's displayed time differs by one hour from UTC; the live DAT epoch timestamps and NWS narrative confirm the stored UTC/local dates.
+
+The 55-point DAT path is saved for scoring and display. Survey metadata records EF3, 165 mph, 9.7811 miles, 100 yards, two injuries and no fatalities. The supplied image is included unchanged; its photographer and reuse license have not been supplied, so no license is asserted. Replace the temporary user-supplied credit when the author and original source are available.
+
+The event belongs to Full Archive. It is excluded from Iconic EF4 / EF5 because it is EF3, and from Past Year as of November 23, 2026 because June 28, 2025 is outside the rolling last 12 months. The archive now contains 113 events; the current iconic and recent pools remain 25 and 15.
