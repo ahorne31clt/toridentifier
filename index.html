@@ -8,6 +8,30 @@
   <link rel="icon" type="image/png" href="./logo.png">
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="">
   <link rel="stylesheet" href="./styles.css">
+
+  <style>
+    /* Match header links and buttons, including centered text. */
+    .masthead-actions .button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      text-decoration: none;
+      box-sizing: border-box;
+    }
+
+    .masthead-actions a.button.outline {
+      color: var(--cream, #f3f0e7);
+      background: #20252a;
+      border: 1px solid #4d5862;
+      border-radius: 0;
+    }
+
+    .masthead-actions a.button.outline:hover {
+      background: #38434d;
+    }
+  </style>
+
   <script defer src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
   <script type="module" src="./game.mjs"></script>
 </head>
@@ -25,49 +49,57 @@
       </div>
     </div>
   </header>
+
   <main class="shell">
     <section id="home-screen" class="home-screen" aria-labelledby="home-title">
       <div class="home-content">
         <h1 id="home-title" tabindex="-1">Choose a game mode</h1>
+
         <details class="release-notes">
           <summary><strong>Tornado Guesser v1.5</strong><span>What’s new</span></summary>
           <ul>
             <li><strong>New Feedback Form is Live</strong></li>
           </ul>
         </details>
+
         <div class="mode-grid">
-        <section class="mode-card" data-mode="all" aria-labelledby="photo-mode-title">
-          <h2 id="photo-mode-title">Tornado Photo Challenge</h2>
-          <p>Identify real tornadoes by their funnel and surroundings. Guess the location and, if you want, the date.</p>
-          <p id="archive-size" class="archive-size" hidden></p>
-          <button class="button primary" type="button" id="play-button" data-play-mode="all">Play game</button>
-        </section>
-        <section class="mode-card" data-mode="iconic" aria-labelledby="iconic-title">
-          <p class="mode-kicker">The unforgettable storms</p>
-          <h2 id="iconic-title">Iconic EF4 / EF5</h2>
-          <p>Recognize Joplin, Enderlin, Moore and other iconic violent tornadoes, including historic F4/F5 events.</p>
-          <p id="iconic-size" class="archive-size" hidden></p>
-          <button class="button primary" type="button" data-play-mode="iconic">Play iconic</button>
-        </section>
-        <section class="mode-card" data-mode="recent" aria-labelledby="recent-title">
-          <p class="mode-kicker">Fresh in your memory</p>
-          <h2 id="recent-title">Past Year</h2>
-          <p>Test your memory of tornadoes from the past 12 months, including Kankakee and Union City, Michigan.</p>
-          <p id="recent-size" class="archive-size" hidden></p>
-          <button class="button primary" type="button" data-play-mode="recent">Play past year</button>
-        </section>
-        <section class="mode-card" id="daily-card" data-mode="daily" aria-labelledby="daily-title" hidden>
-          <h2 id="daily-title">Daily Challenge</h2>
-          <p>Everyone gets the same five tornadoes. A new lineup starts at midnight Eastern.</p>
-          <p id="daily-size" class="archive-size" hidden></p>
-          <button class="button primary" type="button" data-play-mode="daily">Play daily</button>
-          <button class="button outline" id="find-daily" type="button">Find a daily score</button>
-        </section>
+          <section class="mode-card" data-mode="all" aria-labelledby="photo-mode-title">
+            <h2 id="photo-mode-title">Tornado Photo Challenge</h2>
+            <p>Identify real tornadoes by their funnel and surroundings. Guess the location and, if you want, the date.</p>
+            <p id="archive-size" class="archive-size" hidden></p>
+            <button class="button primary" type="button" id="play-button" data-play-mode="all">Play game</button>
+          </section>
+
+          <section class="mode-card" data-mode="iconic" aria-labelledby="iconic-title">
+            <p class="mode-kicker">The unforgettable storms</p>
+            <h2 id="iconic-title">Iconic EF4 / EF5</h2>
+            <p>Recognize Joplin, Enderlin, Moore and other iconic violent tornadoes, including historic F4/F5 events.</p>
+            <p id="iconic-size" class="archive-size" hidden></p>
+            <button class="button primary" type="button" data-play-mode="iconic">Play iconic</button>
+          </section>
+
+          <section class="mode-card" data-mode="recent" aria-labelledby="recent-title">
+            <p class="mode-kicker">Fresh in your memory</p>
+            <h2 id="recent-title">Past Year</h2>
+            <p>Test your memory of tornadoes from the past 12 months, including Kankakee and Union City, Michigan.</p>
+            <p id="recent-size" class="archive-size" hidden></p>
+            <button class="button primary" type="button" data-play-mode="recent">Play past year</button>
+          </section>
+
+          <section class="mode-card" id="daily-card" data-mode="daily" aria-labelledby="daily-title" hidden>
+            <h2 id="daily-title">Daily Challenge</h2>
+            <p>Everyone gets the same five tornadoes. A new lineup starts at midnight Eastern.</p>
+            <p id="daily-size" class="archive-size" hidden></p>
+            <button class="button primary" type="button" data-play-mode="daily">Play daily</button>
+            <button class="button outline" id="find-daily" type="button">Find a daily score</button>
+          </section>
         </div>
+
         <p class="mode-switch-note">Each game mode has its own leaderboard.</p>
         <p id="home-status" class="message" role="status" hidden></p>
       </div>
     </section>
+
     <section id="play-screen" aria-labelledby="title" hidden>
       <div class="intro">
         <div>
@@ -75,6 +107,7 @@
           <h1 id="title" tabindex="-1">Where did this tornado happen?</h1>
           <p class="intro-copy">Study the photo, then click or tap the map to place your guess.</p>
         </div>
+
         <div class="play-options">
           <button type="button" id="modes-button" class="button outline">Game modes</button>
           <label class="mode">
@@ -84,6 +117,7 @@
           <button type="button" id="sound-toggle" class="button outline" aria-pressed="true">Sound on</button>
         </div>
       </div>
+
       <div class="board">
         <section class="panel photo-panel" aria-labelledby="photo-heading">
           <header class="panel-head">
@@ -93,10 +127,12 @@
               <button type="button" id="full-photo-button" class="button outline" disabled>Full photo</button>
             </div>
           </header>
+
           <div class="photo-frame">
             <img id="round-image" alt="Photo clue for the tornado to identify" hidden>
             <p id="photo-status" role="status">Loading the archive…</p>
           </div>
+
           <div class="photo-foot">
             <div id="photo-prompt">
               <div class="hint-bar">
@@ -106,6 +142,7 @@
               <ol id="revealed-hints" aria-live="polite" hidden></ol>
               <p id="hint-status" class="message" role="status" hidden></p>
             </div>
+
             <div id="answer" hidden>
               <span class="eyebrow">Recorded event</span>
               <p><strong id="event-name"></strong></p>
@@ -116,13 +153,18 @@
               <p id="photo-credit" hidden>
                 Photo by <a id="photo-source" target="_blank" rel="noopener"></a>
                 <a id="photo-license" target="_blank" rel="noopener" hidden></a>
-              <span id="photo-edit" hidden></span>
+                <span id="photo-edit" hidden></span>
               </p>
             </div>
           </div>
         </section>
+
         <section class="panel map-panel" aria-labelledby="map-heading">
-          <header class="panel-head"><h2 id="map-heading">Guess map</h2><span id="map-state" aria-live="polite">Click map to place target</span></header>
+          <header class="panel-head">
+            <h2 id="map-heading">Guess map</h2>
+            <span id="map-state" aria-live="polite">Click map to place target</span>
+          </header>
+
           <form id="city-search" role="search" aria-label="Search the map for a city">
             <label class="sr-only" for="city-query">City or town</label>
             <input type="search" id="city-query" placeholder="Search a U.S. city or town" maxlength="100" required autocomplete="off" disabled>
@@ -132,6 +174,7 @@
               <ul id="city-search-results" aria-label="Matching cities"></ul>
             </div>
           </form>
+
           <div class="map-frame">
             <div id="map" aria-label="Guess map. Click or tap to place a target. Use arrow keys to pan and the center target button to place it with the keyboard."></div>
             <div class="center-crosshair" aria-hidden="true"></div>
@@ -140,20 +183,30 @@
               <button class="button map-button" type="button" id="zoom-track" hidden>Zoom to track</button>
             </div>
           </div>
+
           <form id="guess-form">
             <div id="date-field" class="date-field" hidden>
               <label for="guess-date">Event date</label>
               <input type="date" id="guess-date" min="0001-01-01" max="9999-12-31">
               <small>Optional</small>
             </div>
+
             <div id="result" class="result" aria-live="polite" hidden>
-              <div><span class="eyebrow">Grade</span><strong id="grade"></strong></div>
-              <div><span id="distance-label" class="eyebrow">Distance off</span><strong id="distance"></strong></div>
+              <div>
+                <span class="eyebrow">Grade</span>
+                <strong id="grade"></strong>
+              </div>
+              <div>
+                <span id="distance-label" class="eyebrow">Distance off</span>
+                <strong id="distance"></strong>
+              </div>
               <p id="date-result" hidden></p>
             </div>
+
             <p id="game-status" class="message" role="status" hidden></p>
             <button id="submit-guess" class="button primary" disabled>Lock in guess</button>
           </form>
+
           <form id="arcade-score-form" hidden>
             <p id="arcade-run-score" tabindex="-1"></p>
             <label for="arcade-gamertag">Your gamertag</label>
@@ -163,11 +216,13 @@
             </div>
             <p id="arcade-message" class="message" role="status" hidden></p>
           </form>
+
           <button id="daily-share-open" class="button outline" type="button" hidden>Share result</button>
           <button id="next-round" class="button primary" type="button" hidden>Next photo</button>
         </section>
       </div>
     </section>
+
     <footer class="footer">
       <details id="grade-details" hidden>
         <summary>How grading works</summary>
@@ -178,18 +233,25 @@
       <p class="site-credit">Created by <strong>Christopher Horne</strong> and <strong>Blake Teer</strong> <span>UNC Charlotte · 2026</span></p>
     </footer>
   </main>
+
   <dialog id="photo-dialog" class="photo-dialog" aria-labelledby="full-photo-title">
     <header class="panel-head">
       <h2 id="full-photo-title">Full photo</h2>
-      <form method="dialog"><button class="button outline" aria-label="Close full photo">Close</button></form>
+      <form method="dialog">
+        <button class="button outline" aria-label="Close full photo">Close</button>
+      </form>
     </header>
     <img id="full-photo-image" alt="Uncropped photo clue">
   </dialog>
+
   <dialog id="daily-lookup-dialog" aria-labelledby="daily-lookup-title">
     <header class="panel-head">
       <h2 id="daily-lookup-title">Find a daily score</h2>
-      <form method="dialog"><button class="button outline" aria-label="Close daily score search">Close</button></form>
+      <form method="dialog">
+        <button class="button outline" aria-label="Close daily score search">Close</button>
+      </form>
     </header>
+
     <div class="dialog-body">
       <form id="daily-lookup-form">
         <label for="daily-lookup-tag">Gamertag</label>
@@ -207,11 +269,15 @@
       </section>
     </div>
   </dialog>
+
   <dialog id="daily-share-dialog" aria-labelledby="daily-share-title">
     <header class="panel-head">
       <h2 id="daily-share-title">Share your daily result</h2>
-      <form method="dialog"><button class="button outline" aria-label="Close daily result">Close</button></form>
+      <form method="dialog">
+        <button class="button outline" aria-label="Close daily result">Close</button>
+      </form>
     </header>
+
     <div class="dialog-body">
       <canvas id="daily-share-card" width="1080" height="1080" role="img"></canvas>
       <div class="daily-share-actions">
@@ -223,11 +289,15 @@
       <textarea id="daily-share-text" aria-label="Daily result text" rows="5" readonly hidden></textarea>
     </div>
   </dialog>
+
   <dialog id="leaderboard-dialog" aria-labelledby="leaderboard-title">
     <header class="panel-head">
       <h2 id="leaderboard-title">Leaderboard</h2>
-      <form method="dialog"><button class="button outline" aria-label="Close leaderboard">Close</button></form>
+      <form method="dialog">
+        <button class="button outline" aria-label="Close leaderboard">Close</button>
+      </form>
     </header>
+
     <div class="dialog-body">
       <label class="leaderboard-mode">
         Game mode
@@ -239,6 +309,7 @@
           <option value="combined">Previous combined scores</option>
         </select>
       </label>
+
       <label class="leaderboard-mode" id="leaderboard-mode" hidden>
         Scoring rules
         <select id="leaderboard-ruleset">
@@ -246,39 +317,58 @@
           <option value="point">Original point scoring</option>
         </select>
       </label>
+
       <p id="leaderboard-rules" hidden></p>
       <p id="leaderboard-status" role="status"></p>
+
       <details class="rank-guide">
         <summary>How player ranks work</summary>
         <p>Closer guesses earn higher ranks. Your rank uses your best run’s average distance, rounded to one decimal place. These are game ranks, separate from actual tornado intensity ratings.</p>
         <ul id="player-rank-bands"></ul>
       </details>
+
       <div class="score-table">
         <table id="leaderboard-table" hidden>
-          <thead><tr><th scope="col">Place</th><th scope="col">Player</th><th scope="col">Player rank</th><th scope="col">Average distance</th></tr></thead>
+          <thead>
+            <tr>
+              <th scope="col">Place</th>
+              <th scope="col">Player</th>
+              <th scope="col">Player rank</th>
+              <th scope="col">Average distance</th>
+            </tr>
+          </thead>
           <tbody></tbody>
         </table>
       </div>
     </div>
   </dialog>
+
   <dialog id="account-dialog" aria-labelledby="account-title">
     <header class="panel-head">
       <h2 id="account-title">Score history</h2>
-      <form method="dialog"><button class="button outline" aria-label="Close score history">Close</button></form>
+      <form method="dialog">
+        <button class="button outline" aria-label="Close score history">Close</button>
+      </form>
     </header>
+
     <div class="dialog-body">
       <p id="account-state"></p>
+
       <form id="account-form" hidden>
         <label for="username">Username</label>
         <input id="username" name="username" required autocomplete="username" minlength="3" maxlength="24" pattern="[A-Za-z0-9_]+">
+
         <label for="password">Password</label>
         <input type="password" id="password" name="password" required autocomplete="current-password" maxlength="128">
+
         <div class="account-actions">
           <button class="button primary" name="intent" value="login">Sign in</button>
           <button class="button outline" name="intent" value="register">Create account</button>
         </div>
+
         <small>Usernames use letters, numbers and underscores. New passwords need at least 10 characters.</small>
       </form>
+
       <button type="button" class="button outline" id="sign-out" hidden>Sign out</button>
       <p id="account-message" class="message" role="status" hidden></p>
       <div id="history" class="score-table"></div>
