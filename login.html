@@ -1,0 +1,190 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#17191c">
+  <title>Sign in | Tornado Guesser</title>
+  <meta name="description" content="Sign in or create an account for Tornado Guesser.">
+  <link rel="icon" type="image/png" sizes="192x192" href="./logo.png">
+  <link rel="stylesheet" href="./styles.css">
+  <style>
+    .login-page { min-height: 100vh; display: grid; grid-template-rows: auto 1fr auto; }
+    .login-main { display: grid; place-items: center; padding: 48px 0; }
+    .login-card {
+      width: min(100% - 28px, 960px);
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(360px, .9fr);
+      min-height: 560px;
+      overflow: hidden;
+      border: 1px solid #59616b;
+      border-top: 2px solid var(--red);
+      border-radius: 8px;
+      background: linear-gradient(145deg, #292a32, #1b1f24 72%);
+      box-shadow: 0 28px 80px #0008;
+    }
+    .login-art {
+      position: relative;
+      min-height: 560px;
+      background: linear-gradient(0deg, #17191ce8, #17191c18 75%), url("./images/8.webp") center / cover;
+    }
+    .login-art::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: repeating-radial-gradient(ellipse at 82% 12%, transparent 0 22px, #d4dfe324 23px 24px, transparent 25px 38px);
+      pointer-events: none;
+    }
+    .login-art-copy { position: absolute; z-index: 1; inset: auto 40px 38px; }
+    .login-art-copy h1 { margin: 8px 0 12px; font-size: clamp(2.2rem, 5vw, 4rem); }
+    .login-art-copy p:last-child { max-width: 38ch; color: #d0d3d5; line-height: 1.6; }
+    .login-panel { display: grid; align-content: center; padding: clamp(28px, 5vw, 52px); }
+    .login-panel h2 { margin: 8px 0; font-size: clamp(1.8rem, 3vw, 2.4rem); letter-spacing: -.03em; }
+    .login-intro { margin-bottom: 24px; color: var(--muted); line-height: 1.55; }
+    .login-tabs { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 20px; }
+    .login-tabs button { min-height: 42px; }
+    .login-tabs button[aria-pressed="true"] { border-color: var(--red); color: var(--cream); background: #f38b8618; }
+    .login-form { display: grid; gap: 14px; }
+    .login-field { display: grid; gap: 7px; }
+    .login-field label { color: #dde0df; font-size: .85rem; font-weight: 700; }
+    .login-field input { width: 100%; min-height: 48px; border-radius: 5px; }
+    .login-submit { min-height: 48px; margin-top: 4px; border-radius: 5px; }
+    .login-message { min-height: 20px; margin-top: 12px; line-height: 1.5; }
+    .login-note { margin-top: 14px; color: var(--muted); font-size: .76rem; line-height: 1.55; }
+    .login-back { justify-self: start; margin-top: 22px; color: var(--muted); text-decoration: none; font-size: .85rem; }
+    .login-back:hover { color: var(--cream); }
+    @media (max-width: 760px) {
+      .login-main { align-items: start; padding: 20px 0; }
+      .login-card { grid-template-columns: 1fr; width: calc(100% - 28px); }
+      .login-art { min-height: 210px; }
+      .login-art-copy { inset: auto 24px 20px; }
+      .login-art-copy h1 { font-size: 2.3rem; }
+      .login-art-copy p:last-child { display: none; }
+      .login-panel { padding: 28px 24px 34px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="login-page">
+    <header class="masthead">
+      <div class="shell masthead-inner">
+        <a class="identity" href="./" aria-label="Tornado Guesser home">
+          <img class="brand-mark" src="./logo.png" alt="" width="48" height="48">
+          <span class="wordmark">Tornado <strong>Guesser</strong></span>
+        </a>
+        <div class="masthead-actions"><a class="button outline" href="./feedback.html">Feedback</a></div>
+      </div>
+    </header>
+
+    <main class="login-main">
+      <section class="login-card" aria-labelledby="login-title">
+        <div class="login-art" aria-hidden="true">
+          <div class="login-art-copy">
+            <p class="eyebrow">Tornado Guesser</p>
+            <h1>Keep every chase.</h1>
+            <p>Sign in to save your run history and keep up with the leaderboards.</p>
+          </div>
+        </div>
+
+        <div class="login-panel">
+          <p class="eyebrow">Player account</p>
+          <h2 id="login-title">Welcome back</h2>
+          <p class="login-intro">Sign in or create an account to save your scores.</p>
+
+          <div class="login-tabs" role="group" aria-label="Account action">
+            <button class="button outline" type="button" id="signin-tab" aria-pressed="true">Sign in</button>
+            <button class="button outline" type="button" id="signup-tab" aria-pressed="false">Create account</button>
+          </div>
+
+          <form id="login-form" class="login-form">
+            <div class="login-field">
+              <label for="email">Email</label>
+              <input id="email" name="email" type="email" required autocomplete="email" placeholder="you@example.com">
+            </div>
+            <div class="login-field">
+              <label for="password">Password</label>
+              <input id="password" name="password" type="password" required minlength="6" autocomplete="current-password" placeholder="Enter your password">
+            </div>
+            <button class="button primary login-submit" id="submit-button" type="submit">Sign in</button>
+          </form>
+          <p id="login-message" class="message login-message" role="status" aria-live="polite" hidden></p>
+          <small class="login-note">For account creation, use a password that meets your Firebase Authentication requirements.</small>
+          <a class="login-back" href="./">← Back to the challenge</a>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer shell">
+      <p class="site-credit">Created by <strong>Christopher Horne</strong> and <strong>Blake Teer</strong> <span>UNC Charlotte · 2026</span></p>
+    </footer>
+  </div>
+
+  <script type="module">
+    // 1. Enable Email/Password sign-in in Firebase Console → Authentication → Sign-in method.
+    // 2. Replace this object with the web app config from Firebase Console → Project settings.
+    // Firebase web config is public; protect your data with Firebase Security Rules.
+    import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js';
+    import {
+      getAuth,
+      createUserWithEmailAndPassword,
+      signInWithEmailAndPassword
+    } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js';
+
+    const firebaseConfig = {
+      apiKey: 'YOUR_API_KEY',
+      authDomain: 'YOUR_PROJECT_ID.firebaseapp.com',
+      projectId: 'YOUR_PROJECT_ID',
+      appId: 'YOUR_APP_ID'
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const form = document.querySelector('#login-form');
+    const emailInput = document.querySelector('#email');
+    const passwordInput = document.querySelector('#password');
+    const message = document.querySelector('#login-message');
+    const submitButton = document.querySelector('#submit-button');
+    const signInTab = document.querySelector('#signin-tab');
+    const signUpTab = document.querySelector('#signup-tab');
+    let mode = 'signin';
+
+    function setMode(nextMode) {
+      mode = nextMode;
+      const signingIn = mode === 'signin';
+      signInTab.setAttribute('aria-pressed', String(signingIn));
+      signUpTab.setAttribute('aria-pressed', String(!signingIn));
+      submitButton.textContent = signingIn ? 'Sign in' : 'Create account';
+      passwordInput.autocomplete = signingIn ? 'current-password' : 'new-password';
+      passwordInput.minLength = signingIn ? 1 : 6;
+      message.hidden = true;
+      message.textContent = '';
+    }
+
+    signInTab.addEventListener('click', () => setMode('signin'));
+    signUpTab.addEventListener('click', () => setMode('signup'));
+
+    form.addEventListener('submit', async (event) => {
+      event.preventDefault();
+      message.hidden = false;
+      message.textContent = mode === 'signin' ? 'Signing in…' : 'Creating account…';
+      submitButton.disabled = true;
+
+      try {
+        const email = emailInput.value.trim();
+        const password = passwordInput.value;
+        if (mode === 'signin') {
+          await signInWithEmailAndPassword(auth, email, password);
+        } else {
+          await createUserWithEmailAndPassword(auth, email, password);
+        }
+        message.textContent = 'You’re signed in. Redirecting…';
+        window.location.assign('./');
+      } catch (error) {
+        message.textContent = error.message || 'Unable to authenticate. Check your details and try again.';
+      } finally {
+        submitButton.disabled = false;
+      }
+    });
+  </script>
+</body>
+</html>
