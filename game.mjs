@@ -1,3 +1,5 @@
+import {setupRunSummary} from './run-summary.mjs';
+import {setupRatingGame, ratingPoints, ratingLeaderboard} from './rating-game.mjs';
 import {gameModes, modeCatalog} from './modes.mjs';
 import {playerRank, playerRankBands, gradeBands, roundsPerRun, scoreGuess, trackPaths, validDate} from './scoring.mjs';
 import {setupCitySearch} from './city-search.mjs';
@@ -10,7 +12,7 @@ const seenPhotosKey = 'tornado-guesser-seen-photos';
 const arcadeKey = 'tornado-guesser-local-arcade';
 const dailyKey = 'tornado-guesser-daily';
 const modeTitles = {...gameModes, daily: 'Daily Challenge'};
-const startLabels = {all: 'Play game', iconic: 'Play iconic', recent: 'Play past year', daily: 'Play daily'};
+const startLabels = {all: 'Play game', iconic: 'Play iconic', recent: 'Play past year', daily: 'Play daily', rating: 'Guess the EF Rating'};
 const arcadeUrl = 'https://tornado-guesser-leaderboard.ahorne31.workers.dev/leaderboard';
 const arcadeHosts = new Set(['tornadoguesser.app', 'www.tornadoguesser.app', 'ahorne31clt.github.io']);
 const number = new Intl.NumberFormat('en-US', {maximumFractionDigits: 1});
@@ -31,7 +33,10 @@ let currentMode = 'all';
 let resetCitySearch;
 const playableCatalog = () => currentMode === 'daily' ?
   daily.ids.map(id => catalog.find(event => event.id === id)) : modeCatalog(catalog, currentMode);
-const onlineArcade = () => isStatic && arcadeHosts.has(location.hostname);
+let localRanked = false;
+const onlineArcade = () => isStatic && (arcadeHosts.has(location.hostname) || localRanked);
+const localReview = () => isStatic && ['127.0.0.1', 'localhost'].includes(location.hostname);
+const dailyEnabled = () => onlineArcade() || localReview();
 let daily;
 let dailySaved = false;
 let dailyShareResult;
@@ -222,6 +227,7 @@ function markPhotoSeen(id) {
 }
 
 function loadRound(restoreDaily = false) {
+  runSummary.close();
   resetCitySearch();
   if (!deck.length) {
     const pool = playableCatalog();
@@ -401,8 +407,7 @@ async function submit(event) {
 }
 
 function recordArcadeRound({event, point: guess, record}) {
-  if (!isStatic) return;
-  arcadeRounds.push({id: event.id, point: guess, miles: record.miles, date: record.dateGuess});
+  arcadeRounds.push({id: event.id, point: guess, miles: record.miles, date: record.dateGuess, grade: record.grade, dateError: record.dateError, event: {name: event.name, date: event.date, rating: event.rating, image: event.image}});
   if (currentMode === 'daily') writeDailyProgress();
   showArcadeResult();
 }
@@ -433,9 +438,9 @@ function showArcadeResult() {
   const mean = arcadeRounds.reduce((sum, round) => sum + round.miles, 0) / arcadeRounds.length;
   arcadeAverage = Math.round(mean * 10) / 10;
   el('arcade-run-score').textContent = 'Run average · ' + milesText(arcadeAverage) + ' · Player rank ' + playerRank(arcadeAverage);
-  el('arcade-score-form').hidden = false;
+  el('arcade-score-form').hidden = !isStatic;
   if (currentMode === 'daily') {
-    el('next-round').textContent = 'Back to modes';
+    el('next-round').textContent = 'View run rundown';
     if (dailySaved) {
       el('arcade-gamertag').disabled = true;
       el('arcade-score-form').querySelector('button').disabled = true;
@@ -444,7 +449,7 @@ function showArcadeResult() {
       el('daily-share-open').hidden = !getDailyShareResult();
     }
   }
-  el('arcade-run-score').focus({preventScroll: true});
+  el('next-round').textContent = 'View run rundown';
 }
 
 function getDailyShareResult() {
@@ -466,7 +471,7 @@ function dailyShareDetails({username, day, averageMiles, grades}) {
 
 function arcadeApi(mode, input, dailyLineup = false) {
   const url = new URL(dailyLineup ? './daily' : arcadeUrl, arcadeUrl);
-  if (!dailyLineup && mode !== 'combined') url.searchParams.set('mode', mode);
+  if (!dailyLineup) url.searchParams.set('mode', mode);
   return workerRequest(url, input);
 }
 
@@ -477,7 +482,10 @@ async function workerRequest(url, input) {
     options.headers = {'Content-Type': 'application/json'};
     options.body = JSON.stringify(input);
   }
-  const response = await fetch(url, options);
+  const requestUrl = new URL(url, location.href);
+  const target = localReview() && requestUrl.hostname === 'tornado-guesser-leaderboard.ahorne31.workers.dev' ?
+    '/__review' + requestUrl.pathname + requestUrl.search : url;
+  const response = await fetch(target, options);
   if (!response.headers.get('content-type')?.includes('application/json')) {
     throw new Error('The online leaderboard is unavailable. Try again.');
   }
@@ -510,8 +518,9 @@ async function saveArcadeScore(event) {
         dailySaved = true;
         if (averageMiles === bestMiles) dailyShareResult = {username: savedName || username, averageMiles};
         writeDailyProgress();
+        refreshDailyBoard();
         el('daily-share-open').hidden = !getDailyShareResult();
-        if (!el('play-screen').hidden) openDailyShare();
+        if (!el('play-screen').hidden || !el('run-summary-screen').hidden) openDailyShare();
       }
       showMessage('arcade-message', currentMode === 'daily' && averageMiles !== bestMiles ?
         'The first score for this gamertag still stands.' : averageMiles > bestMiles ?
@@ -610,7 +619,7 @@ function renderLeaderboardRows(entries) {
 
 function localBoard(mode) {
   try {
-    const key = mode === 'combined' ? arcadeKey : arcadeKey + ':' + mode;
+    const key = arcadeKey + ':' + mode;
     const scores = JSON.parse(localStorage.getItem(key));
     return Array.isArray(scores) ? scores.filter(score => typeof score?.username === 'string' &&
       Number.isFinite(score.averageMiles) && score.averageMiles >= 0).slice(0, 25) : [];
@@ -624,16 +633,29 @@ async function loadLeaderboard() {
   const table = el('leaderboard-table');
   const body = table.tBodies[0];
   const mode = el('leaderboard-game-mode').value;
-  const legacy = mode === 'combined' && el('leaderboard-ruleset').value === 'point';
-  el('leaderboard-mode').hidden = isStatic || mode !== 'combined';
-  const combinedText = 'Scores from before mode-specific rankings.';
+  setLeaderboardHeaders(mode === 'rating' ? ['Place', 'Player', 'Exact matches', 'Points'] : ['Place', 'Player', 'Player rank', 'Average distance']);
   el('leaderboard-title').textContent = isStatic ? 'Arcade leaderboard' : 'Leaderboard';
   table.hidden = true;
   el('leaderboard-rules').hidden = true;
   body.replaceChildren();
-  if (onlineArcade()) {
-    showMessage('leaderboard-rules', mode === 'combined' ? combinedText :
-      'Finish five photos and enter a gamertag. The lowest average distance wins.');
+  el('rank-guide').hidden = false;
+  el('leaderboard-dialog').dataset.mode = mode;
+  if (mode === 'rating') {
+    el('leaderboard-dialog').dataset.mode = 'rating';
+    el('rank-guide').hidden = true;
+    showMessage('leaderboard-status','Loading rankings…');
+    showMessage('leaderboard-rules', onlineArcade() ? 'Five photos · Exact match: 3 points · One level away: 1 point. Highest points wins; exact matches break ties.' : 'EF Rating points leaderboard on this browser. Highest points wins; exact matches break ties.');
+    try {
+      const entries = onlineArcade() ? (await arcadeApi('rating')).entries : ratingLeaderboard();
+      if (request !== leaderboardRequest) return;
+      showMessage('leaderboard-status',entries.length ? '' : 'No EF Rating scores saved yet.');
+      entries.forEach((entry,index) => {const row=body.insertRow();for(const value of [entry.place||index+1,entry.username,entry.exact+' / 5',entry.points+' / 15'])row.insertCell().textContent=value;});
+      table.hidden=!entries.length;
+    }catch(error){if(request===leaderboardRequest)showMessage('leaderboard-status',error.message);}
+    return;
+  }
+  if (onlineArcade() || (localReview() && mode === 'daily')) {
+    showMessage('leaderboard-rules', 'Finish five photos and enter a gamertag. The lowest average distance wins.');
     showMessage('leaderboard-status', 'Loading rankings…');
     try {
       const {entries, day} = await arcadeApi(mode);
@@ -651,18 +673,16 @@ async function loadLeaderboard() {
   }
   if (isStatic) {
     const arcadeScores = localBoard(mode);
-    showMessage('leaderboard-rules', mode === 'combined' ? combinedText :
-      'Finish a run and enter a gamertag to save your best average distance on this browser.');
+    showMessage('leaderboard-rules', 'Finish a run and enter a gamertag to save your best average distance on this browser.');
     showMessage('leaderboard-status', arcadeScores.length ? '' : 'No arcade scores yet.');
     renderLeaderboardRows(arcadeScores.map((entry, index) => ({...entry, place: index + 1})));
     return;
   }
   showMessage('leaderboard-status', 'Loading rankings…');
   try {
-    const {rounds, entries} = await api(mode === 'combined' ? (legacy ? 'leaderboard?rules=point' : 'leaderboard') : 'leaderboard?mode=' + mode);
+    const {rounds, entries} = await api('leaderboard?mode=' + mode);
     if (request !== leaderboardRequest) return;
-    showMessage('leaderboard-rules', legacy ? 'Scores from before DAT track scoring was introduced.' :
-      'Play all ' + rounds + ' photos while signed in to qualify. The lowest average distance wins. ' +
+    showMessage('leaderboard-rules', 'Play all ' + rounds + ' photos while signed in to qualify. The lowest average distance wins. ' +
       'Where available, surveyed tracks are used to measure distance.');
     showMessage('leaderboard-status', entries.length ? '' : 'No ranked runs yet.');
     renderLeaderboardRows(entries);
@@ -701,7 +721,6 @@ el('leaderboard-button').addEventListener('click', () => {
   el('leaderboard-dialog').showModal();
   loadLeaderboard();
 });
-el('leaderboard-ruleset').addEventListener('change', loadLeaderboard);
 el('leaderboard-game-mode').addEventListener('change', loadLeaderboard);
 el('account-button').addEventListener('click', () => {
   showMessage('account-message');
@@ -776,8 +795,8 @@ el('daily-lookup-share').addEventListener('click', () => {
 });
 
 el('next-round').addEventListener('click', () => {
-  if (currentMode === 'daily' && arcadeRounds.length === daily.ids.length) {
-    showHome();
+  if (arcadeRounds.length === roundsPerRun(playableCatalog().length)) {
+    showCurrentRunSummary();
     return;
   }
   loadRound();
@@ -801,9 +820,14 @@ async function loadArchive() {
     } else {
       signedIn = await api('profile') || signedIn;
     }
+    if (localReview()) {
+      try { localRanked = Boolean((await (await fetch('/__review/config')).json()).ranked); } catch { localRanked = false; }
+    }
     if (!Array.isArray(catalog) || !catalog.length) throw new Error('The archive has no playable photos.');
-    el('daily-card').hidden = !onlineArcade();
-    el('leaderboard-game-mode').querySelector('[value="daily"]').hidden = !onlineArcade();
+    el('daily-card').hidden = !dailyEnabled();
+    el('daily-feature-row').hidden = !dailyEnabled();
+    el('leaderboard-game-mode').querySelector('[value="daily"]').hidden = !dailyEnabled();
+    if (dailyEnabled()) refreshDailyBoard();
     const ids = new Set(catalog.map(event => event.id));
     seenPhotos = new Set([...seenPhotos].filter(id => ids.has(id)));
     lastId = [...seenPhotos].at(-1);
@@ -830,19 +854,29 @@ function prepareArchive() {
 }
 
 function showPlayScreen(playing) {
+  runSummary.close();
+  el('rating-screen').hidden = true;
   el('home-screen').hidden = playing;
   for (const id of ['play-screen', 'grade-details', 'round-summary']) el(id).hidden = !playing;
 }
 
 for (const button of document.querySelectorAll('[data-play-mode]')) {
   button.addEventListener('click', async () => {
-    if (isSubmitting || isSavingScore || isChoosingMode) return;
+    if (isSubmitting || isSavingScore || isChoosingMode || ratingGame.isBusy()) return;
     isChoosingMode = true;
     button.disabled = true;
     showMessage('home-status', 'Loading the photo archive…');
     try {
       if (!await prepareArchive()) return;
       const mode = button.dataset.playMode;
+      if (mode === 'rating') {
+        const resume = currentMode === 'rating' && ratingGame.hasRun();
+        currentMode = 'rating';
+        if (resume) ratingGame.resume();
+        else await ratingGame.start();
+        showMessage('home-status');
+        return;
+      }
       const previousDay = daily?.day;
       if (mode === 'daily') {
         const lineup = await arcadeApi(mode, undefined, true);
@@ -870,7 +904,8 @@ for (const button of document.querySelectorAll('[data-play-mode]')) {
         choice.textContent = choice.dataset.playMode === mode ? 'Resume game' : startLabels[choice.dataset.playMode];
       }
       showMessage('home-status');
-      el('title').focus();
+      if (arcadeRounds.length === roundsPerRun(playableCatalog().length)) showCurrentRunSummary();
+      else el('title').focus();
     } catch (error) {
       showPlayScreen(false);
       showMessage('home-status', error.message);
@@ -883,6 +918,7 @@ for (const button of document.querySelectorAll('[data-play-mode]')) {
 }
 
 function showHome() {
+  if(isSavingScore||isSubmitting||ratingGame.isBusy())return;
   showPlayScreen(false);
   el('home-title').focus();
 }
@@ -892,6 +928,92 @@ el('home-link').addEventListener('click', event => {
   if (event.button !== 0 || event.metaKey || event.ctrlKey || event.altKey || event.shiftKey) return;
   event.preventDefault();
   showHome();
+});
+
+
+function setLeaderboardHeaders(labels) {
+  const row = el('leaderboard-table').tHead.rows[0];
+  row.replaceChildren();
+  for (const text of labels) {
+    const th = document.createElement('th'); th.scope = 'col'; th.textContent = text; row.append(th);
+  }
+}
+
+async function refreshDailyBoard() {
+  el('daily-board-list').replaceChildren();
+  el('daily-board-average').textContent = '—';
+  showMessage('daily-board-status', 'Loading today’s rankings…');
+  try {
+    const result = await arcadeApi('daily');
+    const entries = Array.isArray(result.entries) ? result.entries.filter(e => typeof e.username === 'string' && Number.isFinite(e.averageMiles) && e.averageMiles >= 0) : [];
+    if (result.day) showMessage('daily-size', dateFormat.format(new Date(result.day + 'T00:00:00Z')));
+    for (const [index, entry] of entries.slice(0, 5).entries()) {
+      const li = document.createElement('li');
+      for (const [tag, text] of [['span', '#' + (entry.place || index + 1)], ['span', entry.username], ['strong', milesText(entry.averageMiles)]]) {
+        const part = document.createElement(tag); part.textContent = text; li.append(part);
+      }
+      el('daily-board-list').append(li);
+    }
+    el('daily-board-average-label').textContent = entries.length ? 'Average of ' + entries.length + ' ranked players' : 'Ranked player average';
+    if (entries.length) el('daily-board-average').textContent = milesText(entries.reduce((sum, e) => sum + e.averageMiles, 0) / entries.length);
+    showMessage('daily-board-status', entries.length ? '' : 'No scores yet today. Be the first to finish.');
+  } catch {
+    showMessage('daily-board-status', 'Today’s rankings are unavailable. Use Leaderboard to try again.');
+  }
+}
+
+function showCurrentRunSummary() {
+  const rounds = arcadeRounds.map(round => {
+    const event = round.event || catalog.find(e => e.id === round.id) || {};
+    return {name: event.name || 'Tornado event', eventDate: event.date || '2000-01-01', rating: event.rating || '', image: event.image || '',
+      miles: round.miles, grade: round.grade || gradeBands.find(([, max]) => round.miles <= max)[0], dateError: round.dateError};
+  });
+  runSummary.show({mode: currentMode, title: modeTitles[currentMode], rounds,
+    controls: isStatic ? [el('arcade-score-form'), el('daily-share-open')] : [],
+    note: !isStatic ? (signedIn.username ? 'Your completed rounds were saved to your account.' : 'Your guest rounds are saved on this browser.') : ''});
+}
+
+const runSummary = setupRunSummary({
+  onHome: showHome,
+  canLeave: () => !isSavingScore && !ratingGame.isBusy(),
+  onAgain(mode) {
+    if (mode === 'rating') { ratingGame.start().catch(error => {showHome();showMessage('home-status', error.message);}); return; }
+    active = null; deck = [];
+    document.querySelector('[data-play-mode="' + mode + '"]').click();
+  },
+});
+let ratingCatalogRequest, onlineRatingRun;
+const ratingGame = setupRatingGame({
+  async getCatalog() {
+    if (onlineArcade()) {
+      const result=await workerRequest(new URL('./rating/run',arcadeUrl),{});
+      onlineRatingRun=result.runId;return result.photos;
+    }
+    if (isStatic) return catalog.filter(event => /^(?:EF|F)[0-5U]$/.test(event.rating || ''));
+    ratingCatalogRequest ??= api('rating/catalog').catch(error => { ratingCatalogRequest = null; throw error; });
+    return await ratingCatalogRequest;
+  },
+  async guess(event, chosen) {
+    if (onlineArcade()) return await workerRequest(new URL('./rating/guess',arcadeUrl),{runId:onlineRatingRun,id:event.id,guess:chosen});
+    if (isStatic) return {event, points: ratingPoints(event.rating, chosen)};
+    return await api('rating/guess', {id: event.id, guess: chosen});
+  },
+  async saveScore(username) {
+    return onlineArcade() ? await arcadeApi('rating',{username,runId:onlineRatingRun}) : null;
+  },
+  onHome: showHome,
+  onShow() {
+    showPlayScreen(false);
+    el('home-screen').hidden = true; el('rating-screen').hidden = false;
+    document.body.dataset.gameMode = 'rating';
+  },
+  onComplete(rounds, controls) {
+    runSummary.show({mode: 'rating', title: modeTitles.rating, rounds, controls,
+      note: onlineArcade() ? 'Save this run to the shared EF Rating points leaderboard.' : 'EF Rating uses a separate points leaderboard on this browser.'});
+  },
+});
+el('daily-board-open').addEventListener('click', () => {
+  el('leaderboard-game-mode').value = 'daily'; el('leaderboard-dialog').showModal(); loadLeaderboard();
 });
 
 renderSoundToggle();

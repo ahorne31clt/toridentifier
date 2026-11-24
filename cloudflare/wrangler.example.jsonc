@@ -1,0 +1,10 @@
+{
+  "name": "tornado-guesser-leaderboard",
+  "main": "worker.mjs",
+  "compatibility_date": "2026-11-01",
+  "d1_databases": [{
+    "binding": "DB",
+    "database_name": "REPLACE_WITH_YOUR_EXISTING_DATABASE_NAME",
+    "database_id": "REPLACE_WITH_YOUR_EXISTING_DATABASE_ID"
+  }]
+}

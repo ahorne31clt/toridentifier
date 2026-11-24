@@ -2,6 +2,7 @@ export const gameModes = {
   all: 'Tornado Photo Challenge',
   iconic: 'Iconic EF4 / EF5',
   recent: 'Past Year',
+  rating: 'Guess the EF Rating',
 };
 
 // A curated selection, including historic F-scale counterparts.
@@ -17,6 +18,7 @@ const iconicIds = new Set([
 
 export function eventModes(event, now = new Date()) {
   const modes = ['all'];
+  if (/^(?:EF|F)[0-5U]$/.test(event.rating || '')) modes.push('rating');
   if (iconicIds.has(event.id) && /^(?:EF|F)[45]$/.test(event.rating)) modes.push('iconic');
   const end = now.toISOString().slice(0, 10);
   const startDate = new Date(now);

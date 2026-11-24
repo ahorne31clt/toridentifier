@@ -1,3 +1,4 @@
+import {ratingPoints} from './rating-game.mjs';
 import {eventModes, gameModes, modeCatalog} from './modes.mjs';
 import {createServer} from 'node:http';
 import {mkdirSync, readFileSync} from 'node:fs';
@@ -18,8 +19,14 @@ const assets = new Map([
   ['/', ['index.html', 'text/html; charset=utf-8']],
   ['/index.html', ['index.html', 'text/html; charset=utf-8']],
   ['/logo.png', ['logo.png', 'image/png']],
+  ['/pressure-field.mjs', ['pressure-field.mjs', 'text/javascript; charset=utf-8']],
+  ['/pressure-contours.svg', ['pressure-contours.svg', 'image/svg+xml']],
   ['/styles.css', ['styles.css', 'text/css; charset=utf-8']],
   ['/modes.mjs', ['modes.mjs', 'text/javascript; charset=utf-8']],
+  ['/run-summary.mjs', ['run-summary.mjs', 'text/javascript; charset=utf-8']],
+  ['/rating-game.mjs', ['rating-game.mjs', 'text/javascript; charset=utf-8']],
+  ['/feedback.html', ['feedback.html', 'text/html; charset=utf-8']],
+  ['/feedback-dashboard.html', ['feedback-dashboard.html', 'text/html; charset=utf-8']],
   ['/game.mjs', ['game.mjs', 'text/javascript; charset=utf-8']],
   ['/city-search.mjs', ['city-search.mjs', 'text/javascript; charset=utf-8']],
   ['/city-index.json', ['city-index.json', 'application/json; charset=utf-8']],
@@ -200,6 +207,7 @@ function submitGuess(response, user, input) {
   if (runId !== undefined && (typeof runId !== 'string' || !/^[a-f0-9]{32}$/.test(runId))) {
     fail(400, 'Invalid run. Reload to start a new run.');
   }
+  if (mode === 'rating') fail(400, 'Use the rating challenge endpoint.');
   if (mode !== undefined && (!Object.hasOwn(gameModes, mode) || !eventModes(event).includes(mode))) {
     fail(400, 'This photo is unavailable in the selected mode.');
   }
@@ -238,6 +246,15 @@ const server = createServer(async (request, response) => {
       response.writeHead(200, {'Content-Type': contentType});
       response.end(body);
       return;
+    }
+    if (request.method === 'GET' && route === '/api/rating/catalog') {
+      return json(response, 200, catalog.filter(event => /^(?:EF|F)[0-5U]$/.test(event.rating)).map(({id, image, rating}) => ({id, image, ratingScale: rating.startsWith('EF') ? 'EF' : 'F'})));
+    }
+    if (request.method === 'POST' && route === '/api/rating/guess') {
+      const input = await readBody(request);
+      const event = events.get(input.id);
+      if (!event || typeof input.guess !== 'string' || !/^(?:EF[0-5U]|F[0-5])$/.test(input.guess) || event.rating.startsWith('EF') !== input.guess.startsWith('EF')) fail(400, 'Choose a valid rating for this event’s scale.');
+      return json(response, 200, {event, points: ratingPoints(event.rating, input.guess)});
     }
     if (request.method === 'GET' && route === '/api/catalog') return json(response, 200, prompts());
     if (request.method === 'GET' && route === '/api/hint') {

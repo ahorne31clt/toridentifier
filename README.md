@@ -14,7 +14,7 @@ node server.mjs
 
 Open [http://127.0.0.1:8776](http://127.0.0.1:8776). The score history dialog supports username/password accounts. Accounts and their scores are stored in SQLite in the ignored `.data/` directory. Guest scores stay in the browser. The score history shows the latest 50 rounds and the all-time round count.
 
-The leaderboard shows the top 25 players. To qualify, complete a five-photo run while signed in. Only your best run appears, ranked by average distance in miles rounded to one decimal place. Use the scoring rules menu to view the original point-scoring leaderboard. Personal history includes scores under both rules.
+The leaderboard shows the top 25 players. To qualify, complete a five-photo run while signed in. Only your best run appears, ranked by average distance in miles rounded to one decimal place. Personal history includes scores under both rules. The previous combined leaderboard selector has been removed; mode-specific boards remain.
 
 For hosting, set `TORNADO_HOST=0.0.0.0` if needed, provide a persistent directory via `TORNADO_DATA_DIR`, and serve the site behind HTTPS with `TORNADO_SECURE_COOKIE=1`. The port defaults to 8776 and can be set with `PORT`. Leaflet and OpenStreetMap tiles load over the internet.
 
@@ -61,7 +61,7 @@ Leaderboard entries show a player rank based on the best run's average miles, ro
 
 ## Game modes
 
-The selection screen offers the full archive, a yellow Iconic EF4 / EF5 mode (including historic F4/F5 events), and a blue Past Year mode. The iconic selection is curated in `modes.mjs`; Past Year filters the archive to the rolling last 12 months, excluding future events. Each run uses up to five distinct photos from its mode. Returning to the same mode resumes it; switching modes starts a fresh run. Existing leaderboard standings combine all modes. Both static hosting and the Node server support mode selection.
+The selection screen offers the full archive, a yellow Iconic EF4 / EF5 mode (including historic F4/F5 events), and a blue Past Year mode. The iconic selection is curated in `modes.mjs`; Past Year filters the archive to the rolling last 12 months, excluding future events. Each run uses up to five distinct photos from its mode. Returning to the same mode resumes it; switching modes starts a fresh run. Each mode has its own leaderboard. Both static hosting and the Node server support mode selection.
 
 ## November 2026 archive expansion
 
@@ -75,7 +75,7 @@ Images were visually reviewed for a visible tornado, optimized as WebP, and assi
 
 ### Shared leaderboard deployment
 
-The online arcade leaderboard is a separate Cloudflare Worker, whose source is not included in this repository. If that Worker uses its own event catalog or track snapshot, update those with the new events before accepting their ranked submissions. Static gameplay and the included Node server have been checked with the expanded catalog; new-event submissions to the separate production Worker have not been verified.
+The online arcade leaderboard is a Cloudflare Worker; this release includes the updated code in `cloudflare/worker.js`. If that Worker uses its own event catalog or track snapshot, update those with the new events before accepting their ranked submissions. Static gameplay and the included Node server have been checked with the expanded catalog; new-event submissions to the separate production Worker have not been verified.
 
 ## Clear Lake–Gary addition (November 23, 2026)
 
@@ -84,3 +84,21 @@ Added the June 28, 2025 Clear Lake–Gary, South Dakota EF3 tornado using the su
 The 55-point DAT path is saved for scoring and display. Survey metadata records EF3, 165 mph, 9.7811 miles, 100 yards, two injuries and no fatalities. The supplied image is included unchanged; its photographer and reuse license have not been supplied, so no license is asserted. Replace the temporary user-supplied credit when the author and original source are available.
 
 The event belongs to Full Archive. It is excluded from Iconic EF4 / EF5 because it is EF3, and from Past Year as of November 23, 2026 because June 28, 2025 is outside the rolling last 12 months. The archive now contains 113 events; the current iconic and recent pools remain 25 and 15.
+
+## v1.6 — November 24, 2026
+
+This release is based on the current GitHub repository, preserving Feedback, account controls, metadata, release notes, daily lookup, daily sharing, existing distance leaderboards, and the original isobar background. Daily Challenge has a purple featured row with a live read-only ranking panel. The average shown is calculated from the returned ranked players, not all daily attempts. Ranking failures display an unavailable state, never fabricated scores.
+
+Every location mode now offers **View run rundown** after the final scored photo. The results screen shows average distance, closest guess, player rank, all round distances and grades, and optional date error. Existing arcade save and daily share controls are moved into the rundown without replacing their handlers. Completed daily runs restore their rundown from the existing daily progress record.
+
+The green **Guess the EF Rating** mode uses the existing photo archive. Exact answers earn 3 points, adjacent numeric ratings earn 1, and EF-U requires an exact match. Historic events use their original F-scale ratings. Source links, photo credits, and licenses appear on the reveal. Five-round results use points rather than distance. EF Rating has a shared points leaderboard on the production site. The updated Cloudflare Worker and additive SQL migration are included in `cloudflare/`. Both use the existing D1 binding named `DB`. On a plain local static preview, rating scores remain browser-local. The included Node server checks rating answers server-side through `/api/rating/catalog` and `/api/rating/guess`.
+
+The local review server in `preview-server.mjs` serves this actual build at 127.0.0.1:8786. It proxies only GET requests to the public daily/leaderboard/lookup endpoints so daily can be reviewed locally, and it never forwards score submissions. On a production static hostname, the existing Worker URLs and submission behavior are unchanged. Daily on the included account-based Node deployment remains unavailable, matching the existing release.
+
+Run locally: `node preview-server.mjs`, then open http://127.0.0.1:8786 . This is a local review of the application update, not a separate replacement game. No production deployment is performed by the preview server.
+
+## Uploading v1.6
+
+Follow [DEPLOYMENT.md](./DEPLOYMENT.md). Deploy the additive SQL and updated Worker before uploading the site. No new database is needed. The background is an illustrative animated weather pattern, not live weather data; it respects reduced-motion preferences and pauses when the page is hidden.
+
+Validation: `node --test tests/*.test.mjs`, `node scripts/dat.mjs check`, and a Wrangler Worker dry-run build. Cloudflare tests use an isolated in-memory SQLite fixture; they do not write to production.

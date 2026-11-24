@@ -94,7 +94,7 @@
       color: var(--cream, #f3f0e7);
       background: #20252a;
       border: 1px solid #4d5862;
-      border-radius: 0;
+      border-radius: 5px;
     }
 
     .masthead-actions a.button.outline:hover {
@@ -104,6 +104,7 @@
 
   <script defer src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
   <script type="module" src="./game.mjs"></script>
+  <script type="module" src="./pressure-field.mjs"></script>
 </head>
 <body>
   <header class="masthead">
@@ -123,18 +124,40 @@
   <main class="shell">
     <section id="home-screen" class="home-screen" aria-labelledby="home-title">
       <div class="home-content">
-        <h1 id="home-title" tabindex="-1">Choose a game mode</h1>
+        <div class="selection-intro"><p class="eyebrow">Your next chase starts here</p><h1 id="home-title" tabindex="-1">Choose your challenge<span>.</span></h1><p class="selection-description">Recognize the storm. Find its home. Test what you know.</p></div>
 
         <details class="release-notes">
-          <summary><strong>Tornado Guesser v1.51</strong><span>What’s new</span></summary>
+          <summary><strong>Tornado Guesser v1.6</strong><span>What’s new · November 24, 2026</span></summary>
           <ul>
-            <li><strong>New Feedback Form is Live</strong></li>
-            <li>Edited site metadata for improved searchability on google</li>
+            <li><strong>A refreshed chase board:</strong> animated weather contours, matching cards, and clearer rankings.</li>
+            <li><strong>Guess the EF Rating:</strong> a new green, five-photo challenge with its own shared points leaderboard.</li>
+            <li><strong>Your run rundown:</strong> a results screen for every game mode, with all five rounds.</li>
+            <li><strong>Daily Challenge takes the spotlight:</strong> purple featured panel with today’s live rankings.</li>
+            <li>Feedback, score lookup, accounts, daily sharing, and the classic contour background remain available.</li>
           </ul>
         </details>
 
+        <div id="daily-feature-row" class="daily-feature-row" hidden>
+          <section class="mode-card daily-feature" id="daily-card" data-mode="daily" aria-labelledby="daily-title" hidden>
+            <p class="mode-kicker">TODAY’S DAILY CHALLENGE</p>
+            <h2 id="daily-title">Five tornadoes.<br>One daily chase.</h2>
+            <p>Everyone gets the same five tornadoes. A new lineup starts at midnight Eastern.</p>
+            <p id="daily-size" class="archive-size" hidden></p>
+            <button class="button primary" type="button" data-play-mode="daily">Play daily</button>
+            <button class="button outline" id="find-daily" type="button">Find a daily score</button>
+          </section>
+          <aside class="daily-chase-board" aria-labelledby="daily-board-title">
+            <header><h2 id="daily-board-title">Today’s chase board</h2><button class="button outline" id="daily-board-open" type="button">Leaderboard</button></header>
+            <p id="daily-board-status" role="status">Loading today’s rankings…</p>
+            <ol id="daily-board-list"></ol>
+            <div class="daily-board-average"><span id="daily-board-average-label">Ranked player average</span><strong id="daily-board-average">—</strong></div>
+            <p class="daily-board-note">Average of the returned ranked players’ best runs. Lower miles means closer guesses.</p>
+          </aside>
+        </div>
+        <div class="collection-heading"><h2>Pick a different challenge</h2><span>Five photos per run</span></div>
         <div class="mode-grid">
           <section class="mode-card" data-mode="all" aria-labelledby="photo-mode-title">
+            <p class="mode-kicker">Explore the full archive</p>
             <h2 id="photo-mode-title">Tornado Photo Challenge</h2>
             <p>Identify real tornadoes by their funnel and surroundings. Guess the location and, if you want, the date.</p>
             <p id="archive-size" class="archive-size" hidden></p>
@@ -157,16 +180,17 @@
             <button class="button primary" type="button" data-play-mode="recent">Play past year</button>
           </section>
 
-          <section class="mode-card" id="daily-card" data-mode="daily" aria-labelledby="daily-title" hidden>
-            <h2 id="daily-title">Daily Challenge</h2>
-            <p>Everyone gets the same five tornadoes. A new lineup starts at midnight Eastern.</p>
-            <p id="daily-size" class="archive-size" hidden></p>
-            <button class="button primary" type="button" data-play-mode="daily">Play daily</button>
-            <button class="button outline" id="find-daily" type="button">Find a daily score</button>
+
+          <section class="mode-card" data-mode="rating" aria-labelledby="rating-mode-title">
+            <p class="mode-kicker">Recognize the storm</p>
+            <h2 id="rating-mode-title">Guess the EF Rating</h2>
+            <p>Choose the tornado’s recorded rating, then discover the event behind the photo.</p>
+            <p id="rating-size" class="archive-size" hidden></p>
+            <button class="button primary" type="button" data-play-mode="rating">Guess the EF Rating</button>
           </section>
         </div>
 
-        <p class="mode-switch-note">Each game mode has its own leaderboard.</p>
+        <p class="mode-switch-note">Location modes have separate distance leaderboards. EF Rating scores have their own points leaderboard.</p>
         <p id="home-status" class="message" role="status" hidden></p>
       </div>
     </section>
@@ -294,6 +318,25 @@
       </div>
     </section>
 
+
+    <section id="rating-screen" aria-labelledby="rating-title" hidden>
+      <div class="intro"><div><p class="eyebrow">Guess the EF Rating</p><h1 id="rating-title" tabindex="-1">Know the storm?</h1><p class="intro-copy">Choose its recorded rating. Five photos, up to 15 points.</p></div><div class="play-options"><button class="button outline" id="rating-home" type="button">Game modes</button></div></div>
+      <div class="board rating-board">
+        <section class="panel photo-panel"><header class="panel-head"><h2>Tornado photo</h2><div class="photo-controls"><span id="rating-round-count"></span><button class="button outline" id="rating-full-photo" type="button" disabled>Full photo</button></div></header><div class="photo-frame"><img id="rating-photo" alt="Tornado photo for this round" hidden><p id="rating-photo-status" role="status">Loading photo…</p></div><div class="photo-foot"><p id="rating-photo-note">Look closely. Do you recognize this event?</p></div></section>
+        <section class="panel rating-panel"><header class="panel-head"><h2>Your call</h2><span id="rating-running-score">0 / 15 points</span></header><form id="rating-guess-form"><h2 id="rating-question">What was its recorded EF rating?</h2><fieldset id="rating-options"><legend class="sr-only">Choose the recorded tornado rating</legend></fieldset><p class="rating-points-guide">Exact rating: <strong>3 points</strong> · One level away: <strong>1 point</strong> · EF-U: exact matches only.</p><p id="rating-scale-note" class="rating-learning-note">Appearance alone cannot establish a damage rating. This challenge tests event recognition.</p><button class="button primary" id="rating-lock" disabled>Lock in rating</button></form>
+          <div id="rating-reveal" class="rating-reveal" aria-live="polite" hidden><p class="eyebrow" id="rating-verdict"></p><h2 id="rating-event-name"></h2><p id="rating-event-date"></p><div class="rating-reveal-metrics"><div><span>Recorded rating</span><strong id="rating-actual"></strong></div><div><span>Points earned</span><strong id="rating-points"></strong></div></div><p id="rating-explanation"></p><p><a id="rating-event-source" target="_blank" rel="noopener">Event report</a> · <a id="rating-photo-source" target="_blank" rel="noopener">Photo source</a></p><p id="rating-photo-credit"></p></div>
+          <p id="rating-status" class="message" role="status" hidden></p><button class="button primary" id="rating-next" type="button" hidden>Next photo</button>
+        </section>
+      </div>
+      <form id="rating-save-form" hidden><label for="rating-gamertag">Save your EF Rating score</label><div class="arcade-fields"><input id="rating-gamertag" type="text" minlength="2" maxlength="20" required autocomplete="nickname"><button class="button outline" type="submit">Save score</button></div><p id="rating-save-status" class="message" role="status" hidden></p></form>
+    </section>
+    <section id="run-summary-screen" aria-labelledby="run-summary-title" hidden>
+      <div class="run-summary-intro"><p class="eyebrow" id="run-summary-mode"></p><h1 id="run-summary-title" tabindex="-1">Your chase, complete.</h1><p id="run-summary-caption" class="intro-copy">Five storms. Here’s how you did.</p></div>
+      <div id="run-summary-stats" class="run-summary-stats"></div>
+      <section class="panel run-summary-panel"><header class="panel-head"><h2>Your run rundown</h2><span id="run-summary-round-count"></span></header><div id="run-summary-rounds"></div></section>
+      <div id="run-summary-save-controls"></div>
+      <div class="run-summary-actions"><button class="button primary" id="run-summary-again" type="button">Play another run</button><button class="button outline" id="run-summary-home" type="button">Game modes</button><button class="button outline" id="run-summary-copy" type="button">Copy result</button></div><p id="run-summary-status" class="message" role="status" hidden></p>
+    </section>
     <footer class="footer">
       <details id="grade-details" hidden>
         <summary>How grading works</summary>
@@ -301,7 +344,7 @@
         <p>Grades use distance to the nearest point on the surveyed tornado track when available, or to the recorded event location. Date guesses receive separate feedback in days.</p>
       </details>
       <span id="round-summary" hidden>0 rounds played</span>
-      <p class="site-credit">Created by <strong>Christopher Horne</strong> and <strong>Blake Teer</strong> <span>UNC Charlotte · 2026</span></p>
+      <p class="site-credit">Created by <strong>Christopher Horne</strong> and <strong>Blake Teer</strong> <span>UNC Charlotte · 2026</span> <span class="footer-version">v1.6</span></p>
     </footer>
   </main>
 
@@ -377,22 +420,14 @@
           <option value="iconic">Iconic EF4 / EF5</option>
           <option value="recent">Past Year</option>
           <option value="daily" hidden>Daily Challenge</option>
-          <option value="combined">Previous combined scores</option>
-        </select>
-      </label>
-
-      <label class="leaderboard-mode" id="leaderboard-mode" hidden>
-        Scoring rules
-        <select id="leaderboard-ruleset">
-          <option value="dat">Track scoring</option>
-          <option value="point">Original point scoring</option>
+          <option value="rating">Guess the EF Rating · points</option>
         </select>
       </label>
 
       <p id="leaderboard-rules" hidden></p>
       <p id="leaderboard-status" role="status"></p>
 
-      <details class="rank-guide">
+      <details class="rank-guide" id="rank-guide">
         <summary>How player ranks work</summary>
         <p>Closer guesses earn higher ranks. Your rank uses your best run’s average distance, rounded to one decimal place. These are game ranks, separate from actual tornado intensity ratings.</p>
         <ul id="player-rank-bands"></ul>
