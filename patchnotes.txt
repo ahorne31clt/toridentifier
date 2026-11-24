@@ -1,0 +1,23 @@
+**v1.0 - Released - Launch Date**
+
+
+**v1.6 - Released - 23 Nov 2026**
+A refreshed chase board: animated weather contours, matching cards, and clearer rankings.
+Guess the EF Rating: a new green, five-photo challenge with its own shared points leaderboard.
+Your run rundown: a results screen for every game mode, with all five rounds.
+Daily Challenge takes the spotlight: purple featured panel with today’s live rankings.
+Feedback, score lookup, accounts, daily sharing, and the classic contour background remain available.
+
+**v1.7 - Pre Launch Notes - 1 Dec 2026**
+Adding Login Feature Functionality 
+
+
+v1.8 - Pre Launch Notes - Dec 2026
+
+
+
+v1.9 - Pre Beta Release - Jan 2027
+
+
+
+v2.0 - Beta Test Release - Jan 2027
