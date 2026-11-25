@@ -1,1 +1,1 @@
-Replace the four included files in the root of your GitHub repository. No Cloudflare or database changes required. Fixes background canvas pushing the feedback header down and keeps the header at the top while scrolling.
+Replace BOTH index.html and ui.css in your GitHub root. This index was taken from the live site on November 25 and preserves its existing scripts. The CSS cache URL changes so browsers request the fixed stylesheet. No Cloudflare changes.
