@@ -1,4 +1,4 @@
-import {setupAccounts} from './accounts.mjs?v=1.7';
+import {setupAccounts} from './accounts.mjs?v=1.7-brand2';
 import {setupRunSummary} from './run-summary.mjs?v=1.7';
 import {setupRatingGame, ratingPoints, ratingLeaderboard} from './rating-game.mjs?v=1.7';
 import {gameModes, modeCatalog} from './modes.mjs';

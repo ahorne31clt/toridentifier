@@ -75,4 +75,38 @@ body > header.masthead { position:relative !important;inset:auto !important; }
 @keyframes daily-radar-breathe {from{transform:translate(-20px,10px) scale(.95);}to{transform:translate(20px,40px) scale(1.12);}}
 @media(prefers-reduced-motion:reduce){.daily-feature::before,.card-pulse,.card-target,.card-sweep{animation:none !important;}}
 
-@media(max-width:600px){.masthead .wordmark strong{display:inline;}}
+/* Brand exploration: one continuous navigation bar, without the inset button tray. */
+.masthead {background:#181c22f5 !important;border-bottom:1px solid #ffffff14 !important;box-shadow:none !important;}
+.masthead-inner {min-height:76px !important;padding-block:12px !important;}
+.masthead .identity {gap:12px !important;}
+.masthead .brand-mark {width:46px !important;height:46px !important;filter:none !important;}
+.masthead .wordmark {font-size:1rem !important;letter-spacing:.08em !important;}
+.masthead .masthead-actions {background:none !important;border:0 !important;padding:0 !important;gap:8px !important;box-shadow:none !important;}
+.masthead .masthead-actions .button {padding:10px 14px !important;font-size:.85rem !important;color:#c2c7ce !important;min-height:40px !important;}
+.masthead .masthead-actions #account-button {border:1px solid #e85b6660 !important;color:#e85b66 !important;background:#e85b6609 !important;}
+@media(max-width:600px){.masthead-inner{min-height:64px !important;gap:8px !important;}.masthead .brand-mark{width:34px !important;height:34px !important;}.masthead .wordmark{font-size:.68rem !important;letter-spacing:.015em !important;}.masthead .identity{gap:5px !important;}.masthead .masthead-actions{gap:0 !important;}.masthead .masthead-actions .button{font-size:.7rem !important;padding:8px 6px !important;min-height:36px !important;}}
+/* Slim navigation: quieter typography and a single visual baseline. */
+.masthead {background:#14181de8 !important;backdrop-filter:blur(14px);}
+.masthead-inner {min-height:58px !important;padding-block:6px !important;gap:18px !important;}
+.masthead .brand-mark {width:42px !important;height:42px !important;object-fit:contain;mix-blend-mode:lighten;}
+.masthead .identity {gap:10px !important;}
+.masthead .wordmark {font-size:.88rem !important;letter-spacing:.055em !important;font-weight:750;}
+.masthead .masthead-actions {gap:4px !important;align-items:center;}
+.masthead .masthead-actions .button {min-height:34px !important;padding:7px 12px !important;font-size:.79rem !important;font-weight:600 !important;border:0 !important;background:transparent !important;}
+.masthead .masthead-actions .button:hover {color:#f7ece7 !important;background:#ffffff06 !important;}
+.masthead .masthead-actions #account-button {border:0 !important;border-left:1px solid #ffffff20 !important;margin-left:5px;padding-left:17px !important;background:transparent !important;color:#e85b66 !important;}
+@media(max-width:600px){
+ .masthead-inner {min-height:52px !important;padding-block:5px !important;gap:6px !important;}
+ .masthead .brand-mark {width:36px !important;height:36px !important;}
+ .masthead .wordmark {font-size:.67rem !important;letter-spacing:.01em !important;}
+ .masthead .identity {gap:4px !important;}
+ .masthead .masthead-actions .button {font-size:.68rem !important;min-height:32px !important;padding:7px 5px !important;}
+ .masthead .masthead-actions #account-button {margin-left:2px;padding-left:7px !important;}
+}
+
+:root {--red:#e85b66;--control-accent:#e85b66;}
+body[data-game-mode="all"] {--control-accent:#e85b66;}
+.mode-card[data-mode="all"] {--mode-accent:#e85b66;}
+.masthead .wordmark strong,.selection-intro .eyebrow {color:#e85b66 !important;}
+.masthead .masthead-actions #account-button {color:#ed8790 !important;}
+.mode-card[data-mode="all"] .card-motion {color:#e85b66;}

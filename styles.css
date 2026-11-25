@@ -5,7 +5,7 @@
   background: #17191c;
   --cream: #f3f0e7;
   --muted: #b5bcc3;
-  --red: #f38b86;
+  --red: #e85b66;
   --gold: #e5ba79;
   --line: #383e45;
   --panel: #202328;
@@ -185,7 +185,7 @@ a { color: var(--red); }
 .button:hover:not(:disabled) { background: #38434d; }
 .button:disabled { cursor: default; opacity: .55; }
 .button.primary { background: var(--red); border-color: var(--red); color: #231415; }
-.button.primary:hover:not(:disabled) { background: #ffaaa4; }
+.button.primary:hover:not(:disabled) { background: #e85b66; }
 .button.outline { background: #20252a; }
 .map-button { background: #22272ef5; font-size: .875rem; }
 :focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
@@ -482,7 +482,7 @@ body::before { animation: none; transform: none; will-change: auto; inset: 0; ba
 .pressure-field { position: fixed; inset: 0; width: 100%; height: 100%; z-index: -1; pointer-events: none; mask-image: linear-gradient(90deg,#0009,#0006 40%,#000); }
 /* Header keeps its existing links and handlers. */
 .masthead { position: relative; z-index: 2; background: linear-gradient(100deg,#202329ed,#201e29ed); border-bottom: 1px solid #ffffff12; box-shadow: 0 5px 25px #0002; backdrop-filter: blur(14px); }
-.masthead::after { content: ''; position: absolute; bottom: -1px; left: 0; right: 0; height: 1px; background: linear-gradient(90deg,transparent,#f38b8655 25%,#c2a2f449 60%,transparent); pointer-events: none; }
+.masthead::after { content: ''; position: absolute; bottom: -1px; left: 0; right: 0; height: 1px; background: linear-gradient(90deg,transparent,#e85b6655 25%,#c2a2f449 60%,transparent); pointer-events: none; }
 .masthead-inner { min-height: 82px; gap: 22px; }
 .identity { gap: 13px; }
 .brand-mark { width: 48px; height: 48px; filter: drop-shadow(0 3px 9px #0003); }
@@ -491,7 +491,7 @@ body::before { animation: none; transform: none; will-change: auto; inset: 0; ba
 .masthead-actions .button,.masthead-actions a.button.outline { min-height: 40px; padding: 10px 15px; border: 1px solid #525b665c; border-radius: 5px; background: #ffffff04; color: var(--cream); font-size: .78rem; }
 .masthead-actions .button:hover:not(:disabled),.masthead-actions a.button.outline:hover { border-color: #b7a0d280; background: #c2a2f410; }
 .masthead-actions #leaderboard-button { border-color: #c2a2f448; color: #deccf6; }
-.masthead-actions #account-button { background: #f38b8610; border-color: #f38b8640; }
+.masthead-actions #account-button { background: #e85b6610; border-color: #e85b6640; }
 .weather-source { color: var(--muted); font-size: .65rem; text-decoration-color: #ffffff25; }
 @media(max-width:760px) { .masthead-inner { min-height: 76px; flex-wrap: wrap; gap: 12px; padding-block: 14px; } .masthead-actions { flex-wrap: wrap; gap: 7px; } .masthead-actions .button,.masthead-actions a.button.outline { padding: 9px 12px; min-height: 38px; font-size: .75rem; } .wordmark { font-size: 1rem; } }
 

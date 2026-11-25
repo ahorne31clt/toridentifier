@@ -2,19 +2,19 @@
 :root {
  --radius-control: 6px;
  --radius-panel: 10px;
- --control-accent: #f38b86;
+ --control-accent: #e85b66;
  --control-surface: #242932;
  --control-border: #56616d;
  --control-text: #f3f0e7;
 }
 [hidden] { display: none !important; }
 body { isolation: isolate; }
-body[data-game-mode="all"] { --control-accent: #f38b86; }
+body[data-game-mode="all"] { --control-accent: #e85b66; }
 body[data-game-mode="iconic"] { --control-accent: #f2cd63; }
 body[data-game-mode="recent"] { --control-accent: #82c7ff; }
 body[data-game-mode="daily"] { --control-accent: #d4b9f2; }
 body[data-game-mode="rating"] { --control-accent: #92dfab; }
-.mode-card { --control-accent: var(--mode-accent,#f38b86); }
+.mode-card { --control-accent: var(--mode-accent,#e85b66); }
 .button,.masthead-actions .button,.masthead-actions a.button.outline,
 input[type="file"]::file-selector-button {
  display: inline-flex; align-items: center; justify-content: center; gap: 8px;
@@ -147,14 +147,14 @@ dialog .panel-head { padding: 14px 18px; }
  border-bottom: 1px solid #ffffff0b; box-shadow: 0 4px 18px #0002;
  backdrop-filter: blur(18px);
 }
-.masthead::after { background: linear-gradient(90deg,transparent 2%,#f38b864d 22%,#c2a2f437 72%,transparent 98%); }
+.masthead::after { background: linear-gradient(90deg,transparent 2%,#e85b664d 22%,#c2a2f437 72%,transparent 98%); }
 .masthead-inner { min-height: 74px; padding-block: 10px; gap: 22px; }
 .masthead .identity { gap: 12px; flex-shrink: 0; }
 .masthead .brand-mark { width: 42px; height: 42px; filter: drop-shadow(0 3px 8px #0002); }
 .masthead .wordmark { font-size: 1.08rem; font-weight: 800; letter-spacing: .065em; line-height: 1.1; }
-.masthead .wordmark strong { color: #f59690; }
+.masthead .wordmark strong { color: #e85b66; }
 .masthead .identity:hover .wordmark { text-decoration: none; }
-.masthead .identity:hover .wordmark strong { color: #ffb2a9; }
+.masthead .identity:hover .wordmark strong { color: #e85b66; }
 .masthead .masthead-actions {
  display: inline-flex; align-items: center; flex-wrap: nowrap; gap: 3px;
  padding: 4px; border: 1px solid #ffffff0d; border-radius: 10px;
@@ -174,7 +174,7 @@ dialog .panel-head { padding: 14px 18px; }
 .masthead .masthead-actions #account-button:hover:not(:disabled) {
  color: #fff8ef; background: #ffffff09; border-color: #ffffff0b; box-shadow: none;
 }
-.masthead .masthead-actions .button:focus-visible { outline-color: #f59690; outline-offset: 2px; }
+.masthead .masthead-actions .button:focus-visible { outline-color: #e85b66; outline-offset: 2px; }
 @media(max-width:600px) {
  .masthead-inner { flex-wrap: wrap; gap: 12px; padding-block: 12px; }
  .masthead .brand-mark { width: 38px; height: 38px; }
