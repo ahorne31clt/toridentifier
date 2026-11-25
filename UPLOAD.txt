@@ -1,0 +1,1 @@
+Replace game.mjs and styles.css at the GitHub repository root. No images, database or Cloudflare Worker changes are needed. Hard-refresh after GitHub Pages deploys. Daily EF rank is calculated from the same daily average used by the full leaderboard.

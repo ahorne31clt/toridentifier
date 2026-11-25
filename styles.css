@@ -329,8 +329,8 @@ body[data-game-mode="daily"] .eyebrow { color: #d4b9f2; }
 .daily-chase-board header .button { min-height: 32px; font-size: .7rem; padding: 7px 9px; }
 #daily-board-list { list-style: none; padding: 0; margin: 16px 0; }
 #daily-board-list li { display: grid; grid-template-columns: 25px minmax(0,1fr) auto; align-items: center; gap: 10px; padding: 12px 0; font-size: .8rem; border-bottom: 1px solid var(--line); }
-#daily-board-list li span:first-child { color: var(--daily); }
-#daily-board-list li span:nth-child(2) { overflow-wrap: anywhere; }
+#daily-board-list li > span:first-child { color: var(--daily); }
+#daily-board-list li > span:nth-child(2) { overflow-wrap: anywhere; }
 #daily-board-status { color: var(--muted); font-size: .8rem; line-height: 1.5; margin-top: 14px; }
 .daily-board-average { margin-top: auto; padding-top: 12px; }
 .daily-board-average span { display: block; font-size: .7rem; color: var(--muted); margin-bottom: 6px; }
@@ -494,3 +494,8 @@ body::before { animation: none; transform: none; will-change: auto; inset: 0; ba
 .masthead-actions #account-button { background: #f38b8610; border-color: #f38b8640; }
 .weather-source { color: var(--muted); font-size: .65rem; text-decoration-color: #ffffff25; }
 @media(max-width:760px) { .masthead-inner { min-height: 76px; flex-wrap: wrap; gap: 12px; padding-block: 14px; } .masthead-actions { flex-wrap: wrap; gap: 7px; } .masthead-actions .button,.masthead-actions a.button.outline { padding: 9px 12px; min-height: 38px; font-size: .75rem; } .wordmark { font-size: 1rem; } }
+
+/* Daily ranks use this day's average, matching the full daily leaderboard. */
+.daily-board-player { display: flex; flex-wrap: wrap; align-items: center; gap: 7px 10px; min-width: 0; }
+.daily-board-player > span:first-child { overflow-wrap: anywhere; min-width: 0; }
+#daily-board-list .daily-board-player .player-rank { font-size: .65rem; line-height: 1.3; padding: 3px 6px; }

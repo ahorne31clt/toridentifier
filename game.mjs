@@ -949,12 +949,24 @@ async function refreshDailyBoard() {
     if (result.day) showMessage('daily-size', dateFormat.format(new Date(result.day + 'T00:00:00Z')));
     for (const [index, entry] of entries.slice(0, 5).entries()) {
       const li = document.createElement('li');
-      for (const [tag, text] of [['span', '#' + (entry.place || index + 1)], ['span', entry.username], ['strong', milesText(entry.averageMiles)]]) {
-        const part = document.createElement(tag); part.textContent = text; li.append(part);
-      }
+      const place = document.createElement('span');
+      place.textContent = '#' + (entry.place || index + 1);
+      const player = document.createElement('div');
+      player.className = 'daily-board-player';
+      const name = document.createElement('span');
+      name.textContent = entry.username;
+      const rank = document.createElement('span');
+      rank.className = 'player-rank';
+      rank.textContent = playerRank(entry.averageMiles);
+      rank.dataset.rank = rank.textContent;
+      rank.setAttribute('aria-label', 'Daily player rank ' + rank.textContent);
+      player.append(name, rank);
+      const distance = document.createElement('strong');
+      distance.textContent = milesText(entry.averageMiles);
+      li.append(place, player, distance);
       el('daily-board-list').append(li);
     }
-    el('daily-board-average-label').textContent = entries.length ? 'Average of ' + entries.length + ' ranked players' : 'Ranked player average';
+    el('daily-board-average-label').textContent = entries.length ? 'Average of ' + entries.length + ' ranked ' + (entries.length === 1 ? 'player' : 'players') : 'Ranked player average';
     if (entries.length) el('daily-board-average').textContent = milesText(entries.reduce((sum, e) => sum + e.averageMiles, 0) / entries.length);
     showMessage('daily-board-status', entries.length ? '' : 'No scores yet today. Be the first to finish.');
   } catch {
