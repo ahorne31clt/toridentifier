@@ -201,3 +201,13 @@ dialog .panel-head { padding: 14px 18px; }
 
 /* Header belongs to document flow at every viewport width. */
 body > header.masthead { position: relative !important; inset: auto !important; }
+
+/* Matching panel shells; preserve photo/map viewport heights and let controls flow. */
+#play-screen .board,#rating-screen .board { align-items:stretch; }
+#play-screen .board > .panel,#rating-screen .board > .panel { height:100%;display:flex;flex-direction:column; }
+#play-screen .photo-frame,#play-screen .map-frame { flex:none; }
+#rating-screen .photo-frame { flex:1;min-height:clamp(300px,33vw,515px); }
+.rating-hints { display:grid;gap:12px;margin:16px 0; }
+.rating-hints .hint { line-height:1.6;padding:12px;border-left:2px solid #92dfab;background:#92dfab0a; }
+@media(max-width:760px) { #play-screen .board > .panel,#rating-screen .board > .panel { height:auto; } #rating-screen .photo-frame { flex:none; } }
+body > header.masthead { position:relative !important;inset:auto !important; }

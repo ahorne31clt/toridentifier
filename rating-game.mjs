@@ -5,6 +5,9 @@ const node=(tag,text)=>{const e=document.createElement(tag);if(text!==undefined)
 const normalized=s=>s==='EFU'?'EF-U':s;
 export function ratingLeaderboard(){try{const rows=JSON.parse(localStorage.getItem(key)||'[]');return Array.isArray(rows)?rows.filter(r=>typeof r.username==='string'&&Number.isInteger(r.points)&&r.points>=0&&r.points<=15&&Number.isInteger(r.exact)&&r.exact>=0&&r.exact<=5).sort((a,b)=>b.points-a.points||b.exact-a.exact||a.username.localeCompare(b.username)).slice(0,25):[];}catch{return[];}}
 export function setupRatingGame({getCatalog,guess,saveScore,onHome,onComplete,onShow}){
+  let hintDeck={},hintIndex=0;
+  fetch('./rating-hints.json').then(r=>{if(!r.ok)throw Error();return r.json();}).then(data=>hintDeck=data).catch(()=>{});
+  el('rating-hint').addEventListener('click',()=>{const hints=hintDeck[deck[round]?.id]||[];if(revealed)return;const text=hints[hintIndex++];el('rating-hint-text').textContent=text||'No more hints for this photo.';el('rating-hint-text').hidden=false;el('rating-hint').disabled=hintIndex>=hints.length;});
   let deck=[],round=0,records=[],selected=null,ready=false,revealed=false,loading=false,saving=false,complete=false;
   function showMessage(id,message=''){el(id).textContent=message;el(id).hidden=!message;}
   async function start(){
@@ -18,7 +21,7 @@ export function setupRatingGame({getCatalog,guess,saveScore,onHome,onComplete,on
     }finally{loading=false;}
   }
   function loadRound(){
-    const event=deck[round];selected=null;ready=false;revealed=false;
+    const event=deck[round];hintIndex=0;el('rating-hint').disabled=false;el('rating-hint-text').hidden=true;selected=null;ready=false;revealed=false;
     el('rating-round-count').textContent='Photo '+(round+1)+' of 5';el('rating-running-score').textContent=records.reduce((s,r)=>s+r.points,0)+' / 15 points';
     el('rating-guess-form').hidden=false;el('rating-reveal').hidden=true;el('rating-next').hidden=true;el('rating-lock').disabled=true;el('rating-full-photo').disabled=true;el('rating-photo').hidden=true;
     const historic=event.ratingScale==='F'||/^F[0-5]$/.test(event.rating||'');const choices=historic?['F0','F1','F2','F3','F4','F5']:['EFU','EF0','EF1','EF2','EF3','EF4','EF5'];

@@ -1,6 +1,6 @@
 import {setupAccounts} from './accounts.mjs?v=1.62-history5';
 import {setupRunSummary} from './run-summary.mjs';
-import {setupRatingGame, ratingPoints, ratingLeaderboard} from './rating-game.mjs';
+import {setupRatingGame, ratingPoints, ratingLeaderboard} from './rating-game.mjs?v=1.62-hints7';
 import {gameModes, modeCatalog} from './modes.mjs';
 import {playerRank, playerRankBands, gradeBands, roundsPerRun, scoreGuess, trackPaths, validDate} from './scoring.mjs';
 import {setupCitySearch} from './city-search.mjs';

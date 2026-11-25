@@ -80,10 +80,10 @@
   <link rel="stylesheet" href="./styles.css?v=1.61-ui3">
 
 
-  <link rel="stylesheet" href="./ui.css?v=1.62-scroll6">
+  <link rel="stylesheet" href="./ui.css?v=1.62-hints7">
 
   <script defer src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
-  <script type="module" src="./game.mjs?v=1.62-history5"></script>
+  <script type="module" src="./game.mjs?v=1.62-hints7"></script>
   <script type="module" src="./pressure-field.mjs"></script>
 </head>
 <body>
@@ -313,7 +313,7 @@
       <div class="intro"><div><p class="eyebrow">Guess the EF Rating</p><h1 id="rating-title" tabindex="-1">Know the storm?</h1><p class="intro-copy">Choose its recorded rating. Five photos, up to 15 points.</p></div><div class="play-options"><button class="button outline" id="rating-home" type="button">Game modes</button></div></div>
       <div class="board rating-board">
         <section class="panel photo-panel"><header class="panel-head"><h2>Tornado photo</h2><div class="photo-controls"><span id="rating-round-count"></span><button class="button outline" id="rating-full-photo" type="button" disabled>Full photo</button></div></header><div class="photo-frame"><img id="rating-photo" alt="Tornado photo for this round" hidden><p id="rating-photo-status" role="status">Loading photo…</p></div><div class="photo-foot"><p id="rating-photo-note">Look closely. Do you recognize this event?</p></div></section>
-        <section class="panel rating-panel"><header class="panel-head"><h2>Your call</h2><span id="rating-running-score">0 / 15 points</span></header><form id="rating-guess-form"><h2 id="rating-question">What was its recorded EF rating?</h2><fieldset id="rating-options"><legend class="sr-only">Choose the recorded tornado rating</legend></fieldset><p class="rating-points-guide">Exact rating: <strong>3 points</strong> · One level away: <strong>1 point</strong> · EF-U: exact matches only.</p><p id="rating-scale-note" class="rating-learning-note">Appearance alone cannot establish a damage rating. This challenge tests event recognition.</p><button class="button primary" id="rating-lock" disabled>Lock in rating</button></form>
+        <section class="panel rating-panel"><header class="panel-head"><h2>Your call</h2><span id="rating-running-score">0 / 15 points</span></header><form id="rating-guess-form"><h2 id="rating-question">What was its recorded EF rating?</h2><fieldset id="rating-options"><legend class="sr-only">Choose the recorded tornado rating</legend></fieldset><p class="rating-points-guide">Exact rating: <strong>3 points</strong> · One level away: <strong>1 point</strong> · EF-U: exact matches only.</p><p id="rating-scale-note" class="rating-learning-note">Appearance alone cannot establish a damage rating. This challenge tests event recognition.</p><div class="rating-hints"><button type="button" class="button outline" id="rating-hint">Reveal a hint</button><p id="rating-hint-text" class="hint" role="status" hidden></p></div><button class="button primary" id="rating-lock" disabled>Lock in rating</button></form>
           <div id="rating-reveal" class="rating-reveal" aria-live="polite" hidden><p class="eyebrow" id="rating-verdict"></p><h2 id="rating-event-name"></h2><p id="rating-event-date"></p><div class="rating-reveal-metrics"><div><span>Recorded rating</span><strong id="rating-actual"></strong></div><div><span>Points earned</span><strong id="rating-points"></strong></div></div><p id="rating-explanation"></p><p><a id="rating-event-source" target="_blank" rel="noopener">Event report</a> · <a id="rating-photo-source" target="_blank" rel="noopener">Photo source</a></p><p id="rating-photo-credit"></p></div>
           <p id="rating-status" class="message" role="status" hidden></p><button class="button primary" id="rating-next" type="button" hidden>Next photo</button>
         </section>
