@@ -1,6 +1,6 @@
-import {setupAccounts} from './accounts.mjs?v=1.6.3';
-import {setupRunSummary} from './run-summary.mjs?v=1.6.3';
-import {setupRatingGame, ratingPoints, ratingLeaderboard} from './rating-game.mjs?v=1.6.3';
+import {setupAccounts} from './accounts.mjs?v=1.7';
+import {setupRunSummary} from './run-summary.mjs?v=1.7';
+import {setupRatingGame, ratingPoints, ratingLeaderboard} from './rating-game.mjs?v=1.7';
 import {gameModes, modeCatalog} from './modes.mjs';
 import {playerRank, playerRankBands, gradeBands, roundsPerRun, scoreGuess, trackPaths, validDate} from './scoring.mjs';
 import {setupCitySearch} from './city-search.mjs';
@@ -588,7 +588,7 @@ function renderProfile() {
   el('account-recover-toggle').hidden=true;
   const {username} = signedIn;
   const {history, total} = username ? signedIn : guest;
-  el('account-button').textContent = username || isStatic ? 'My scores' : 'Sign in';
+  el('account-button').textContent = username ? 'Account' : isStatic ? 'My scores' : 'Sign in';
   el('round-summary').textContent = total + (total === 1 ? ' round played' : ' rounds played');
   el('account-state').textContent = username ? 'Signed in as ' + username + '.' :
     isStatic ? 'Online sign-in coming soon. Guest scores are saved on this browser.' :
@@ -1007,7 +1007,7 @@ async function refreshDailyBoard() {
     for (const [index, entry] of entries.slice(0, 25).entries()) {
       const li = document.createElement('li');
       const place = document.createElement('span');
-      place.textContent = '#' + (entry.place || index + 1);
+      place.textContent = String(entry.place || index + 1);
       const player = document.createElement('div');
       player.className = 'daily-board-name';
       const name = document.createElement('span');

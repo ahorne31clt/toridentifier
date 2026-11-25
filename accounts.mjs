@@ -27,7 +27,7 @@ export function setupAccounts({request,onProfile}){
  }
  function render(profile){
  el('account-form').hidden=Boolean(profile.username);el('sign-out').hidden=!profile.username;
- el('account-button').textContent=profile.username?profile.username+' · My scores':'Sign in / Register';
+ el('account-button').textContent=profile.username?'Account':'Sign in';
  el('account-state').textContent=profile.username?'Signed in as '+profile.username+'. Saved runs sync when you sign in on another browser.':'Create an account to save completed runs across browsers. Guest play is still available.';
  el('round-summary').textContent=profile.total+' saved account runs';
  const history=el('history');history.replaceChildren();

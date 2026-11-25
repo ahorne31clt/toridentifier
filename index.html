@@ -80,11 +80,12 @@
   <link rel="stylesheet" href="./styles.css?v=1.61-ui3">
 
 
-  <link rel="stylesheet" href="./ui.css?v=1.6.3">
+  <link rel="stylesheet" href="./ui.css?v=1.7">
 
   <script defer src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
-  <script type="module" src="./game.mjs?v=1.6.3"></script>
+  <script type="module" src="./game.mjs?v=1.7"></script>
   <script type="module" src="./pressure-field.mjs"></script>
+<link rel="stylesheet" href="./design-preview.css?v=1.7">
 </head>
 <body>
   <header class="masthead">
@@ -106,25 +107,17 @@
       <div class="home-content">
         <div class="selection-intro"><p class="eyebrow">Your next chase starts here</p><h1 id="home-title" tabindex="-1">Choose your challenge<span>.</span></h1><p class="selection-description">Recognize the storm. Find its home. Test what you know.</p></div>
 
-        <details class="release-notes"><p>1.6.3 · Bug fixes and changes: full-width mobile mode cards; EF scoring awards 5 / 3 / 1 / 0 points, up to 25 per run. New EF leaderboard; earlier scores remain in account history.</p>
-          <summary><strong>Tornado Guesser v1.6.3</strong><span>1.6.3 · Bug fixes and changes · November 25, 2026</span></summary>
-          <p>1.6.3 · Bug fixes and changes</p><ul><li><strong>Play as yourself:</strong> register a username and six-digit PIN, with no email or password required.</li><li><strong>Synced score history:</strong> completed location and EF Rating runs save automatically while signed in.</li><li><strong>Account recovery:</strong> save your recovery code to reset a forgotten PIN.</li><li>Guest play, Daily score lookup, sharing, and existing rankings remain available.</li></ul><p>Also included · 1.6.1 bug fixes and interface improvements</p>
-          <ul>
-            <li><strong>Consistent interface:</strong> matching rounded buttons, fields, dialogs, and Feedback controls throughout the site.</li>
-            <li><strong>Daily chase board:</strong> matches the Daily card height, scrolls through ranked players, and outlines placements and mileage.</li>
-            <li><strong>Daily round grades:</strong> five colored A/B/C/D/F badges show each player’s result for rounds 1–5, on the homepage and full Daily leaderboard.</li>
-            <li><strong>Daily leaderboard EF ranks:</strong> the homepage chase board now shows each player’s EF rank beside their gamertag, based on their Daily average distance.</li>
-            <li>Corrected the ranked-player average label when only one player has saved a Daily score.</li>
-          </ul>
-          <p>Also included · 1.6 updates</p>
-          <ul>
-            <li><strong>A refreshed chase board:</strong> animated weather contours, matching cards, and clearer rankings.</li>
-            <li><strong>Guess the EF Rating:</strong> a new green, five-photo challenge with its own shared points leaderboard.</li>
-            <li><strong>Your run rundown:</strong> a results screen for every game mode, with all five rounds.</li>
-            <li><strong>Daily Challenge takes the spotlight:</strong> purple featured panel with today’s live rankings.</li>
-            <li>Feedback, score lookup, accounts, daily sharing, and the classic contour background remain available.</li>
-          </ul>
-        </details>
+        <details class="release-notes">
+<summary><strong>Tornado Guesser v1.7</strong><span>New look, player accounts, and improved scoring · November 25, 2026</span></summary>
+<ul>
+<li><strong>Sign in your way:</strong> play as a guest or create an account with a username and six-digit PIN. Save your recovery code, and sign in across browsers to access your score history.</li>
+<li><strong>Your gamertag, connected:</strong> claim an available guest username to link its stored leaderboard results to your account.</li>
+<li><strong>Better EF scoring:</strong> 5 points exact, 3 one level away, 1 two levels away, and 0 farther away. Five photos, 25 possible points. EF-U earns exact-match credit only; earlier scores remain in account history.</li>
+<li><strong>A new visual direction:</strong> square surfaces, distinct tornado-photo mode cards, moving tracking targets, circular radar sweeps, and full-width mobile mode cards.</li>
+<li><strong>Guess the EF Rating:</strong> the green five-photo event-recognition challenge, with hints and its own points leaderboard.</li>
+<li><strong>Daily chase board:</strong> purple Daily feature, player EF ranks, five round grades, and aligned placement and mileage boxes. Find and share your Daily score.</li>
+<li>Run rundowns, automatic reconnection, and a header that scrolls away keep the experience focused on the game.</li>
+</ul></details>
 
         <div id="daily-feature-row" class="daily-feature-row">
           <section class="mode-card daily-feature" id="daily-card" data-mode="daily" aria-labelledby="daily-title">
@@ -334,7 +327,7 @@
         <p>Grades use distance to the nearest point on the surveyed tornado track when available, or to the recorded event location. Date guesses receive separate feedback in days.</p>
       </details>
       <span id="round-summary" hidden>0 rounds played</span>
-      <p class="site-credit">Created by <strong>Christopher Horne</strong> and <strong>Blake Teer</strong> <span>UNC Charlotte · 2026</span> <span class="footer-version">v1.6.3</span></p>
+      <p class="site-credit">Created by <strong>Christopher Horne</strong> and <strong>Blake Teer</strong> <span>UNC Charlotte · 2026</span> <span class="footer-version">v1.7</span></p>
     </footer>
   </main>
 
@@ -474,5 +467,5 @@
       <section id="account-recovery" class="account-recovery" hidden><h3>Save your recovery code</h3><p>This is shown once. Keep it somewhere safe. It lets you reset your PIN.</p><code id="account-recovery-code"></code></section><div id="history" class="score-table"></div>
     </div>
   </dialog>
-</body>
+<script type="module" src="./card-motion.mjs?v=1.7"></script></body>
 </html>

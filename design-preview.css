@@ -1,0 +1,78 @@
+/* Local visual experiment only. */
+*,*::before,*::after { border-radius:0 !important; }
+.mode-card:not(.daily-feature) { position:relative;isolation:isolate;overflow:hidden;background:#202328; }
+.mode-card:not(.daily-feature)::before { content:'';position:absolute;inset:0;z-index:-2;background-image:var(--preview-photo);background-size:cover;background-position:center;opacity:.35;transition:transform .6s ease,opacity .4s ease; }
+.mode-card:not(.daily-feature)::after { content:'';position:absolute;inset:0;z-index:-1;background:linear-gradient(180deg,#14171bd1 0%,#171a1eb3 45%,#171a1ef5 100%);pointer-events:none; }
+.mode-card[data-mode="all"] { --preview-photo:url('./images/funnel-090b2c1e7dc6.webp'); }
+.mode-card[data-mode="iconic"] { --preview-photo:url('./images/funnel-08c6e68d616c.webp'); }
+.mode-card[data-mode="recent"] { --preview-photo:url('./images/1.jpg'); }
+.mode-card[data-mode="rating"] { --preview-photo:url('./images/funnel-aca2965f7b46.webp'); }
+.mode-card:not(.daily-feature):hover::before { transform:scale(1.04);opacity:.46; }
+.mode-card:not(.daily-feature) h2,.mode-card:not(.daily-feature) p { text-shadow:0 2px 12px #0009; }
+body > header.masthead { position:relative !important;inset:auto !important; }
+@media(max-width:760px){.mode-grid {grid-template-columns:minmax(0,1fr) !important;}}
+@media(prefers-reduced-motion:reduce){.mode-card::before{transition:none !important;transform:none !important;}}
+
+/* Slow motion belongs to the photograph, keeping labels and controls still. */
+@keyframes card-weather-drift { from {transform:scale(1.08) translate(-1%,.5%);} to {transform:scale(1.15) translate(1%,-.5%);} }
+.mode-card:not(.daily-feature)::before { animation:card-weather-drift 24s ease-in-out infinite alternate; }
+.mode-card[data-mode="iconic"]::before {animation-duration:31s;animation-delay:-9s;}
+.mode-card[data-mode="recent"]::before {animation-duration:27s;animation-delay:-17s;}
+.mode-card[data-mode="rating"]::before {animation-duration:34s;animation-delay:-5s;}
+@media(max-width:600px){
+ .masthead-inner { flex-wrap:nowrap !important;gap:8px !important; }
+ .masthead .wordmark {font-size:.7rem;letter-spacing:.02em;white-space:nowrap;}
+ .masthead .brand-mark {width:28px;height:28px;}
+ .masthead .identity {gap:6px;min-width:0;}
+ .masthead .masthead-actions {display:flex !important;width:auto !important;flex-wrap:nowrap;gap:1px;padding:2px;margin-left:auto;}
+ .masthead .masthead-actions .button {font-size:.7rem !important;padding:8px 5px !important;white-space:nowrap;min-height:36px;}
+}
+@media(max-width:380px){.masthead .wordmark{display:none;}}
+@media(prefers-reduced-motion:reduce){.mode-card:not(.daily-feature)::before{animation:none !important;transform:none !important;}}
+/* One shared height for every score chip, regardless of its text length. */
+#daily-board-list { --score-chip-height:30px; }
+#daily-board-list li > span:first-child,
+#daily-board-list li > strong,
+#daily-board-list li > .player-rank,
+#daily-board-list .round-grade-badges > * {
+ box-sizing:border-box !important;
+ display:inline-flex !important;align-items:center;justify-content:center;
+ height:var(--score-chip-height) !important;min-height:var(--score-chip-height) !important;
+ padding-block:0 !important;line-height:1 !important;margin-block:0 !important;
+}
+#daily-board-list .round-grade-badges {display:flex;align-items:center;min-height:var(--score-chip-height);}
+#daily-board-list .round-grade-badges > * {min-width:20px;}
+/* Reserve the actual width occupied by five fixed-size grades. */
+.daily-board-columns,#daily-board-list li {grid-template-columns:30px minmax(0,1fr) 42px 112px 70px !important;gap:6px !important;}
+#daily-board-list .round-grade-badges {gap:3px !important;width:112px;min-width:0;}
+#daily-board-list .round-grade-badges > * {flex:0 0 20px !important;width:20px !important;min-width:20px !important;padding-inline:0 !important;}
+#daily-board-list .daily-board-name {min-width:0;overflow:hidden;text-overflow:ellipsis;}
+@media(max-width:600px){.daily-board-columns{display:none;}#daily-board-list li{grid-template-columns:30px minmax(0,1fr) 42px 70px !important;}#daily-board-list li > .round-grade-badges{grid-column:2 / -1;grid-row:2;}}
+.card-motion {position:absolute;inset:0;overflow:hidden;pointer-events:none;z-index:-1;color:#c0dbdf;opacity:.28;}
+.card-target {position:absolute;left:55%;top:28%;width:74px;height:74px;border:1px solid currentColor !important;border-radius:50% !important;animation:target-track 15s ease-in-out infinite alternate;}
+.card-target::before,.card-target::after {content:'';position:absolute;background:currentColor;}
+.card-target::before{width:100px;height:1px;left:-14px;top:36px;}
+.card-target::after{height:100px;width:1px;top:-14px;left:36px;}
+.card-sweep {position:absolute;width:220px;height:220px;right:-70px;top:10%;background:conic-gradient(from 0deg,transparent 0deg 290deg,#b7dfe330 350deg,transparent 360deg);animation:card-sweep 12s linear infinite;}
+@keyframes target-track{0%{transform:translate(-35px,5px) scale(.85);}45%{transform:translate(35px,85px) scale(1.05);}100%{transform:translate(-20px,175px) scale(.9);}}
+@keyframes card-sweep{to{transform:rotate(360deg);}}
+.mode-card[data-mode="iconic"] .card-motion{color:#f2cd63;}
+.mode-card[data-mode="recent"] .card-motion{color:#82c7ff;}
+.mode-card[data-mode="rating"] .card-motion{color:#92dfab;}
+@media(prefers-reduced-motion:reduce){.card-target,.card-sweep{animation:none !important;}}
+/* Square surfaces, circular weather graphics. */
+.daily-feature {isolation:isolate;position:relative;overflow:hidden;}
+.daily-feature::before {border-radius:50% !important;animation:daily-radar-breathe 7s ease-in-out infinite alternate;}
+.card-sweep {border-radius:50% !important;clip-path:circle(50%);opacity:.85;animation-duration:7s;}
+.card-motion {opacity:.45;}
+.card-target {animation-duration:10s;border-radius:50% !important;}
+.card-pulse {position:absolute;right:12%;top:26%;width:90px;height:90px;border:1px solid currentColor;border-radius:50% !important;animation:tracking-pulse 4s ease-out infinite;}
+.daily-feature .card-motion {color:#d4b9f2;opacity:.5;z-index:-1;}
+.daily-feature .card-sweep {width:430px;height:430px;right:-100px;top:-70px;background:conic-gradient(transparent 0deg 270deg,#d4b9f240 350deg,transparent 360deg);}
+.daily-feature .card-target {left:75%;top:20%;width:74px;height:74px;}
+.daily-feature .card-pulse {right:15%;top:35%;}
+@keyframes tracking-pulse {0%{transform:scale(.35);opacity:.8;}100%{transform:scale(2);opacity:0;}}
+@keyframes daily-radar-breathe {from{transform:translate(-20px,10px) scale(.95);}to{transform:translate(20px,40px) scale(1.12);}}
+@media(prefers-reduced-motion:reduce){.daily-feature::before,.card-pulse,.card-target,.card-sweep{animation:none !important;}}
+
+@media(max-width:600px){.masthead .wordmark strong{display:inline;}}
