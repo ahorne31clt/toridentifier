@@ -187,3 +187,14 @@ dialog .panel-head { padding: 14px 18px; }
 /* Shared background positioning also applies to the standalone feedback pages. */
 .pressure-field { position: fixed; inset: 0; display: block; width: 100%; height: 100%; z-index: -1; pointer-events: none; mask-image: linear-gradient(90deg,#0009,#0006 40%,#000); }
 .masthead { position: sticky; top: 0; z-index: 20; }
+
+#account-form { display:grid;gap:12px; }
+#account-form[hidden],#account-recovery[hidden],#recovery-fields[hidden] { display:none; }
+.account-recovery { padding:18px;border:1px solid #92dfab66;border-radius:10px;background:#92dfab0c; }
+.account-recovery code { display:block;user-select:all;overflow-wrap:anywhere;font-size:1rem;letter-spacing:.03em; }
+#account-dialog { width:min(760px,calc(100% - 28px)); }
+#account-dialog .dialog-body { max-height:75vh;overflow:auto; }
+
+#generate-pin,#account-recover-toggle { justify-self:start;min-height:34px;padding:6px 10px;font-size:.85rem; }
+#recovery-fields { display:grid;gap:8px; }
+#account-dialog .score-table { overflow-x:auto; }

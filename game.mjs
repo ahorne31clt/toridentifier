@@ -1,3 +1,4 @@
+import {setupAccounts} from './accounts.mjs';
 import {setupRunSummary} from './run-summary.mjs';
 import {setupRatingGame, ratingPoints, ratingLeaderboard} from './rating-game.mjs';
 import {gameModes, modeCatalog} from './modes.mjs';
@@ -383,7 +384,7 @@ async function submit(event) {
     }
     if (result.profile) signedIn = result.profile;
     else {
-      signedIn = {username: null, history: [], total: 0};
+      if(!accounts.available)signedIn = {username: null, history: [], total: 0};
       guest = {history: [result.record, ...guest.history].slice(0, 50), total: guest.total + 1};
       try {
         localStorage.setItem(archiveKey, JSON.stringify(guest));
@@ -475,11 +476,11 @@ function arcadeApi(mode, input, dailyLineup = false) {
   return workerRequest(url, input);
 }
 
-async function workerRequest(url, input) {
-  const options = {signal: AbortSignal.timeout(10000)};
+async function workerRequest(url, input, token = accounts.token) {
+  const options = {signal: AbortSignal.timeout(15000), headers: token ? {Authorization:'Bearer '+token} : {}};
   if (input) {
     options.method = 'POST';
-    options.headers = {'Content-Type': 'application/json'};
+    options.headers['Content-Type'] = 'application/json';
     options.body = JSON.stringify(input);
   }
   const requestUrl = new URL(url, location.href);
@@ -498,7 +499,7 @@ async function saveArcadeScore(event) {
   event.preventDefault();
   if (arcadeAverage === null) return;
   const field = el('arcade-gamertag');
-  const username = field.value.trim();
+  const username = signedIn.username || field.value.trim();
   if (!/^[\p{L}\p{N} _-]{2,20}$/u.test(username)) {
     showMessage('arcade-message', 'Use 2–20 letters, numbers, spaces, hyphens or underscores.');
     return;
@@ -514,6 +515,7 @@ async function saveArcadeScore(event) {
       const {username: savedName, averageMiles, bestMiles} = await arcadeApi(currentMode, {username, runId, guesses,
         ...(currentMode === 'daily' && {day: daily.day})});
       arcadeAverage = null;
+      if(accounts.available&&signedIn.username)accounts.refresh().catch(()=>{});
       if (currentMode === 'daily') {
         dailySaved = true;
         if (averageMiles === bestMiles) dailyShareResult = {username: savedName || username, averageMiles};
@@ -552,13 +554,30 @@ async function saveArcadeScore(event) {
   } catch {
     status = 'Scores are available for this session. Browser storage is unavailable.';
   }
+  if(accounts.available&&signedIn.username)accounts.refresh().catch(()=>{});
   el('arcade-gamertag').disabled = true;
   event.currentTarget.querySelector('button').disabled = true;
   arcadeAverage = null;
   showMessage('arcade-message', status);
 }
 
+const accounts = setupAccounts({
+ request: (path,input,token) => workerRequest(new URL('./account/'+path,arcadeUrl),input,token),
+ onProfile(profile) { signedIn=profile; renderProfile(); }
+});
 function renderProfile() {
+  if(accounts.available){
+    accounts.render(signedIn);
+    if(!signedIn.username&&guest.history.length){
+      const details=document.createElement('details'),summary=document.createElement('summary');
+      summary.textContent='Guest history on this browser · '+guest.total+' rounds';details.append(summary);
+      for(const score of guest.history){const item=document.createElement('p');item.textContent=score.name+' · '+score.grade+' · '+milesText(score.miles);details.append(item);}
+      el('history').append(details);
+    }
+    for(const id of ['arcade-gamertag','rating-gamertag']){el(id).value=signedIn.username||'';el(id).readOnly=Boolean(signedIn.username);}
+    return;
+  }
+  el('account-recover-toggle').hidden=true;
   const {username} = signedIn;
   const {history, total} = username ? signedIn : guest;
   el('account-button').textContent = username || isStatic ? 'My scores' : 'Sign in';
@@ -735,11 +754,12 @@ async function updateAccount(path, input) {
 }
 
 el('account-form').addEventListener('submit', event => {
+  if(accounts.available)return;
   event.preventDefault();
   const input = Object.fromEntries(new FormData(event.currentTarget));
   updateAccount(event.submitter?.value || 'login', input);
 });
-el('sign-out').addEventListener('click', () => updateAccount('logout', {}));
+el('sign-out').addEventListener('click', () => { if(!accounts.available)updateAccount('logout', {}); });
 el('leaderboard-button').addEventListener('click', () => {
   el('leaderboard-game-mode').value = currentMode;
   el('leaderboard-dialog').showModal();
@@ -750,6 +770,7 @@ el('account-button').addEventListener('click', () => {
   showMessage('account-message');
   renderProfile();
   el('account-dialog').showModal();
+  if(accounts.available)accounts.refresh().catch(error=>showMessage('account-message',error.message));
 });
 el('grade-guide').textContent = gradeBands.map(([grade, limit], index) =>
   grade + (Number.isFinite(limit) ? ' ≤ ' + limit + ' mi' : ' > ' + gradeBands[index - 1][1] + ' mi')).join(' · ');
@@ -847,6 +868,7 @@ async function loadArchive() {
     if (localReview()) {
       try { localRanked = Boolean((await (await fetch('/__review/config')).json()).ranked); } catch { localRanked = false; }
     }
+    if(onlineArcade()){accounts.activate();try{signedIn=await accounts.refresh();}catch(error){showMessage('account-message',error.message);}}
     if (!Array.isArray(catalog) || !catalog.length) throw new Error('The archive has no playable photos.');
     el('daily-card').hidden = !dailyEnabled();
     el('daily-feature-row').hidden = !dailyEnabled();
@@ -971,7 +993,7 @@ async function refreshDailyBoard() {
     const result = await arcadeApi('daily');
     const entries = Array.isArray(result.entries) ? result.entries.filter(e => typeof e.username === 'string' && Number.isFinite(e.averageMiles) && e.averageMiles >= 0) : [];
     if (result.day) showMessage('daily-size', dateFormat.format(new Date(result.day + 'T00:00:00Z')));
-    for (const [index, entry] of entries.slice(0, 5).entries()) {
+    for (const [index, entry] of entries.slice(0, 25).entries()) {
       const li = document.createElement('li');
       const place = document.createElement('span');
       place.textContent = '#' + (entry.place || index + 1);
@@ -1007,7 +1029,8 @@ function showCurrentRunSummary() {
   });
   runSummary.show({mode: currentMode, title: modeTitles[currentMode], rounds,
     controls: isStatic ? [el('arcade-score-form'), el('daily-share-open')] : [],
-    note: !isStatic ? (signedIn.username ? 'Your completed rounds were saved to your account.' : 'Your guest rounds are saved on this browser.') : ''});
+    note: accounts.available&&signedIn.username ? 'Your completed run saves to your account and leaderboard automatically.' : !isStatic ? (signedIn.username ? 'Your completed rounds were saved to your account.' : 'Your guest rounds are saved on this browser.') : ''});
+  if(accounts.available&&signedIn.username&&arcadeAverage!==null&&!isSavingScore)el('arcade-score-form').requestSubmit();
 }
 
 const runSummary = setupRunSummary({
@@ -1036,17 +1059,21 @@ const ratingGame = setupRatingGame({
     return await api('rating/guess', {id: event.id, guess: chosen});
   },
   async saveScore(username) {
-    return onlineArcade() ? await arcadeApi('rating',{username,runId:onlineRatingRun}) : null;
+    const result=onlineArcade() ? await arcadeApi('rating',{username:signedIn.username||username,runId:onlineRatingRun}) : null;
+    if(accounts.available&&signedIn.username)await accounts.refresh().catch(()=>{});
+    return result;
   },
   onHome: showHome,
   onShow() {
+    if(signedIn.username){el('rating-gamertag').value=signedIn.username;el('rating-gamertag').readOnly=true;}
     showPlayScreen(false);
     el('home-screen').hidden = true; el('rating-screen').hidden = false;
     document.body.dataset.gameMode = 'rating';
   },
   onComplete(rounds, controls) {
     runSummary.show({mode: 'rating', title: modeTitles.rating, rounds, controls,
-      note: onlineArcade() ? 'Save this run to the shared EF Rating points leaderboard.' : 'EF Rating uses a separate points leaderboard on this browser.'});
+      note: signedIn.username&&accounts.available ? 'Your completed run saves to your account and leaderboard automatically.' : onlineArcade() ? 'Save this run to the shared EF Rating points leaderboard.' : 'EF Rating uses a separate points leaderboard on this browser.'});
+    if(accounts.available&&signedIn.username&&!el('rating-save-form').querySelector('button').disabled)el('rating-save-form').requestSubmit();
   },
 });
 el('daily-board-open').addEventListener('click', () => {
