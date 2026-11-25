@@ -510,3 +510,18 @@ body::before { animation: none; transform: none; will-change: auto; inset: 0; ba
 .round-grade-badge[data-grade="D"] { color: #f4a76d; }
 .round-grade-badge[data-grade="F"] { color: #fa858b; }
 .grades-unavailable { color: var(--muted); font-size: .65rem; line-height: 1.5; }
+/* Compact, aligned Daily rows; the name remains the primary label. */
+.daily-chase-board { container-type: inline-size; }
+#daily-board-list li { grid-template-columns: 24px minmax(0,1fr) auto; gap: 10px; padding: 15px 8px; }
+.daily-board-player { display: grid; grid-template-columns: minmax(0,1fr) auto auto; gap: 9px; align-items: center; }
+.daily-board-player > span:first-child { font-size: .95rem; font-weight: 700; line-height: 1.4; overflow-wrap: anywhere; }
+#daily-board-list .daily-board-player .player-rank { font-size: .64rem; padding: 3px 5px; line-height: 1.3; }
+.daily-board-player .round-grade-badges { flex-basis: auto; margin: 0; gap: 3px; }
+.daily-board-player .round-grade-badge { width: 18px; height: 21px; flex-basis: 18px; font-size: .62rem; border-radius: 3px; background: #ffffff08; }
+#daily-board-list li > strong { font-size: .85rem; white-space: nowrap; }
+@container (max-width: 390px) {
+  .daily-board-player { grid-template-columns: minmax(0,1fr) auto; row-gap: 7px; }
+  .daily-board-player .round-grade-badges { grid-column: 1 / -1; }
+  #daily-board-list li { align-items: start; }
+  #daily-board-list li > span:first-child,#daily-board-list li > strong { padding-top: 4px; }
+}
