@@ -1,4 +1,4 @@
-import {setupAccounts} from './accounts.mjs?v=1.62-claims2';
+import {setupAccounts} from './accounts.mjs?v=1.62-history5';
 import {setupRunSummary} from './run-summary.mjs';
 import {setupRatingGame, ratingPoints, ratingLeaderboard} from './rating-game.mjs';
 import {gameModes, modeCatalog} from './modes.mjs';
@@ -476,7 +476,15 @@ function arcadeApi(mode, input, dailyLineup = false) {
   return workerRequest(url, input);
 }
 
-async function workerRequest(url, input, token = accounts.token) {
+async function workerRequest(url,input,token=accounts.token) {
+  for(let attempt=0;;attempt++){
+    try{return await workerRequestOnce(url,input,token);}catch(error){
+      if(input!==undefined||attempt>=2|| (error.status&&error.status<500&&error.status!==429))throw error;
+      await new Promise(resolve=>setTimeout(resolve,1000*2**attempt));
+    }
+  }
+}
+async function workerRequestOnce(url, input, token = accounts.token) {
   const options = {signal: AbortSignal.timeout(15000), headers: token ? {Authorization:'Bearer '+token} : {}};
   if (input) {
     options.method = 'POST';
@@ -491,7 +499,7 @@ async function workerRequest(url, input, token = accounts.token) {
     throw new Error('The online leaderboard is unavailable. Try again.');
   }
   const data = await response.json();
-  if (!response.ok) throw new Error(data.message || 'The online leaderboard is unavailable. Try again.');
+  if (!response.ok) throw Object.assign(new Error(data.message || 'The online leaderboard is unavailable. Try again.'),{status:response.status});
   return data;
 }
 
@@ -868,7 +876,7 @@ async function loadArchive() {
     if (localReview()) {
       try { localRanked = Boolean((await (await fetch('/__review/config')).json()).ranked); } catch { localRanked = false; }
     }
-    if(onlineArcade()){accounts.activate();try{signedIn=await accounts.refresh();}catch(error){showMessage('account-message',error.message);}}
+    if(onlineArcade()){accounts.activate();accounts.refresh().catch(error=>showMessage('account-message',error.message));}
     if (!Array.isArray(catalog) || !catalog.length) throw new Error('The archive has no playable photos.');
     el('daily-card').hidden = !dailyEnabled();
     el('daily-feature-row').hidden = !dailyEnabled();
@@ -985,12 +993,15 @@ function setLeaderboardHeaders(labels) {
   }
 }
 
+let dailyBoardBusy=false,dailyBoardTimer;
 async function refreshDailyBoard() {
-  el('daily-board-list').replaceChildren();
-  el('daily-board-average').textContent = '—';
-  showMessage('daily-board-status', 'Loading today’s rankings…');
+  if(dailyBoardBusy)return;
+  dailyBoardBusy=true;clearTimeout(dailyBoardTimer);
+  if(!el('daily-board-list').children.length)showMessage('daily-board-status', 'Loading today’s rankings…');
   try {
     const result = await arcadeApi('daily');
+    el('daily-board-list').replaceChildren();
+    el('daily-board-average').textContent='—';
     const entries = Array.isArray(result.entries) ? result.entries.filter(e => typeof e.username === 'string' && Number.isFinite(e.averageMiles) && e.averageMiles >= 0) : [];
     if (result.day) showMessage('daily-size', dateFormat.format(new Date(result.day + 'T00:00:00Z')));
     for (const [index, entry] of entries.slice(0, 25).entries()) {
@@ -1017,8 +1028,8 @@ async function refreshDailyBoard() {
     if (entries.length) el('daily-board-average').textContent = milesText(entries.reduce((sum, e) => sum + e.averageMiles, 0) / entries.length);
     showMessage('daily-board-status', entries.length ? '' : 'No scores yet today. Be the first to finish.');
   } catch {
-    showMessage('daily-board-status', 'Today’s rankings are unavailable. Use Leaderboard to try again.');
-  }
+    showMessage('daily-board-status', 'Rankings temporarily unavailable. Reconnecting automatically…');
+  } finally {dailyBoardBusy=false;dailyBoardTimer=setTimeout(()=>{if(!document.hidden)refreshDailyBoard();},30000);}
 }
 
 function showCurrentRunSummary() {
@@ -1082,6 +1093,10 @@ el('daily-board-open').addEventListener('click', () => {
 
 renderSoundToggle();
 prepareArchive();
+setInterval(()=>{if(!document.hidden&&!archiveRequest)prepareArchive();},15000);
+setInterval(()=>{if(!document.hidden&&accounts.available&&accounts.token&&!signedIn.username)accounts.refresh().catch(()=>{});},30000);
+addEventListener('online',()=>{prepareArchive();if(dailyEnabled())refreshDailyBoard();if(accounts.available)accounts.refresh().catch(()=>{});});
+document.addEventListener('visibilitychange',()=>{if(!document.hidden){prepareArchive();if(dailyEnabled())refreshDailyBoard();}});
 
 const rankLegend = el('player-rank-bands');
 for (const [index, [rank, limit]] of playerRankBands.entries()) {

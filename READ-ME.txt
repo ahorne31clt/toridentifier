@@ -1,0 +1,1 @@
+Upload the three included files to your GitHub repository root. No Cloudflare changes. Removes round glyphs from account history, preserves Daily View / share, and labels missing or zero dates Earlier run. Includes the previous Daily-loading fixes.
