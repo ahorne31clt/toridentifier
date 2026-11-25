@@ -499,3 +499,14 @@ body::before { animation: none; transform: none; will-change: auto; inset: 0; ba
 .daily-board-player { display: flex; flex-wrap: wrap; align-items: center; gap: 7px 10px; min-width: 0; }
 .daily-board-player > span:first-child { overflow-wrap: anywhere; min-width: 0; }
 #daily-board-list .daily-board-player .player-rank { font-size: .65rem; line-height: 1.3; padding: 3px 6px; }
+
+/* Five spoiler-free Daily grades, always in round order. */
+.round-grade-badges { display: flex; flex-wrap: nowrap; gap: 5px; margin-top: 7px; }
+.daily-board-player .round-grade-badges { flex-basis: 100%; margin-top: 0; }
+.round-grade-badge { display: inline-flex; align-items: center; justify-content: center; width: 24px; height: 24px; flex: 0 0 24px; border: 1px solid currentColor; border-radius: 4px; background: #ffffff04; font-size: .7rem; font-weight: 800; line-height: 1; }
+.round-grade-badge[data-grade="A"] { color: #9ee3ae; }
+.round-grade-badge[data-grade="B"] { color: #9bd9f3; }
+.round-grade-badge[data-grade="C"] { color: #f1d27c; }
+.round-grade-badge[data-grade="D"] { color: #f4a76d; }
+.round-grade-badge[data-grade="F"] { color: #fa858b; }
+.grades-unavailable { color: var(--muted); font-size: .65rem; line-height: 1.5; }

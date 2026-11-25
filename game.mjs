@@ -598,15 +598,39 @@ function renderProfile() {
   container.append(title, table);
 }
 
+function roundGradeBadges(grades) {
+  const list = document.createElement('div');
+  list.className = 'round-grade-badges';
+  if (!Array.isArray(grades) || grades.length !== 5 || !grades.every(grade => /^[ABCDF]$/.test(grade))) {
+    list.classList.add('grades-unavailable');
+    list.textContent = 'Round grades unavailable';
+    return list;
+  }
+  list.setAttribute('aria-label', 'Daily round grades');
+  grades.forEach((grade,index) => {
+    const badge = document.createElement('span');
+    badge.className = 'round-grade-badge';
+    badge.dataset.grade = grade;
+    badge.textContent = grade;
+    badge.title = 'Round ' + (index + 1) + ': ' + grade;
+    badge.setAttribute('aria-label', 'Round ' + (index + 1) + ', grade ' + grade);
+    list.append(badge);
+  });
+  return list;
+}
+
 function renderLeaderboardRows(entries) {
   const table = el('leaderboard-table');
   const body = table.tBodies[0];
   for (const entry of entries) {
     const row = body.insertRow();
     if (entry.username === signedIn.username) row.classList.add('current-player');
-    for (const value of [entry.place, entry.username]) {
-      row.insertCell().textContent = value;
-    }
+    row.insertCell().textContent = entry.place;
+    const player = row.insertCell();
+    const name = document.createElement('span');
+    name.textContent = entry.username;
+    player.append(name);
+    if (el('leaderboard-game-mode').value === 'daily') player.append(roundGradeBadges(entry.grades));
     const badge = document.createElement('span');
     badge.className = 'player-rank';
     badge.textContent = playerRank(entry.averageMiles);
@@ -960,7 +984,7 @@ async function refreshDailyBoard() {
       rank.textContent = playerRank(entry.averageMiles);
       rank.dataset.rank = rank.textContent;
       rank.setAttribute('aria-label', 'Daily player rank ' + rank.textContent);
-      player.append(name, rank);
+      player.append(name, rank, roundGradeBadges(entry.grades));
       const distance = document.createElement('strong');
       distance.textContent = milesText(entry.averageMiles);
       li.append(place, player, distance);
