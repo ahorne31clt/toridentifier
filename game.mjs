@@ -1,6 +1,6 @@
-import {setupAccounts} from './accounts.mjs?v=1.62-history5';
-import {setupRunSummary} from './run-summary.mjs';
-import {setupRatingGame, ratingPoints, ratingLeaderboard} from './rating-game.mjs?v=1.62-hints7';
+import {setupAccounts} from './accounts.mjs?v=1.6.3';
+import {setupRunSummary} from './run-summary.mjs?v=1.6.3';
+import {setupRatingGame, ratingPoints, ratingLeaderboard} from './rating-game.mjs?v=1.6.3';
 import {gameModes, modeCatalog} from './modes.mjs';
 import {playerRank, playerRankBands, gradeBands, roundsPerRun, scoreGuess, trackPaths, validDate} from './scoring.mjs';
 import {setupCitySearch} from './city-search.mjs';
@@ -700,7 +700,7 @@ async function loadLeaderboard() {
       const entries = onlineArcade() ? (await arcadeApi('rating')).entries : ratingLeaderboard();
       if (request !== leaderboardRequest) return;
       showMessage('leaderboard-status',entries.length ? '' : 'No EF Rating scores saved yet.');
-      entries.forEach((entry,index) => {const row=body.insertRow();for(const value of [entry.place||index+1,entry.username,entry.exact+' / 5',entry.points+' / 15'])row.insertCell().textContent=value;});
+      entries.forEach((entry,index) => {const row=body.insertRow();for(const value of [entry.place||index+1,entry.username,entry.exact+' / 5',entry.points+' / 25'])row.insertCell().textContent=value;});
       table.hidden=!entries.length;
     }catch(error){if(request===leaderboardRequest)showMessage('leaderboard-status',error.message);}
     return;

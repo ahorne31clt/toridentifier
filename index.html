@@ -80,10 +80,10 @@
   <link rel="stylesheet" href="./styles.css?v=1.61-ui3">
 
 
-  <link rel="stylesheet" href="./ui.css?v=1.62-hints7">
+  <link rel="stylesheet" href="./ui.css?v=1.6.3">
 
   <script defer src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
-  <script type="module" src="./game.mjs?v=1.62-hints7"></script>
+  <script type="module" src="./game.mjs?v=1.6.3"></script>
   <script type="module" src="./pressure-field.mjs"></script>
 </head>
 <body>
@@ -106,9 +106,9 @@
       <div class="home-content">
         <div class="selection-intro"><p class="eyebrow">Your next chase starts here</p><h1 id="home-title" tabindex="-1">Choose your challenge<span>.</span></h1><p class="selection-description">Recognize the storm. Find its home. Test what you know.</p></div>
 
-        <details class="release-notes">
-          <summary><strong>Tornado Guesser v1.62</strong><span>1.6.2 · Player accounts · November 25, 2026</span></summary>
-          <p>1.6.2 · Player accounts</p><ul><li><strong>Play as yourself:</strong> register a username and six-digit PIN, with no email or password required.</li><li><strong>Synced score history:</strong> completed location and EF Rating runs save automatically while signed in.</li><li><strong>Account recovery:</strong> save your recovery code to reset a forgotten PIN.</li><li>Guest play, Daily score lookup, sharing, and existing rankings remain available.</li></ul><p>Also included · 1.6.1 bug fixes and interface improvements</p>
+        <details class="release-notes"><p>1.6.3 · Bug fixes and changes: full-width mobile mode cards; EF scoring awards 5 / 3 / 1 / 0 points, up to 25 per run. New EF leaderboard; earlier scores remain in account history.</p>
+          <summary><strong>Tornado Guesser v1.6.3</strong><span>1.6.3 · Bug fixes and changes · November 25, 2026</span></summary>
+          <p>1.6.3 · Bug fixes and changes</p><ul><li><strong>Play as yourself:</strong> register a username and six-digit PIN, with no email or password required.</li><li><strong>Synced score history:</strong> completed location and EF Rating runs save automatically while signed in.</li><li><strong>Account recovery:</strong> save your recovery code to reset a forgotten PIN.</li><li>Guest play, Daily score lookup, sharing, and existing rankings remain available.</li></ul><p>Also included · 1.6.1 bug fixes and interface improvements</p>
           <ul>
             <li><strong>Consistent interface:</strong> matching rounded buttons, fields, dialogs, and Feedback controls throughout the site.</li>
             <li><strong>Daily chase board:</strong> matches the Daily card height, scrolls through ranked players, and outlines placements and mileage.</li>
@@ -310,10 +310,10 @@
 
 
     <section id="rating-screen" aria-labelledby="rating-title" hidden>
-      <div class="intro"><div><p class="eyebrow">Guess the EF Rating</p><h1 id="rating-title" tabindex="-1">Know the storm?</h1><p class="intro-copy">Choose its recorded rating. Five photos, up to 15 points.</p></div><div class="play-options"><button class="button outline" id="rating-home" type="button">Game modes</button></div></div>
+      <div class="intro"><div><p class="eyebrow">Guess the EF Rating</p><h1 id="rating-title" tabindex="-1">Know the storm?</h1><p class="intro-copy">Choose its recorded rating. Five photos, up to 25 points.</p></div><div class="play-options"><button class="button outline" id="rating-home" type="button">Game modes</button></div></div>
       <div class="board rating-board">
         <section class="panel photo-panel"><header class="panel-head"><h2>Tornado photo</h2><div class="photo-controls"><span id="rating-round-count"></span><button class="button outline" id="rating-full-photo" type="button" disabled>Full photo</button></div></header><div class="photo-frame"><img id="rating-photo" alt="Tornado photo for this round" hidden><p id="rating-photo-status" role="status">Loading photo…</p></div><div class="photo-foot"><p id="rating-photo-note">Look closely. Do you recognize this event?</p></div></section>
-        <section class="panel rating-panel"><header class="panel-head"><h2>Your call</h2><span id="rating-running-score">0 / 15 points</span></header><form id="rating-guess-form"><h2 id="rating-question">What was its recorded EF rating?</h2><fieldset id="rating-options"><legend class="sr-only">Choose the recorded tornado rating</legend></fieldset><p class="rating-points-guide">Exact rating: <strong>3 points</strong> · One level away: <strong>1 point</strong> · EF-U: exact matches only.</p><p id="rating-scale-note" class="rating-learning-note">Appearance alone cannot establish a damage rating. This challenge tests event recognition.</p><div class="rating-hints"><button type="button" class="button outline" id="rating-hint">Reveal a hint</button><p id="rating-hint-text" class="hint" role="status" hidden></p></div><button class="button primary" id="rating-lock" disabled>Lock in rating</button></form>
+        <section class="panel rating-panel"><header class="panel-head"><h2>Your call</h2><span id="rating-running-score">0 / 25 points</span></header><form id="rating-guess-form"><h2 id="rating-question">What was its recorded EF rating?</h2><fieldset id="rating-options"><legend class="sr-only">Choose the recorded tornado rating</legend></fieldset><p class="rating-points-guide">Exact rating: <strong>5 points</strong> · One level away: <strong>3 points</strong> · Two levels away: <strong>1 point</strong> · EF-U: exact matches only.</p><p id="rating-scale-note" class="rating-learning-note">Appearance alone cannot establish a damage rating. This challenge tests event recognition.</p><div class="rating-hints"><button type="button" class="button outline" id="rating-hint">Reveal a hint</button><p id="rating-hint-text" class="hint" role="status" hidden></p></div><button class="button primary" id="rating-lock" disabled>Lock in rating</button></form>
           <div id="rating-reveal" class="rating-reveal" aria-live="polite" hidden><p class="eyebrow" id="rating-verdict"></p><h2 id="rating-event-name"></h2><p id="rating-event-date"></p><div class="rating-reveal-metrics"><div><span>Recorded rating</span><strong id="rating-actual"></strong></div><div><span>Points earned</span><strong id="rating-points"></strong></div></div><p id="rating-explanation"></p><p><a id="rating-event-source" target="_blank" rel="noopener">Event report</a> · <a id="rating-photo-source" target="_blank" rel="noopener">Photo source</a></p><p id="rating-photo-credit"></p></div>
           <p id="rating-status" class="message" role="status" hidden></p><button class="button primary" id="rating-next" type="button" hidden>Next photo</button>
         </section>
@@ -334,7 +334,7 @@
         <p>Grades use distance to the nearest point on the surveyed tornado track when available, or to the recorded event location. Date guesses receive separate feedback in days.</p>
       </details>
       <span id="round-summary" hidden>0 rounds played</span>
-      <p class="site-credit">Created by <strong>Christopher Horne</strong> and <strong>Blake Teer</strong> <span>UNC Charlotte · 2026</span> <span class="footer-version">v1.62</span></p>
+      <p class="site-credit">Created by <strong>Christopher Horne</strong> and <strong>Blake Teer</strong> <span>UNC Charlotte · 2026</span> <span class="footer-version">v1.6.3</span></p>
     </footer>
   </main>
 

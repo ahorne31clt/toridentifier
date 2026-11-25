@@ -211,3 +211,5 @@ body > header.masthead { position: relative !important; inset: auto !important; 
 .rating-hints .hint { line-height:1.6;padding:12px;border-left:2px solid #92dfab;background:#92dfab0a; }
 @media(max-width:760px) { #play-screen .board > .panel,#rating-screen .board > .panel { height:auto; } #rating-screen .photo-frame { flex:none; } }
 body > header.masthead { position:relative !important;inset:auto !important; }
+
+@media(max-width:760px){ .mode-grid,.mode-grid:has(#daily-card:not([hidden])) {grid-template-columns:minmax(0,1fr) !important;} .mode-grid > .mode-card {width:100%;min-width:0;} .selection-heading {flex-wrap:wrap;gap:10px;} }

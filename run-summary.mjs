@@ -6,7 +6,7 @@ export function distanceRunStats(rounds) {
   return {average,closest:Math.min(...miles),rank:playerRank(average)};
 }
 export function ratingRunStats(rounds) {
-  return {points:rounds.reduce((sum,r)=>sum+r.points,0),exact:rounds.filter(r=>r.points===3).length,near:rounds.filter(r=>r.points===1).length};
+  return {points:rounds.reduce((sum,r)=>sum+r.points,0),exact:rounds.filter(r=>r.points===5).length,near:rounds.filter(r=>r.points===3).length};
 }
 const el=id=>document.getElementById(id);
 const number=new Intl.NumberFormat('en-US',{maximumFractionDigits:1});
@@ -27,7 +27,7 @@ export function setupRunSummary({onHome,onAgain,canLeave=()=>true}) {
     el('run-summary-round-count').textContent=rounds.length+' completed rounds';
     el('run-summary-stats').replaceChildren();
     const rating=mode==='rating';const stats=rating?ratingRunStats(rounds):distanceRunStats(rounds);
-    const items=rating?[['Your score',stats.points+' / '+rounds.length*3],['Exact matches',stats.exact+' / '+rounds.length],['One level away',String(stats.near)]]:[['Average distance',miles(stats.average)],['Closest guess',miles(stats.closest)],['Player rank',stats.rank]];
+    const items=rating?[['Your score',stats.points+' / '+rounds.length*5],['Exact matches',stats.exact+' / '+rounds.length],['One level away',String(stats.near)]]:[['Average distance',miles(stats.average)],['Closest guess',miles(stats.closest)],['Player rank',stats.rank]];
     for(const [label,value] of items){const d=node('div');d.append(node('span',label),node('strong',value));el('run-summary-stats').append(d);}
     el('run-summary-rounds').replaceChildren();
     rounds.forEach((r,index)=>{
@@ -52,7 +52,7 @@ export function setupRunSummary({onHome,onAgain,canLeave=()=>true}) {
   el('run-summary-again').addEventListener('click',()=>{if(!canLeave())return;const mode=current.mode;close();onAgain(mode);});
   el('run-summary-copy').addEventListener('click',async()=>{
     if(!current)return;const {mode,title,rounds}=current;
-    const score=mode==='rating'?ratingRunStats(rounds).points+' / '+rounds.length*3+' points':miles(distanceRunStats(rounds).average)+' average';
+    const score=mode==='rating'?ratingRunStats(rounds).points+' / '+rounds.length*5+' points':miles(distanceRunStats(rounds).average)+' average';
     const text=['Tornado Guesser · '+title,score,'https://tornadoguesser.app/'].join('\n');
     try{await navigator.clipboard.writeText(text);el('run-summary-status').textContent='Result copied.';}catch{el('run-summary-status').textContent=text;}
     el('run-summary-status').hidden=false;
