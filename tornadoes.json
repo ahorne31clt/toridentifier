@@ -52,7 +52,7 @@
   {
     "id": "004",
     "image": "images/4.jpg",
-    "name": "Newcastle–Moore, Oklahoma",
+    "name": "Newcastle\u2013Moore, Oklahoma",
     "lat": 35.25,
     "lng": -97.6,
     "date": "2013-05-20",
@@ -178,7 +178,7 @@
     "photoCredit": "VORTEX2 / NOAA Photo Library",
     "photoSource": "https://commons.wikimedia.org/wiki/File:Rope_tornado_in_LaGrange,_Wyoming.jpg",
     "hints": [
-      "Look east of the Rockies near the Wyoming–Nebraska border.",
+      "Look east of the Rockies near the Wyoming\u2013Nebraska border.",
       "The event occurred in the second half of the 2000s."
     ],
     "clueType": "funnel",
@@ -196,7 +196,7 @@
     "photoCredit": "National Weather Service",
     "photoSource": "https://commons.wikimedia.org/wiki/File:2010_Doran_tornado.jpg",
     "hints": [
-      "Look near the Minnesota–North Dakota border.",
+      "Look near the Minnesota\u2013North Dakota border.",
       "The event occurred near the beginning of the 2010s."
     ],
     "clueType": "funnel",
@@ -213,7 +213,7 @@
     "photoCredit": "NOAA / NSSL",
     "photoSource": "https://commons.wikimedia.org/wiki/File:NSSL_Mobile_Mesonet_Truck_chasing_the_2024_Duke%2C_Oklahoma_tornado.png",
     "hints": [
-      "Look near the Oklahoma–Texas border, east of the Texas Panhandle.",
+      "Look near the Oklahoma\u2013Texas border, east of the Texas Panhandle.",
       "The event occurred in the middle of the 2020s."
     ],
     "clueType": "funnel",
@@ -222,7 +222,7 @@
   {
     "id": "014",
     "image": "images/14.webp",
-    "name": "Wichita–Andover, Kansas",
+    "name": "Wichita\u2013Andover, Kansas",
     "lat": 37.625,
     "lng": -97.259,
     "date": "1991-04-26",
@@ -350,7 +350,7 @@
   },
   {
     "id": "funnel-0e4a22c1d761",
-    "name": "Bridge Creek–Moore, Oklahoma",
+    "name": "Bridge Creek\u2013Moore, Oklahoma",
     "lat": 35.374888,
     "lng": -97.529088,
     "date": "1999-05-03",
@@ -458,7 +458,7 @@
   },
   {
     "id": "funnel-e8320209fe31",
-    "name": "Van Wert–Roselms, Ohio",
+    "name": "Van Wert\u2013Roselms, Ohio",
     "lat": 40.886035,
     "lng": -84.614432,
     "date": "2002-11-10",
@@ -494,7 +494,7 @@
   },
   {
     "id": "funnel-45f66dac98ed",
-    "name": "Oklahoma City–Moore, Oklahoma",
+    "name": "Oklahoma City\u2013Moore, Oklahoma",
     "lat": 35.34955,
     "lng": -97.491043,
     "date": "2003-05-08",
@@ -698,7 +698,7 @@
   },
   {
     "id": "funnel-6752051853bc",
-    "name": "Parkersburg–New Hartford, Iowa",
+    "name": "Parkersburg\u2013New Hartford, Iowa",
     "lat": 42.560957,
     "lng": -92.776228,
     "date": "2008-05-25",
@@ -754,7 +754,7 @@
   },
   {
     "id": "funnel-d059450e79b5",
-    "name": "Lake Township–Millbury, Ohio",
+    "name": "Lake Township\u2013Millbury, Ohio",
     "lat": 41.565409,
     "lng": -83.425676,
     "date": "2010-06-05",
@@ -772,7 +772,7 @@
   },
   {
     "id": "funnel-a109e5e543e0",
-    "name": "Holmes–Thompson, North Dakota",
+    "name": "Holmes\u2013Thompson, North Dakota",
     "lat": 47.768434,
     "lng": -97.314656,
     "date": "2010-06-17",
@@ -848,7 +848,7 @@
   },
   {
     "id": "funnel-d4f410ce70be",
-    "name": "Hackleburg–Phil Campbell, Alabama",
+    "name": "Hackleburg\u2013Phil Campbell, Alabama",
     "lat": 34.332975,
     "lng": -87.693438,
     "date": "2011-04-27",
@@ -868,7 +868,7 @@
   },
   {
     "id": "funnel-5831d5e1d2e2",
-    "name": "Rainsville–Sylvania, Alabama",
+    "name": "Rainsville\u2013Sylvania, Alabama",
     "lat": 34.500567,
     "lng": -85.844145,
     "date": "2011-04-27",
@@ -888,7 +888,7 @@
   },
   {
     "id": "funnel-90e2c90ac678",
-    "name": "Tuscaloosa–Birmingham, Alabama",
+    "name": "Tuscaloosa\u2013Birmingham, Alabama",
     "lat": 33.236643,
     "lng": -87.529955,
     "date": "2011-04-27",
@@ -926,7 +926,7 @@
   },
   {
     "id": "funnel-8dd823e2fedf",
-    "name": "Cordova–Sipsey, Alabama",
+    "name": "Cordova\u2013Sipsey, Alabama",
     "lat": 33.79541,
     "lng": -87.22735,
     "date": "2011-04-27",
@@ -984,7 +984,7 @@
   },
   {
     "id": "funnel-98a90070397c",
-    "name": "El Reno–Piedmont, Oklahoma",
+    "name": "El Reno\u2013Piedmont, Oklahoma",
     "lat": 35.706199,
     "lng": -97.778502,
     "date": "2011-05-24",
@@ -1004,7 +1004,7 @@
   },
   {
     "id": "funnel-e540c8f809a6",
-    "name": "Washington–Goldsby, Oklahoma",
+    "name": "Washington\u2013Goldsby, Oklahoma",
     "lat": 35.131748,
     "lng": -97.49958,
     "date": "2011-05-24",
@@ -1022,7 +1022,7 @@
   },
   {
     "id": "funnel-0aed692df915",
-    "name": "Chickasha–Newcastle, Oklahoma",
+    "name": "Chickasha\u2013Newcastle, Oklahoma",
     "lat": 35.0293,
     "lng": -97.933742,
     "date": "2011-05-24",
@@ -1100,7 +1100,7 @@
   },
   {
     "id": "funnel-4ce9a04ac75a",
-    "name": "Lyons–Salina, Kansas",
+    "name": "Lyons\u2013Salina, Kansas",
     "lat": 38.892014,
     "lng": -97.739161,
     "date": "2012-04-14",
@@ -1160,7 +1160,7 @@
   },
   {
     "id": "funnel-efb83e66ebcc",
-    "name": "Mayflower–Vilonia, Arkansas",
+    "name": "Mayflower\u2013Vilonia, Arkansas",
     "lat": 35.064311,
     "lng": -92.201519,
     "date": "2014-04-27",
@@ -1216,7 +1216,7 @@
   },
   {
     "id": "funnel-32e21e0f5726",
-    "name": "Rochelle–Fairdale, Illinois",
+    "name": "Rochelle\u2013Fairdale, Illinois",
     "lat": 42.111971,
     "lng": -88.946671,
     "date": "2015-04-09",
@@ -1252,7 +1252,7 @@
   },
   {
     "id": "funnel-26b1dfe2bed7",
-    "name": "Katie–Wynnewood, Oklahoma",
+    "name": "Katie\u2013Wynnewood, Oklahoma",
     "lat": 34.589,
     "lng": -97.21,
     "date": "2016-05-09",
@@ -1404,7 +1404,7 @@
   },
   {
     "id": "funnel-2aa5c733b656",
-    "name": "Monette–Samburg, Tennessee",
+    "name": "Monette\u2013Samburg, Tennessee",
     "lat": 36.483,
     "lng": -89.135,
     "date": "2021-12-10",
@@ -1574,7 +1574,7 @@
   },
   {
     "id": "funnel-c4a3cae77dbd",
-    "name": "Fifty-Six–Fairdealing, Arkansas and Missouri",
+    "name": "Fifty-Six\u2013Fairdealing, Arkansas and Missouri",
     "lat": 35.948304,
     "lng": -92.222467,
     "date": "2025-03-14",
@@ -1594,7 +1594,7 @@
   },
   {
     "id": "funnel-d1c9d664911a",
-    "name": "Bakersfield–West Plains, Missouri",
+    "name": "Bakersfield\u2013West Plains, Missouri",
     "lat": 36.513552,
     "lng": -92.13587,
     "date": "2025-03-14",
@@ -1614,7 +1614,7 @@
   },
   {
     "id": "funnel-2b61e74da208",
-    "name": "Lake City–Monette, Arkansas",
+    "name": "Lake City\u2013Monette, Arkansas",
     "lat": 35.804709,
     "lng": -90.435049,
     "date": "2025-04-02",
@@ -1632,7 +1632,7 @@
   },
   {
     "id": "funnel-739d0c4da5d3",
-    "name": "Somerset–London, Kentucky",
+    "name": "Somerset\u2013London, Kentucky",
     "lat": 37.077736,
     "lng": -84.072531,
     "date": "2025-05-16",
@@ -1726,7 +1726,7 @@
   },
   {
     "id": "funnel-0c637dce9766",
-    "name": "Kankakee–Roselawn, Illinois and Indiana",
+    "name": "Kankakee\u2013Roselawn, Illinois and Indiana",
     "lat": 41.085777,
     "lng": -87.859452,
     "date": "2026-03-10",
@@ -1800,7 +1800,7 @@
   },
   {
     "id": "funnel-e3fface27cd4",
-    "name": "Appleton–Menasha, Wisconsin",
+    "name": "Appleton\u2013Menasha, Wisconsin",
     "lat": 44.277554,
     "lng": -88.437824,
     "date": "2026-07-27",
@@ -1860,7 +1860,7 @@
   },
   {
     "id": "funnel-3e126c874a87",
-    "name": "Lena–Orangeville, Illinois",
+    "name": "Lena\u2013Orangeville, Illinois",
     "lat": 42.35466,
     "lng": -89.873824,
     "date": "2026-04-17",
@@ -1900,7 +1900,7 @@
   },
   {
     "id": "funnel-f84ab50357e8",
-    "name": "Hebron–Kouts, Indiana",
+    "name": "Hebron\u2013Kouts, Indiana",
     "lat": 41.242206,
     "lng": -87.276758,
     "date": "2026-06-11",
@@ -1940,7 +1940,7 @@
   },
   {
     "id": "funnel-f2faa63fac34",
-    "name": "Rowe–Dwight, Illinois",
+    "name": "Rowe\u2013Dwight, Illinois",
     "lat": 40.946349,
     "lng": -88.657453,
     "date": "2026-06-11",
@@ -2028,7 +2028,7 @@
     "clueType": "funnel",
     "rating": "F5",
     "hints": [
-      "Look near the North Dakota–Minnesota border along the Red River.",
+      "Look near the North Dakota\u2013Minnesota border along the Red River.",
       "The event occurred in the 1950s."
     ],
     "image": "images/funnel-18b0a62a9989.webp",
@@ -2040,7 +2040,7 @@
   },
   {
     "id": "funnel-5d8e773d2a41",
-    "name": "Niles–Wheatland, Ohio and Pennsylvania",
+    "name": "Niles\u2013Wheatland, Ohio and Pennsylvania",
     "lat": 41.2,
     "lng": -80.5,
     "date": "1985-05-31",
@@ -2048,7 +2048,7 @@
     "clueType": "funnel",
     "rating": "F5",
     "hints": [
-      "Look along the Ohio–Pennsylvania border, north of Youngstown.",
+      "Look along the Ohio\u2013Pennsylvania border, north of Youngstown.",
       "The event occurred in the 1980s."
     ],
     "image": "images/funnel-5d8e773d2a41.webp",
@@ -2060,7 +2060,7 @@
   },
   {
     "id": "funnel-7babe5bf0c81",
-    "name": "Dunlap–Midway, Indiana",
+    "name": "Dunlap\u2013Midway, Indiana",
     "lat": 41.64,
     "lng": -85.92,
     "date": "1965-04-11",
@@ -2080,7 +2080,7 @@
   },
   {
     "id": "funnel-83fa8c2ec4d2",
-    "name": "Russiaville–Kokomo, Indiana",
+    "name": "Russiaville\u2013Kokomo, Indiana",
     "lat": 40.45,
     "lng": -86.13,
     "date": "1965-04-11",
@@ -2100,7 +2100,7 @@
   },
   {
     "id": "funnel-f406b9725f61",
-    "name": "Clear Lake–Gary, South Dakota",
+    "name": "Clear Lake\u2013Gary, South Dakota",
     "lat": 44.7535,
     "lng": -96.6318,
     "date": "2025-06-28",
@@ -2125,5 +2125,29 @@
     "pathWidthYards": 100,
     "injuries": 2,
     "fatalities": 0
+  },
+  {
+    "id": "bellevue-ne-20170616",
+    "name": "Bellevue, Nebraska",
+    "lat": 41.0994,
+    "lng": -95.9611,
+    "date": "2017-06-16",
+    "rating": "EF2",
+    "clueType": "funnel",
+    "image": "images/bellevue-ne-20170616.png",
+    "source": "https://www.weather.gov/oax/event_archive_20170616",
+    "hints": [
+      "Look near the Missouri River in eastern Nebraska, south of Omaha.",
+      "This event occurred in June 2017."
+    ],
+    "photoCredit": "User-supplied photo; photographer unconfirmed",
+    "photoSource": "images/bellevue-ne-20170616.png",
+    "photoEdit": "Original supplied PNG; no edits.",
+    "startTimeUtc": "2017-06-17T01:05:00Z",
+    "endTimeUtc": "2017-06-17T01:18:00Z",
+    "maxWindMph": 135,
+    "fatalities": 0,
+    "injuries": 0,
+    "coordinateSource": "https://www.spc.noaa.gov/wcm/data/2017_torn.csv"
   }
 ]
