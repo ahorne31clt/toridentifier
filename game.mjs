@@ -976,7 +976,7 @@ async function refreshDailyBoard() {
       const place = document.createElement('span');
       place.textContent = '#' + (entry.place || index + 1);
       const player = document.createElement('div');
-      player.className = 'daily-board-player';
+      player.className = 'daily-board-name';
       const name = document.createElement('span');
       name.textContent = entry.username;
       const rank = document.createElement('span');
@@ -984,10 +984,11 @@ async function refreshDailyBoard() {
       rank.textContent = playerRank(entry.averageMiles);
       rank.dataset.rank = rank.textContent;
       rank.setAttribute('aria-label', 'Daily player rank ' + rank.textContent);
-      player.append(name, rank, roundGradeBadges(entry.grades));
+      name.title = entry.username;
+      player.append(name);
       const distance = document.createElement('strong');
       distance.textContent = milesText(entry.averageMiles);
-      li.append(place, player, distance);
+      li.append(place, player, rank, roundGradeBadges(entry.grades), distance);
       el('daily-board-list').append(li);
     }
     el('daily-board-average-label').textContent = entries.length ? 'Average of ' + entries.length + ' ranked ' + (entries.length === 1 ? 'player' : 'players') : 'Ranked player average';

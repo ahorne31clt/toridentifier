@@ -525,3 +525,31 @@ body::before { animation: none; transform: none; will-change: auto; inset: 0; ba
   #daily-board-list li { align-items: start; }
   #daily-board-list li > span:first-child,#daily-board-list li > strong { padding-top: 4px; }
 }
+
+/* Board v2: explicit columns, a compact card, and an inline summary. */
+.daily-chase-board { align-self: start; padding: 22px; }
+.daily-board-columns,#daily-board-list li { display: grid; grid-template-columns: 20px minmax(70px,1fr) 38px 102px 64px; gap: 8px; align-items: center; }
+.daily-board-columns { margin-top: 24px; padding: 0 6px 9px; color: var(--muted); font-size: .56rem; font-weight: 700; text-transform: uppercase; letter-spacing: .06em; border-bottom: 1px solid var(--line); }
+.daily-board-columns > span:last-child { text-align: right; }
+#daily-board-list { margin: 0; }
+#daily-board-list li { padding: 16px 6px; min-height: 62px; border-bottom: 1px solid #ffffff0b; background: transparent; }
+#daily-board-list li:first-child { background: #d4b9f206; }
+#daily-board-list li > span:first-child { padding: 0; font-size: .7rem; }
+.daily-board-name { min-width: 0; font-size: .96rem; line-height: 1.4; font-weight: 700; }
+.daily-board-name > span { display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+#daily-board-list li > .player-rank { padding: 3px 4px; font-size: .6rem; text-align: center; line-height: 1.3; }
+#daily-board-list li > .round-grade-badges { gap: 3px; margin: 0; }
+#daily-board-list .round-grade-badge { width: 18px; height: 21px; flex: 0 0 18px; font-size: .62rem; border-radius: 3px; background: #ffffff05; }
+#daily-board-list li > strong { padding: 0; font-size: .8rem; text-align: right; white-space: nowrap; }
+.daily-chase-board .daily-board-average { margin-top: 18px; padding-top: 0; display: flex; align-items: baseline; justify-content: space-between; gap: 12px; }
+.daily-chase-board .daily-board-average span { font-size: .68rem; margin: 0; line-height: 1.5; }
+.daily-chase-board .daily-board-average strong { font-size: 1.35rem; white-space: nowrap; }
+.daily-chase-board .daily-board-note { font-size: .6rem; line-height: 1.5; margin-top: 10px; }
+@container (max-width: 365px) {
+ .daily-board-columns { display: none; }
+ #daily-board-list { margin-top: 16px; }
+ #daily-board-list li { grid-template-columns: 20px minmax(0,1fr) 38px 64px; row-gap: 9px; align-items: center; }
+ #daily-board-list li > .round-grade-badges { grid-column: 2 / -1; grid-row: 2; }
+ #daily-board-list li > strong { grid-column: 4; grid-row: 1; }
+ #daily-board-list li > .round-grade-badges::before { content: 'ROUNDS 1–5'; align-self: center; color: var(--muted); font-size: .5rem; letter-spacing: .04em; margin-right: 5px; }
+}
