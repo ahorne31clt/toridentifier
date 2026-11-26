@@ -1,5 +1,6 @@
+import {setupDailyReplay} from './daily-replay.mjs?v=1.7-replay1';
 import {setupAccounts} from './accounts.mjs?v=1.7-brand2';
-import {setupRunSummary} from './run-summary.mjs?v=1.7';
+import {setupRunSummary} from './run-summary.mjs?v=1.7-replay1';
 import {setupRatingGame, ratingPoints, ratingLeaderboard} from './rating-game.mjs?v=1.7';
 import {gameModes, modeCatalog} from './modes.mjs';
 import {playerRank, playerRankBands, gradeBands, roundsPerRun, scoreGuess, trackPaths, validDate} from './scoring.mjs';
@@ -571,7 +572,11 @@ async function saveArcadeScore(event) {
 
 const accounts = setupAccounts({
  request: (path,input,token) => workerRequest(new URL('./account/'+path,arcadeUrl),input,token),
- onProfile(profile) { signedIn=profile; renderProfile(); }
+ onProfile(profile) { signedIn=profile; renderProfile(); dailyReplay.profileChanged(); dailyReplay.invalidate(); if (el('leaderboard-dialog').open || window.nativePage === 'Leaderboard') loadLeaderboard(); if (dailyEnabled()) refreshDailyBoard(); }
+});
+const dailyReplay = setupDailyReplay({
+  getUsername: () => signedIn.username,
+  request: params => {const url = new URL('./daily-replay', arcadeUrl); url.search = new URLSearchParams(params); return workerRequest(url);}
 });
 function renderProfile() {
   if(accounts.available){
@@ -646,9 +651,10 @@ function roundGradeBadges(grades) {
   return list;
 }
 
-function renderLeaderboardRows(entries) {
+function renderLeaderboardRows(entries, day) {
   const table = el('leaderboard-table');
   const body = table.tBodies[0];
+  const replayTargets = [];
   for (const entry of entries) {
     const row = body.insertRow();
     if (entry.username === signedIn.username) row.classList.add('current-player');
@@ -657,6 +663,7 @@ function renderLeaderboardRows(entries) {
     const name = document.createElement('span');
     name.textContent = entry.username;
     player.append(name);
+    replayTargets.push({entry, target:player});
     if (el('leaderboard-game-mode').value === 'daily') player.append(roundGradeBadges(entry.grades));
     const badge = document.createElement('span');
     badge.className = 'player-rank';
@@ -666,6 +673,7 @@ function renderLeaderboardRows(entries) {
     row.insertCell().textContent = milesText(entry.averageMiles);
   }
   table.hidden = !entries.length;
+  if (day && el('leaderboard-game-mode').value === 'daily') dailyReplay.decorate(table.parentElement, replayTargets, day, {note:true});
 }
 
 function localBoard(mode) {
@@ -681,6 +689,8 @@ function localBoard(mode) {
 
 async function loadLeaderboard() {
   const request = ++leaderboardRequest;
+  dailyReplay.invalidate();
+  document.querySelectorAll('.replay-access-note').forEach(node => node.remove());
   const table = el('leaderboard-table');
   const body = table.tBodies[0];
   const mode = el('leaderboard-game-mode').value;
@@ -695,7 +705,7 @@ async function loadLeaderboard() {
     el('leaderboard-dialog').dataset.mode = 'rating';
     el('rank-guide').hidden = true;
     showMessage('leaderboard-status','Loading rankings…');
-    showMessage('leaderboard-rules', onlineArcade() ? 'Five photos · Exact match: 3 points · One level away: 1 point. Highest points wins; exact matches break ties.' : 'EF Rating points leaderboard on this browser. Highest points wins; exact matches break ties.');
+    showMessage('leaderboard-rules', onlineArcade() ? 'Five photos · Exact match: 5 points · One level away: 3 points · Two levels away: 1 point. Highest points wins; exact matches break ties.' : 'EF Rating points leaderboard on this browser. Highest points wins; exact matches break ties.');
     try {
       const entries = onlineArcade() ? (await arcadeApi('rating')).entries : ratingLeaderboard();
       if (request !== leaderboardRequest) return;
@@ -714,7 +724,7 @@ async function loadLeaderboard() {
       if (day) showMessage('leaderboard-rules', dateFormat.format(new Date(day + 'T00:00:00Z')) +
         ' · First score per gamertag · Lowest average distance wins');
       showMessage('leaderboard-status', entries.length ? '' : 'No arcade scores yet.');
-      renderLeaderboardRows(entries);
+      renderLeaderboardRows(entries, day);
     } catch {
       if (request === leaderboardRequest) {
         showMessage('leaderboard-status', 'The online leaderboard is unavailable. Reopen it to try again.');
@@ -1004,6 +1014,7 @@ async function refreshDailyBoard() {
     el('daily-board-average').textContent='—';
     const entries = Array.isArray(result.entries) ? result.entries.filter(e => typeof e.username === 'string' && Number.isFinite(e.averageMiles) && e.averageMiles >= 0) : [];
     if (result.day) showMessage('daily-size', dateFormat.format(new Date(result.day + 'T00:00:00Z')));
+    const replayTargets = [];
     for (const [index, entry] of entries.slice(0, 25).entries()) {
       const li = document.createElement('li');
       const place = document.createElement('span');
@@ -1019,11 +1030,13 @@ async function refreshDailyBoard() {
       rank.setAttribute('aria-label', 'Daily player rank ' + rank.textContent);
       name.title = entry.username;
       player.append(name);
+      replayTargets.push({entry, target:player});
       const distance = document.createElement('strong');
       distance.textContent = milesText(entry.averageMiles);
       li.append(place, player, rank, roundGradeBadges(entry.grades), distance);
       el('daily-board-list').append(li);
     }
+    dailyReplay.decorate(el('daily-board-list'), replayTargets, result.day);
     el('daily-board-average-label').textContent = entries.length ? 'Average of ' + entries.length + ' ranked ' + (entries.length === 1 ? 'player' : 'players') : 'Ranked player average';
     if (entries.length) el('daily-board-average').textContent = milesText(entries.reduce((sum, e) => sum + e.averageMiles, 0) / entries.length);
     showMessage('daily-board-status', entries.length ? '' : 'No scores yet today. Be the first to finish.');
@@ -1038,7 +1051,7 @@ function showCurrentRunSummary() {
     return {name: event.name || 'Tornado event', eventDate: event.date || '2000-01-01', rating: event.rating || '', image: event.image || '',
       miles: round.miles, grade: round.grade || gradeBands.find(([, max]) => round.miles <= max)[0], dateError: round.dateError};
   });
-  runSummary.show({mode: currentMode, title: modeTitles[currentMode], rounds,
+  runSummary.show({mode: currentMode, title: modeTitles[currentMode], rounds, username:signedIn.username || el('arcade-gamertag').value.trim(),
     controls: isStatic ? [el('arcade-score-form'), el('daily-share-open')] : [],
     note: accounts.available&&signedIn.username ? 'Your completed run saves to your account and leaderboard automatically.' : !isStatic ? (signedIn.username ? 'Your completed rounds were saved to your account.' : 'Your guest rounds are saved on this browser.') : ''});
   if(accounts.available&&signedIn.username&&arcadeAverage!==null&&!isSavingScore)el('arcade-score-form').requestSubmit();
@@ -1046,6 +1059,8 @@ function showCurrentRunSummary() {
 
 const runSummary = setupRunSummary({
   onHome: showHome,
+  getShareUsername: mode => signedIn.username || el(mode === 'rating' ? 'rating-gamertag' : 'arcade-gamertag').value.trim(),
+  onShareDaily: () => {const result=getDailyShareResult();if(!result)return false;openDailyShare(result);return true;},
   canLeave: () => !isSavingScore && !ratingGame.isBusy(),
   onAgain(mode) {
     if (mode === 'rating') { ratingGame.start().catch(error => {showHome();showMessage('home-status', error.message);}); return; }
@@ -1082,7 +1097,7 @@ const ratingGame = setupRatingGame({
     document.body.dataset.gameMode = 'rating';
   },
   onComplete(rounds, controls) {
-    runSummary.show({mode: 'rating', title: modeTitles.rating, rounds, controls,
+    runSummary.show({mode: 'rating', title: modeTitles.rating, rounds, controls, username:signedIn.username || el('rating-gamertag').value.trim(),
       note: signedIn.username&&accounts.available ? 'Your completed run saves to your account and leaderboard automatically.' : onlineArcade() ? 'Save this run to the shared EF Rating points leaderboard.' : 'EF Rating uses a separate points leaderboard on this browser.'});
     if(accounts.available&&signedIn.username&&!el('rating-save-form').querySelector('button').disabled)el('rating-save-form').requestSubmit();
   },

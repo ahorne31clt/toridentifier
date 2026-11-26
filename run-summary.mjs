@@ -1,3 +1,4 @@
+import {setupRunShare} from './run-share.mjs?v=1.7-replay1';
 import {playerRank} from './scoring.mjs';
 export function distanceRunStats(rounds) {
   const miles=rounds.map(r=>r.miles);
@@ -13,12 +14,16 @@ const number=new Intl.NumberFormat('en-US',{maximumFractionDigits:1});
 const miles=n=>(n>0&&n<.1?'<0.1':number.format(n))+' mi';
 const date=d=>new Intl.DateTimeFormat('en-US',{dateStyle:'medium',timeZone:'UTC'}).format(new Date(d+'T12:00:00Z'));
 const node=(tag,text)=>{const n=document.createElement(tag);if(text!==undefined)n.textContent=text;return n;};
-export function setupRunSummary({onHome,onAgain,canLeave=()=>true}) {
+export function setupRunSummary({onHome,onAgain,canLeave=()=>true,onShareDaily=()=>false,getShareUsername=()=>''}) {
   let moved=[],current;
+  const sharing=setupRunShare();
+  const share=document.createElement('button');share.type='button';share.className='button outline';share.textContent='Share rundown';share.id='run-summary-share';
+  el('run-summary-copy').after(share);
+  share.addEventListener('click',()=>{if(!current)return;if(current.mode==='daily'){if(!onShareDaily()){el('run-summary-status').textContent='Save your Daily Challenge score to share its spoiler-free result.';el('run-summary-status').hidden=false;}}else sharing.open({...current,username:getShareUsername(current.mode)||current.username});});
   function restoreControls(){for(const {control,parent,next} of [...moved].reverse())parent.insertBefore(control,next?.parentNode===parent?next:null);moved=[];}
   function close(){el('run-summary-screen').hidden=true;restoreControls();}
-  function show({mode,title,rounds,controls=[],note=''}) {
-    restoreControls();current={mode,title,rounds};
+  function show({mode,title,rounds,controls=[],note='',username=''}) {
+    restoreControls();current={mode,title,rounds,username};share.textContent=mode==='daily'?'Share Daily result':'Share rundown';
     for(const id of ['home-screen','play-screen','rating-screen','grade-details','round-summary'])el(id).hidden=true;
     el('run-summary-screen').hidden=false;
     document.body.dataset.gameMode=mode;

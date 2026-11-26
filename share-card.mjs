@@ -128,7 +128,7 @@ export function setupDailyShare(getResult) {
       download.href = url;
       download.download = image.name;
       download.hidden = false;
-      nativeShare.hidden = !navigator.canShare?.({files: [image]});
+      nativeShare.hidden = !(window.webkit?.messageHandlers?.native || navigator.canShare?.({files: [image]}));
     }, 'image/png');
   }
 
@@ -148,6 +148,7 @@ export function setupDailyShare(getResult) {
   nativeShare.addEventListener('click', async () => {
     if (!image) return;
     try {
+      if(window.webkit?.messageHandlers?.native){window.webkit.messageHandlers.native.postMessage({type:'shareImage',data:canvas.toDataURL('image/png').split(',')[1],text:textBox.value});return;}
       await navigator.share({files: [image], text: textBox.value});
     } catch (error) {
       if (error.name !== 'AbortError') status.textContent = 'Use Download PNG to save the image.';
