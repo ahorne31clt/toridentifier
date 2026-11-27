@@ -77,7 +77,8 @@
 }
   </script>
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="">
-  <link rel="stylesheet" href="./styles.css?v=1.8-brand2">
+  <link rel="stylesheet" href="./styles.css?v=1.8-beta1">
+  <script type="module" src="./ios-beta.mjs?v=1.8-beta1"></script>
 
 
   <link rel="stylesheet" href="./ui.css?v=1.8-brand2">
@@ -107,6 +108,7 @@
       <div class="home-content">
         <div class="selection-intro"><p class="eyebrow">Your next chase starts here</p><h1 id="home-title" tabindex="-1">Choose your challenge<span>.</span></h1><p class="selection-description">Recognize the storm. Find its home. Test what you know.</p></div>
 
+        <div class="release-row">
         <details class="release-notes">
 <summary><strong>Tornado Guesser v1.8</strong><span>iOS TestFlight testing is here · November 27, 2026</span></summary>
 <ul><li><strong>iOS testing:</strong> Tornado Guesser v1.8 is available through TestFlight for testing. The full App Store launch is coming soon.</li>
@@ -121,6 +123,8 @@
 <li><strong>Daily chase board:</strong> purple Daily feature, player EF ranks, five round grades, and aligned placement and mileage boxes. Find and share your Daily score.</li>
 <li>Run rundowns, automatic reconnection, and a header that scrolls away keep the experience focused on the game.</li>
 </ul></details>
+        <a class="ios-beta-flag" id="ios-beta-flag" href="https://testflight.apple.com/join/McfjNZKa" target="_blank" rel="noopener noreferrer" aria-label="Join the iOS Beta on TestFlight (opens in a new tab)" hidden><span class="ios-beta-tag">TESTFLIGHT</span><span>Join the iOS Beta</span><span aria-hidden="true">↗</span></a>
+        </div>
 
         <div id="daily-feature-row" class="daily-feature-row">
           <section class="mode-card daily-feature" id="daily-card" data-mode="daily" aria-labelledby="daily-title">

@@ -444,6 +444,13 @@ body::before { inset: -7%; background: linear-gradient(105deg,#17191ce8 7%,#1719
 .release-notes summary { padding: 12px 16px; }
 .release-notes[open] { max-width: 750px; }
 .release-notes summary:hover { background: #ffffff06; }
+.release-row { display: flex; align-items: flex-start; justify-content: space-between; flex-wrap: wrap; gap: 12px 20px; margin-bottom: 24px; }
+.release-row > .release-notes { margin-bottom: 0; min-width: 0; }
+.ios-beta-flag { display: inline-flex; align-items: center; gap: 10px; flex-shrink: 0; box-sizing: border-box; min-height: 44px; padding: 11px 15px; border: 1px solid #96525d; border-left: 3px solid #e85b66; background: #35222c; color: #f7efea; font: 700 .82rem/1.25 Arial,Helvetica,sans-serif; text-decoration: none; white-space: nowrap; }
+.ios-beta-tag { background: #e85b66; color: #171117; padding: 4px 5px; font-size: .56rem; letter-spacing: .09em; }
+.ios-beta-flag:hover { background: #482b36; border-color: #f98e98; }
+.ios-beta-flag:focus-visible { outline: 2px solid #f98e98; outline-offset: 4px; }
+@media(max-width:760px) { .release-row > .release-notes { width: 100%; } }
 .mode-grid { align-items: stretch; }
 .mode-card:not(.daily-feature) { min-height: 300px; gap: 16px; transition: transform .2s ease,border-color .2s ease,box-shadow .2s ease; }
 .mode-card:not(.daily-feature) .mode-kicker { min-height: 2.5em; display: flex; align-items: center; }
