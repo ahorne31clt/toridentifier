@@ -84,10 +84,11 @@
   <link rel="stylesheet" href="./ui.css?v=1.8-brand2">
 
   <script defer src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
-  <script type="module" src="./game.mjs?v=1.8.2"></script>
+  <script type="module" src="./game.mjs?v=1.8.3"></script>
   <script type="module" src="./pressure-field.mjs"></script>
 <link rel="stylesheet" href="./design-preview.css?v=1.8-brand2">
 <link rel="stylesheet" href="./daily-player.css?v=1.8.1">
+<link rel="stylesheet" href="./leaderboard.css?v=1.8.3">
 </head>
 <body>
   <header class="masthead">
@@ -111,8 +112,11 @@
 
         <div class="release-row">
         <details class="release-notes">
-<summary><strong>Tornado Guesser v1.8.2</strong><span>What’s New · Expanded DAT tracks · November 27, 2026</span></summary>
-<p>Data improvements · v1.8.2</p>
+<summary><strong>Tornado Guesser v1.8.3</strong><span>What’s New · Chase-board leaderboards · November 27, 2026</span></summary>
+<p>Leaderboard improvements · v1.8.3</p>
+<ul><li><strong>Chase-board styling:</strong> mode-colored headers, aligned scores and EF badges, dedicated Daily grade columns, and gold crowns for leaders across all modes.</li>
+<li><strong>Phone readability:</strong> Daily grades move into a labeled second row. The summary reports only the players shown, and Daily gamertags still open player history.</li></ul>
+<p>Recent data improvements · v1.8.2</p>
 <ul><li><strong>28 more verified DAT tracks:</strong> 64 of 114 archive tornadoes now use official surveyed paths for location scoring. Historic F-scale ratings are preserved. Events without a verified match keep reference-point scoring.</li>
 <li><strong>Daily scoring consistency:</strong> the newly added paths enter Daily Challenge scoring on November 28. Today’s Daily and existing saved results retain their original scoring.</li></ul>
 <p>Recent features · v1.8.1</p>
@@ -336,7 +340,7 @@
         <p>Grades use distance to the nearest point on the surveyed tornado track when available, or to the recorded event location. Date guesses receive separate feedback in days.</p>
       </details>
       <span id="round-summary" hidden>0 rounds played</span>
-      <p class="site-credit">Created by <strong>Christopher Horne</strong> and <strong>Blake Teer</strong> <span>UNC Charlotte · 2026</span> <span class="footer-version">v1.8.2</span></p>
+      <p class="site-credit">Created by <strong>Christopher Horne</strong> and <strong>Blake Teer</strong> <span>UNC Charlotte · 2026</span> <span class="footer-version">v1.8.3</span></p>
     </footer>
   </main>
 
@@ -398,7 +402,7 @@
 
   <dialog id="leaderboard-dialog" aria-labelledby="leaderboard-title">
     <header class="panel-head">
-      <h2 id="leaderboard-title">Leaderboard</h2>
+      <div><p class="leaderboard-kicker">TORNADO GUESSER · CHASE BOARDS</p><h2 id="leaderboard-title">Leaderboard</h2></div>
       <form method="dialog">
         <button class="button outline" aria-label="Close leaderboard">Close</button>
       </form>
@@ -419,25 +423,25 @@
       <p id="leaderboard-rules" hidden></p>
       <p id="leaderboard-status" role="status"></p>
 
-      <details class="rank-guide" id="rank-guide">
-        <summary>How player ranks work</summary>
-        <p>Closer guesses earn higher ranks. Your rank uses your best run’s average distance, rounded to one decimal place. These are game ranks, separate from actual tornado intensity ratings.</p>
-        <ul id="player-rank-bands"></ul>
-      </details>
-
       <div class="score-table">
-        <table id="leaderboard-table" hidden>
-          <thead>
-            <tr>
+        <table id="leaderboard-table" role="table" hidden>
+          <thead role="rowgroup">
+            <tr role="row">
               <th scope="col">Place</th>
               <th scope="col">Player</th>
               <th scope="col">Player rank</th>
               <th scope="col">Average distance</th>
             </tr>
           </thead>
-          <tbody></tbody>
+          <tbody role="rowgroup"></tbody>
         </table>
       </div>
+      <div id="leaderboard-summary" class="leaderboard-summary" hidden><div><span>Shown players</span><strong id="leaderboard-shown">0</strong></div><div><span id="leaderboard-average-label">Average of shown players</span><strong id="leaderboard-average">—</strong></div></div>
+      <details class="rank-guide" id="rank-guide">
+        <summary>How player ratings work</summary>
+        <p>These are game ratings, separate from actual tornado intensity. This board’s EF badge uses the displayed run’s average distance. Daily history shows a separate lifetime EF rating after two saved challenge days. The summary averages only the players shown here, up to 25.</p>
+        <ul id="player-rank-bands"></ul>
+      </details>
     </div>
   </dialog>
 

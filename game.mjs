@@ -1,5 +1,5 @@
 import {setupDailyReplay} from './daily-replay.mjs?v=1.8-replay1';
-import {setupDailyPlayer} from './daily-player.mjs?v=1.8.1';
+import {setupDailyPlayer,playerCrown} from './daily-player.mjs?v=1.8.3';
 import {setupAccounts} from './accounts.mjs?v=1.8-brand2';
 import {setupRunSummary} from './run-summary.mjs?v=1.8-replay1';
 import {setupRatingGame, ratingPoints, ratingLeaderboard} from './rating-game.mjs?v=1.8';
@@ -661,25 +661,39 @@ function renderLeaderboardRows(entries, day) {
   const table = el('leaderboard-table');
   const body = table.tBodies[0];
   const replayTargets = [];
-  for (const entry of entries) {
+  const dailyMode=el('leaderboard-game-mode').value==='daily';
+  for (const [index,entry] of entries.entries()) {
     const row = body.insertRow();
     if (entry.username === signedIn.username) row.classList.add('current-player');
-    row.insertCell().textContent = entry.place;
+    const place=entry.place||index+1;
+    row.insertCell().textContent = place;
     const player = row.insertCell();
-    const name = el('leaderboard-game-mode').value === 'daily' ? dailyPlayer.button(entry.username,{leader:entry.place===1}) : document.createElement('span');
-    if(el('leaderboard-game-mode').value !== 'daily')name.textContent = entry.username;
+    player.title=entry.username;
+    const name = dailyMode ? dailyPlayer.button(entry.username,{leader:place===1}) : document.createElement('span');
+    if(!dailyMode)name.textContent = entry.username;
     player.append(name);
+    if(!dailyMode&&place===1)player.append(playerCrown('First place in this leaderboard'));
     replayTargets.push({entry, target:player});
-    if (el('leaderboard-game-mode').value === 'daily') player.append(roundGradeBadges(entry.grades));
     const badge = document.createElement('span');
     badge.className = 'player-rank';
     badge.textContent = playerRank(entry.averageMiles);
     badge.dataset.rank = badge.textContent;
     row.insertCell().append(badge);
+    if(dailyMode)row.insertCell().append(roundGradeBadges(entry.grades));
     row.insertCell().textContent = milesText(entry.averageMiles);
+    row.setAttribute('role','row');for(const cell of row.cells)cell.setAttribute('role','cell');
   }
   table.hidden = !entries.length;
+  renderLeaderboardSummary(entries,dailyMode?'daily':'distance');
   if (day && el('leaderboard-game-mode').value === 'daily') dailyReplay.decorate(table.parentElement, replayTargets, day, {note:true});
+}
+
+function renderLeaderboardSummary(entries,mode){
+  const values=entries.map(e=>mode==='rating'?e.points:e.averageMiles).filter(Number.isFinite);
+  el('leaderboard-summary').hidden=!values.length;
+  el('leaderboard-shown').textContent=String(values.length);
+  el('leaderboard-average-label').textContent='Average of shown players';
+  el('leaderboard-average').textContent=values.length?(mode==='rating'?(values.reduce((a,b)=>a+b,0)/values.length).toFixed(1)+' / 25':milesText(values.reduce((a,b)=>a+b,0)/values.length)):'—';
 }
 
 function localBoard(mode) {
@@ -700,9 +714,11 @@ async function loadLeaderboard() {
   const table = el('leaderboard-table');
   const body = table.tBodies[0];
   const mode = el('leaderboard-game-mode').value;
-  setLeaderboardHeaders(mode === 'rating' ? ['Place', 'Player', 'Exact matches', 'Points'] : ['Place', 'Player', 'Player rank', 'Average distance']);
-  el('leaderboard-title').textContent = isStatic ? 'Arcade leaderboard' : 'Leaderboard';
+  setLeaderboardHeaders(mode === 'rating' ? ['#', 'Player', 'Exact', 'Points'] : mode==='daily'?['#','Player','Today’s EF','Rounds 1–5','Avg. mi']:['#', 'Player', 'Player EF', 'Avg. mi']);
+  el('leaderboard-title').textContent = mode==='daily'?'Today’s chase board':mode==='rating'?'EF Rating chase board':modeTitles[mode]||'Chase board';
+  table.setAttribute('aria-label',el('leaderboard-title').textContent+' rankings');
   table.hidden = true;
+  el('leaderboard-summary').hidden=true;
   el('leaderboard-rules').hidden = true;
   body.replaceChildren();
   el('rank-guide').hidden = false;
@@ -716,7 +732,8 @@ async function loadLeaderboard() {
       const entries = onlineArcade() ? (await arcadeApi('rating')).entries : ratingLeaderboard();
       if (request !== leaderboardRequest) return;
       showMessage('leaderboard-status',entries.length ? '' : 'No EF Rating scores saved yet.');
-      entries.forEach((entry,index) => {const row=body.insertRow();for(const value of [entry.place||index+1,entry.username,entry.exact+' / 5',entry.points+' / 25'])row.insertCell().textContent=value;});
+      entries.forEach((entry,index) => {const row=body.insertRow(),place=entry.place||index+1;row.insertCell().textContent=place;const name=row.insertCell(),label=document.createElement('span');label.textContent=entry.username;name.append(label);if(place===1)name.append(playerCrown('First place in this leaderboard'));row.insertCell().textContent=entry.exact+' / 5';row.insertCell().textContent=entry.points+' / 25';row.setAttribute('role','row');for(const c of row.cells)c.setAttribute('role','cell');});
+      renderLeaderboardSummary(entries,'rating');
       table.hidden=!entries.length;
     }catch(error){if(request===leaderboardRequest)showMessage('leaderboard-status',error.message);}
     return;
@@ -1005,7 +1022,7 @@ function setLeaderboardHeaders(labels) {
   const row = el('leaderboard-table').tHead.rows[0];
   row.replaceChildren();
   for (const text of labels) {
-    const th = document.createElement('th'); th.scope = 'col'; th.textContent = text; row.append(th);
+    const th = document.createElement('th'); th.scope = 'col'; th.setAttribute('role','columnheader'); th.textContent = text; row.append(th);
   }
 }
 

@@ -2,6 +2,7 @@ import {playerRank} from './scoring.mjs';
 const node=(tag,text,cls)=>{const e=document.createElement(tag);if(text!==undefined)e.textContent=text;if(cls)e.className=cls;return e;};
 const miles=n=>Number.isFinite(n)?new Intl.NumberFormat('en-US',{minimumFractionDigits:1,maximumFractionDigits:1}).format(n)+' mi':'—';
 const date=day=>new Intl.DateTimeFormat('en-US',{month:'short',day:'numeric',year:'numeric',timeZone:'UTC'}).format(new Date(day+'T00:00:00Z'));
+export {crown as playerCrown};
 function crown(label){const svg=document.createElementNS('http://www.w3.org/2000/svg','svg');svg.setAttribute('viewBox','0 0 24 20');svg.setAttribute('class','daily-player-crown');svg.setAttribute('role','img');svg.setAttribute('aria-label',label);const p=document.createElementNS(svg.namespaceURI,'path');p.setAttribute('d','M2 5 7 9 12 2 17 9 22 5 19 16H5ZM5 19H19');p.setAttribute('fill','#e5ba79');p.setAttribute('stroke','#e5ba79');p.setAttribute('stroke-width','1.5');p.setAttribute('stroke-linejoin','round');svg.append(p);return svg;}
 export function setupDailyPlayer({request,roundGradeBadges}) {
  const dialog=node('dialog',undefined,'daily-player-dialog');dialog.id='daily-player-dialog';dialog.setAttribute('aria-labelledby','daily-player-title');
