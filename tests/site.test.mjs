@@ -12,7 +12,7 @@ test('All referenced UI IDs and local scripts exist; required controls retained'
  assert.ok(html.includes('href="./feedback.html"'));assert.ok(!html.includes('Previous combined scores'));
 });
 test('Rating points preserve scales; run metrics use the correct units',()=>{
- assert.equal(ratingPoints('EF3','EF3'),3);assert.equal(ratingPoints('EF3','EF2'),1);assert.equal(ratingPoints('EF3','EF0'),0);assert.equal(ratingPoints('EFU','EFU'),3);assert.equal(ratingPoints('EF-U','EFU'),3);assert.equal(ratingPoints('EFU','EF0'),0);assert.equal(ratingPoints('F5','EF5'),0);
+ assert.equal(ratingPoints('EF3','EF3'),5);assert.equal(ratingPoints('EF3','EF2'),3);assert.equal(ratingPoints('EF3','EF1'),1);assert.equal(ratingPoints('EF3','EF0'),0);assert.equal(ratingPoints('EFU','EFU'),5);assert.equal(ratingPoints('EF-U','EFU'),5);assert.equal(ratingPoints('EFU','EF0'),0);assert.equal(ratingPoints('F5','EF5'),0);
  assert.deepEqual(distanceRunStats([10,20,30,40,50].map(miles=>({miles}))),{average:30,closest:10,rank:'EF-3'});
- assert.deepEqual(ratingRunStats([3,3,1,0,0].map(points=>({points}))),{points:7,exact:2,near:1});
+ assert.deepEqual(ratingRunStats([5,5,3,0,0].map(points=>({points}))),{points:13,exact:2,near:1});
 });

@@ -77,16 +77,17 @@
 }
   </script>
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="">
-  <link rel="stylesheet" href="./styles.css?v=1.8-beta2">
+  <link rel="stylesheet" href="./styles.css?v=1.8.1">
   <script type="module" src="./ios-beta.mjs?v=1.8-beta3"></script>
 
 
   <link rel="stylesheet" href="./ui.css?v=1.8-brand2">
 
   <script defer src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
-  <script type="module" src="./game.mjs?v=1.8-mapzoom1"></script>
+  <script type="module" src="./game.mjs?v=1.8.1"></script>
   <script type="module" src="./pressure-field.mjs"></script>
 <link rel="stylesheet" href="./design-preview.css?v=1.8-brand2">
+<link rel="stylesheet" href="./daily-player.css?v=1.8.1">
 </head>
 <body>
   <header class="masthead">
@@ -110,19 +111,17 @@
 
         <div class="release-row">
         <details class="release-notes">
-<summary><strong>Tornado Guesser v1.8</strong><span>iOS TestFlight testing is here · November 27, 2026</span></summary>
-<ul><li><strong>iOS testing:</strong> Tornado Guesser v1.8 is available through TestFlight for testing. The full App Store launch is coming soon.</li>
-<li><strong>Replay Mode:</strong> signed-in players unlock other players’ five round maps after saving the same day’s Daily Challenge. Choose a player, step through the rounds, and review the final rundown.</li>
-<li><strong>Share every chase:</strong> share full tornado rundowns from Photo, Iconic, Past Year, and EF Rating modes. Daily shares stay spoiler-free.</li>
-<li><strong>Updated branding:</strong> new tornado-search logo, muted red accents, and slimmer mobile-friendly navigation.</li>
-<li><strong>Sign in your way:</strong> play as a guest or create an account with a username and six-digit PIN. Save your recovery code, and sign in across browsers to access your score history.</li>
-<li><strong>Your gamertag, connected:</strong> claim an available guest username to link its stored leaderboard results to your account.</li>
-<li><strong>Better EF scoring:</strong> 5 points exact, 3 one level away, 1 two levels away, and 0 farther away. Five photos, 25 possible points. EF-U earns exact-match credit only; earlier scores remain in account history.</li>
-<li><strong>A new visual direction:</strong> square surfaces, distinct tornado-photo mode cards, moving tracking targets, circular radar sweeps, and full-width mobile mode cards.</li>
-<li><strong>Guess the EF Rating:</strong> the green five-photo event-recognition challenge, with hints and its own points leaderboard.</li>
-<li><strong>Daily chase board:</strong> purple Daily feature, player EF ranks, five round grades, and aligned placement and mileage boxes. Find and share your Daily score.</li>
-<li>Run rundowns, automatic reconnection, and a header that scrolls away keep the experience focused on the game.</li>
-</ul></details>
+<summary><strong>Tornado Guesser v1.8.1</strong><span>What’s New · Player Daily history · November 27, 2026</span></summary>
+<p>New features</p>
+<ul><li><strong>Player Daily history:</strong> click a gamertag on today’s chase board or the Daily leaderboard to see saved challenge days, scores, lifetime average, overall Daily rank, and comparison with other players. Existing saved Daily results are included automatically.</li>
+<li><strong>Two-day qualification:</strong> save at least two Daily challenge days to establish a lifetime average, EF player rating and overall rank. One-day players remain provisional.</li>
+<li><strong>Player ratings &amp; leaders:</strong> history panels show your EF player rating based on lifetime Daily average. Gold crowns mark today’s #1 player and overall #1 Daily players.</li></ul>
+<p>Bug fixes &amp; improvements</p>
+<ul><li><strong>Map controls:</strong> scroll-wheel zoom now works while placing guesses in Photo, Iconic, Past Year, and Daily modes without moving your selected target.</li>
+<li><strong>iOS beta access:</strong> a TestFlight link sits beside What’s New. iPhone and iPad web visitors get an invitation on every visit; the native app does not show the invitation.</li></ul>
+<p>Also included from v1.8</p>
+<ul><li>Player accounts and recovery codes, Daily Replay Mode after completing the same challenge, run sharing, refreshed branding, and 5/3/1 EF scoring. Historic F-scale events keep their original scale.</li>
+<li>TestFlight is for testing. The full App Store launch is coming soon.</li></ul></details>
         <a class="ios-beta-flag" id="ios-beta-flag" href="https://testflight.apple.com/join/McfjNZKa" target="_blank" rel="noopener noreferrer" aria-label="Join the iOS Beta on TestFlight (opens in a new tab)" hidden><span class="ios-beta-tag">TESTFLIGHT</span><span>Join the iOS Beta</span><span aria-hidden="true">↗</span></a>
         </div>
 
@@ -334,7 +333,7 @@
         <p>Grades use distance to the nearest point on the surveyed tornado track when available, or to the recorded event location. Date guesses receive separate feedback in days.</p>
       </details>
       <span id="round-summary" hidden>0 rounds played</span>
-      <p class="site-credit">Created by <strong>Christopher Horne</strong> and <strong>Blake Teer</strong> <span>UNC Charlotte · 2026</span> <span class="footer-version">v1.8</span></p>
+      <p class="site-credit">Created by <strong>Christopher Horne</strong> and <strong>Blake Teer</strong> <span>UNC Charlotte · 2026</span> <span class="footer-version">v1.8.1</span></p>
     </footer>
   </main>
 

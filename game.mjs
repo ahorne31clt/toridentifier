@@ -1,4 +1,5 @@
 import {setupDailyReplay} from './daily-replay.mjs?v=1.8-replay1';
+import {setupDailyPlayer} from './daily-player.mjs?v=1.8.1';
 import {setupAccounts} from './accounts.mjs?v=1.8-brand2';
 import {setupRunSummary} from './run-summary.mjs?v=1.8-replay1';
 import {setupRatingGame, ratingPoints, ratingLeaderboard} from './rating-game.mjs?v=1.8';
@@ -578,6 +579,10 @@ const dailyReplay = setupDailyReplay({
   getUsername: () => signedIn.username,
   request: params => {const url = new URL('./daily-replay', arcadeUrl); url.search = new URLSearchParams(params); return workerRequest(url);}
 });
+const dailyPlayer = setupDailyPlayer({
+  roundGradeBadges,
+  request: (username,before) => {const url=new URL('./daily-player',arcadeUrl);url.searchParams.set('gamertag',username);if(before)url.searchParams.set('before',before);return workerRequest(url,undefined,null);}
+});
 function renderProfile() {
   if(accounts.available){
     accounts.render(signedIn);
@@ -660,8 +665,8 @@ function renderLeaderboardRows(entries, day) {
     if (entry.username === signedIn.username) row.classList.add('current-player');
     row.insertCell().textContent = entry.place;
     const player = row.insertCell();
-    const name = document.createElement('span');
-    name.textContent = entry.username;
+    const name = el('leaderboard-game-mode').value === 'daily' ? dailyPlayer.button(entry.username,{leader:entry.place===1}) : document.createElement('span');
+    if(el('leaderboard-game-mode').value !== 'daily')name.textContent = entry.username;
     player.append(name);
     replayTargets.push({entry, target:player});
     if (el('leaderboard-game-mode').value === 'daily') player.append(roundGradeBadges(entry.grades));
@@ -1021,8 +1026,7 @@ async function refreshDailyBoard() {
       place.textContent = String(entry.place || index + 1);
       const player = document.createElement('div');
       player.className = 'daily-board-name';
-      const name = document.createElement('span');
-      name.textContent = entry.username;
+      const name = dailyPlayer.button(entry.username,{leader:(entry.place||index+1)===1});
       const rank = document.createElement('span');
       rank.className = 'player-rank';
       rank.textContent = playerRank(entry.averageMiles);

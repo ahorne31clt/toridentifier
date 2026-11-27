@@ -1,26 +1,20 @@
-**v1.0 - Released - Launch Date**
+v1.8.1 — November 27, 2026
+NEW FEATURES
+- At least two saved Daily challenge days are required for lifetime average, EF player rating and overall rank. One-day players remain provisional.
+- Click Daily gamertags to open player history: saved days, scores, lifetime average, overall Daily rank, and peer comparison. Existing saved results are included.
+- EF player ratings use lifetime Daily averages; gold crowns identify today's #1 and overall #1 players.
 
+BUG FIXES & IMPROVEMENTS
+- Scroll-wheel zoom works on all four guessing-map modes and preserves the chosen target.
+- Web-only TestFlight access flag beside What’s New.
+- iPhone/iPad browser beta invitation on every visit, hidden inside the native app.
 
-**v1.6 - Released - 23 Nov 2026**
-A refreshed chase board: animated weather contours, matching cards, and clearer rankings.
-Guess the EF Rating: a new green, five-photo challenge with its own shared points leaderboard.
-Your run rundown: a results screen for every game mode, with all five rounds.
-Daily Challenge takes the spotlight: purple featured panel with today’s live rankings.
-Feedback, score lookup, accounts, daily sharing, and the classic contour background remain available.
+v1.8 — November 27, 2026
+- iOS TestFlight testing release; public App Store launch coming soon.
+- Preserved player accounts, Daily replays, run sharing, refreshed branding, and 5/3/1 EF scoring.
 
-**v1.7 - Pre Launch Notes - 1 Dec 2026**
-Adding Login Feature Functionality 
+v1.7 — November 25, 2026
+- Player accounts, sign-in and recovery; connected gamertags; updated branding and scoring.
 
-
-**v1.8 - TestFlight testing - 27 Nov 2026**
-iOS v1.8 is now on TestFlight for testing. Full App Store launch coming soon.
-Includes the existing player accounts, Daily replays, run sharing, branding, and 5/3/1 EF scoring updates.
-Web version labels and asset cache keys updated to 1.8. Native iOS build settings unchanged.
-
-
-
-v1.9 - Pre Beta Release - Jan 2027
-
-
-
-v2.0 - Beta Test Release - Jan 2027
+v1.6 — November 24, 2026
+- Featured Daily chase board, EF Rating mode, and five-round rundowns.

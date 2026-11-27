@@ -13,7 +13,7 @@ createServer(async(req,res)=>{
   if(url.pathname==='/__review/config'){res.writeHead(200,{'Content-Type':'application/json','Cache-Control':'no-store'});res.end(JSON.stringify({ranked:Boolean(localWorker)}));return;}
   if(url.pathname.startsWith('/__review/')){
    const path=url.pathname.slice('/__review'.length);
-   if(!['/daily','/leaderboard','/daily-score','/rating/run','/rating/guess'].includes(path)){res.writeHead(404);res.end();return;}
+   if(!['/daily','/leaderboard','/daily-score','/daily-player','/rating/run','/rating/guess'].includes(path)){res.writeHead(404);res.end();return;}
    if(!['GET','HEAD'].includes(req.method)&&(!localWorker||req.method!=='POST')){res.writeHead(405);res.end('Review does not forward live submissions.');return;}
    let body;if(req.method==='POST'){const chunks=[];let size=0;for await(const chunk of req){size+=chunk.length;if(size>4096)throw Error('Body too large');chunks.push(chunk);}body=Buffer.concat(chunks);}
    const response=await fetch((localWorker||'https://tornado-guesser-leaderboard.ahorne31.workers.dev')+path+url.search,{method:req.method,body,headers:body?{'Content-Type':'application/json'}:{},signal:AbortSignal.timeout(12000)});
@@ -24,4 +24,4 @@ createServer(async(req,res)=>{
   if(!file.startsWith(root.endsWith(sep)?root:root+sep)||path.includes('/.')){res.writeHead(403);res.end();return;}
   const body=await readFile(file);res.writeHead(200,{'Content-Type':types[extname(file)]||'application/octet-stream','Cache-Control':'no-store'});res.end(req.method==='HEAD'?undefined:body);
  }catch(error){res.writeHead(error.name==='TimeoutError'?504:404);res.end('Resource unavailable.');}
-}).listen(8786,'127.0.0.1',()=>console.log('Tornado Guesser v1.6 — http://127.0.0.1:8786'));
+}).listen(Number(process.env.REVIEW_PORT)||8786,'127.0.0.1',()=>console.log('Tornado Guesser v1.8.1 — http://127.0.0.1:'+(process.env.REVIEW_PORT||8786)));

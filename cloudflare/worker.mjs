@@ -254,6 +254,29 @@ async function saveModeRun(db, mode, day, input, archive, username, key, scoreTe
       ))
     `).bind(input.runId, mode),
   );
+  if (mode === 'daily') {
+    // Snapshot only an accepted first run, atomically with its leaderboard score.
+    // Never reconstruct guesses from averages, grades, or a retried request body.
+    const rounds = guesses.map((guess, index) => {
+      const event = archive.get(guess.id);
+      const score = scoreGuess(event, guess.point, null);
+      return {round: index + 1, id: event.id, name: event.name, date: event.date,
+        rating: event.rating, image: event.image, point: {lat: guess.point.lat, lng: guess.point.lng},
+        actual: {lat: event.lat, lng: event.lng},
+        reference: score.reference || {lat: event.lat, lng: event.lng},
+        miles: score.miles, grade: score.grade, paths: trackPaths(event.track)};
+    });
+    statements.splice(1, 0, db.prepare(`
+      INSERT INTO daily_replays (board, gamertag_key, run_id, rounds, saved_at)
+      SELECT board, gamertag_key, run_id, ?, ? FROM mode_runs
+      WHERE run_id = ? AND board = ? AND gamertag_key = ?
+        AND NOT EXISTS (SELECT 1 FROM mode_best WHERE board = ? AND gamertag_key = ?)
+        AND NOT EXISTS (SELECT 1 FROM mode_runs AS earlier
+          WHERE earlier.board = mode_runs.board AND earlier.gamertag_key = mode_runs.gamertag_key
+            AND earlier.rowid < mode_runs.rowid)
+      ON CONFLICT DO NOTHING
+    `).bind(JSON.stringify(rounds), Date.now(), input.runId, board, key, board, key));
+  }
   const saved = await db.batch(statements);
   const result = saved.at(-1).results[0];
   if (result?.gamertagKey !== key || result.board !== board) {
@@ -343,14 +366,15 @@ export default {
     const json = (body, status = 200) => Response.json(body, {status, headers});
     if (origin && !allowedOrigins.has(origin)) return json({message: 'Origin unavailable.'}, 403);
     if (origin) headers.set('Access-Control-Allow-Origin', origin);
-    if (!['/', '/leaderboard', '/daily', '/daily-score', '/rating/run', '/rating/guess'].includes(pathname)) return json({message: 'Not found.'}, 404);
+    if (!['/', '/leaderboard', '/daily', '/daily-score', '/daily-player', '/daily-replay', '/rating/run', '/rating/guess', '/account/profile', '/account/register', '/account/login', '/account/logout', '/account/recover'].includes(pathname)) return json({message: 'Not found.'}, 404);
     if (request.method === 'OPTIONS') {
       headers.set('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
-      headers.set('Access-Control-Allow-Headers', 'Content-Type');
+      headers.set('Access-Control-Allow-Headers', 'Content-Type, Authorization');
       headers.set('Access-Control-Max-Age', '86400');
       return new Response(null, {status: 204, headers});
     }
     try {
+      if(pathname.startsWith('/account/')) return await accountEndpoint(env.DB,request,env,json,pathname);
       if (mode !== null && !modeNames.has(mode)) return json({message: 'Unknown game mode.'}, 400);
       if (request.method === 'POST' && pathname === '/rating/run') return await startRating(env.DB, json);
       if (request.method === 'POST' && pathname === '/rating/guess') return await checkRating(env.DB, request, json);
@@ -359,7 +383,15 @@ export default {
           const {results} = await env.DB.prepare(ratingTop).all();
           return json({entries:results.map((entry,index) => ({place:index+1,...entry}))});
         }
-        if (request.method === 'POST' && pathname === '/leaderboard') return await saveRating(env.DB,request,json);
+        if (request.method === 'POST' && pathname === '/leaderboard') return await accountScore(env.DB,request,env,'rating',day,json);
+      }
+      if (pathname === '/daily-replay') {
+        if (request.method !== 'GET') return json({message: 'Method unavailable.'}, 405);
+        return await dailyReplay(env.DB, request, searchParams, day, json);
+      }
+      if (pathname === '/daily-player') {
+        if (request.method !== 'GET') return json({message:'Method unavailable.'},405);
+        return await dailyPlayerStats(env.DB, searchParams, day, json);
       }
       if (request.method === 'GET' && pathname === '/daily-score') {
         return await findDailyScore(env.DB, searchParams.get('gamertag'), searchParams.get('day') ?? day, day, json);
@@ -369,13 +401,20 @@ export default {
       }
       if (request.method === 'GET' && ['/', '/leaderboard'].includes(pathname)) {
         const board = mode === 'daily' ? 'daily:' + day : mode;
-        const {results} = mode ? await env.DB.prepare(`
+        const {results} = mode === 'daily' ? await env.DB.prepare(`
+          SELECT score.gamertag AS username, score.score_tenths / 10.0 AS averageMiles, cards.grades
+          FROM mode_best AS score
+          LEFT JOIN daily_share_cards AS cards USING (board, gamertag_key)
+          WHERE score.board = ? ORDER BY score.score_tenths, score.gamertag_key LIMIT 25
+        `).bind(board).all() : mode ? await env.DB.prepare(`
           SELECT gamertag AS username, score_tenths / 10.0 AS averageMiles
           FROM mode_best WHERE board = ? ORDER BY score_tenths, gamertag_key LIMIT 25
         `).bind(board).all() : await env.DB.prepare(topScores).all();
-        return json({...(mode === 'daily' && {day}), entries: results.map((entry, index) => ({place: index + 1, ...entry}))});
+        return json({...(mode === 'daily' && {day}), entries: results.map((entry,index) => ({place:index+1,...entry,
+          ...(mode === 'daily' && {grades: typeof entry.grades === 'string' && /^[ABCDF]{5}$/.test(entry.grades) ? entry.grades.split('') : null})
+        }))});
       }
-      if (request.method === 'POST' && pathname === '/leaderboard') return await saveRun(env.DB, request, mode, day, json);
+      if (request.method === 'POST' && pathname === '/leaderboard') return await accountScore(env.DB, request, env, mode, day, json);
       return json({message: 'Method unavailable.'}, 405);
     } catch (error) {
       console.error('Arcade leaderboard', error);
@@ -388,22 +427,22 @@ export default {
 const ratingValue = value => value === 'EF-U' ? 'EFU' : value;
 function ratingPoints(actual, guess) {
   actual = ratingValue(actual); guess = ratingValue(guess);
-  if (actual === guess) return 3;
+  if (actual === guess) return 5;
   if (actual.endsWith('U') || guess.endsWith('U') || actual.startsWith('EF') !== guess.startsWith('EF')) return 0;
-  return Math.abs(Number(actual.at(-1)) - Number(guess.at(-1))) === 1 ? 1 : 0;
+  return [5,3,1][Math.abs(Number(actual.at(-1)) - Number(guess.at(-1)))] || 0;
 }
 const ratingTop = `
   WITH personal AS (
     SELECT gamertag AS username, points, exact, gamertag_key, saved_at,
       ROW_NUMBER() OVER (PARTITION BY gamertag_key ORDER BY points DESC, exact DESC, saved_at, run_id) AS personal_place
-    FROM rating_results
+    FROM rating_results_v163
   )
   SELECT username, points, exact FROM personal WHERE personal_place = 1
   ORDER BY points DESC, exact DESC, gamertag_key LIMIT 25
 `;
 async function ratingSession(db, id) {
   if (typeof id !== 'string' || !/^[a-f0-9]{32}$/.test(id)) return null;
-  return await db.prepare('SELECT * FROM rating_sessions WHERE run_id = ? AND expires_at > ?')
+  return await db.prepare('SELECT * FROM rating_sessions_v163 WHERE run_id = ? AND expires_at > ?')
     .bind(id, Date.now()).first();
 }
 async function startRating(db, json) {
@@ -419,8 +458,8 @@ async function startRating(db, json) {
   }
   const selected = pool.slice(0,5), runId = crypto.randomUUID().replaceAll('-', '');
   await db.batch([
-    db.prepare('DELETE FROM rating_sessions WHERE expires_at <= ?').bind(Date.now()),
-    db.prepare('INSERT INTO rating_sessions(run_id,event_ids,expires_at) VALUES (?,?,?)')
+    db.prepare('DELETE FROM rating_sessions_v163 WHERE expires_at <= ?').bind(Date.now()),
+    db.prepare('INSERT INTO rating_sessions_v163(run_id,event_ids,expires_at) VALUES (?,?,?)')
       .bind(runId, JSON.stringify(selected.map(event => event.id)), Date.now() + 24 * 60 * 60 * 1000),
   ]);
   return json({runId, photos: selected.map(({id,image,rating}) => ({id,image,ratingScale: rating.startsWith('EF') ? 'EF' : 'F'}))});
@@ -435,9 +474,9 @@ async function checkRating(db, request, json) {
   if (!event || typeof guess !== 'string' || !/^(?:EF[0-5U]|F[0-5])$/.test(guess) ||
       event.rating.startsWith('EF') !== guess.startsWith('EF')) return json({message:'Choose a rating from the event’s original scale.'},400);
   // First answer stands. A network retry returns the same answer and points.
-  await db.prepare('INSERT INTO rating_answers(run_id,event_id,guess,points) VALUES (?,?,?,?) ON CONFLICT(run_id,event_id) DO NOTHING')
+  await db.prepare('INSERT INTO rating_answers_v163(run_id,event_id,guess,points) VALUES (?,?,?,?) ON CONFLICT(run_id,event_id) DO NOTHING')
     .bind(input.runId, input.id, guess, ratingPoints(event.rating,guess)).run();
-  const saved = await db.prepare('SELECT guess,points FROM rating_answers WHERE run_id = ? AND event_id = ?').bind(input.runId,input.id).first();
+  const saved = await db.prepare('SELECT guess,points FROM rating_answers_v163 WHERE run_id = ? AND event_id = ?').bind(input.runId,input.id).first();
   const {track, ...reveal} = event;
   return json({event:reveal, ...saved});
 }
@@ -449,15 +488,197 @@ async function saveRating(db, request, json) {
   const ids = JSON.parse(session.event_ids), key = username.toLowerCase();
   // Recompute totals from the answers saved by the Worker, never from client points.
   await db.prepare(`
-    INSERT INTO rating_results(run_id,gamertag_key,gamertag,points,exact,saved_at)
-    SELECT ?,?,?,SUM(points),SUM(CASE WHEN points = 3 THEN 1 ELSE 0 END),?
-    FROM rating_answers WHERE run_id = ? AND event_id IN (SELECT value FROM json_each(?))
+    INSERT INTO rating_results_v163(run_id,gamertag_key,gamertag,points,exact,saved_at)
+    SELECT ?,?,?,SUM(points),SUM(CASE WHEN points = 5 THEN 1 ELSE 0 END),?
+    FROM rating_answers_v163 WHERE run_id = ? AND event_id IN (SELECT value FROM json_each(?))
     HAVING COUNT(*) = 5
     ON CONFLICT(run_id) DO NOTHING
   `).bind(input.runId,key,username,Date.now(),input.runId,JSON.stringify(ids)).run();
-  const result = await db.prepare('SELECT gamertag_key,points,exact FROM rating_results WHERE run_id = ?').bind(input.runId).first();
+  const result = await db.prepare('SELECT gamertag_key,points,exact FROM rating_results_v163 WHERE run_id = ?').bind(input.runId).first();
   if (!result) return json({message:'Answer all five photos before saving.'},400);
   if (result.gamertag_key !== key) return json({message:'This run already has a saved gamertag.'},409);
-  const best = await db.prepare('SELECT points,exact FROM rating_results WHERE gamertag_key = ? ORDER BY points DESC,exact DESC,saved_at,run_id LIMIT 1').bind(key).first();
+  const best = await db.prepare('SELECT points,exact FROM rating_results_v163 WHERE gamertag_key = ? ORDER BY points DESC,exact DESC,saved_at,run_id LIMIT 1').bind(key).first();
   return json({username,points:result.points,exact:result.exact,bestPoints:best.points,bestExact:best.exact});
+}
+
+// PIN accounts share the existing DB. AUTH_PEPPER is a Worker secret, never a browser value.
+const accountEncoder = new TextEncoder();
+const randomHex = (size=32) => [...crypto.getRandomValues(new Uint8Array(size))].map(n=>n.toString(16).padStart(2,'0')).join('');
+const hexDigest = async value => [...new Uint8Array(await crypto.subtle.digest('SHA-256',accountEncoder.encode(value)))].map(n=>n.toString(16).padStart(2,'0')).join('');
+async function pinHash(pin,salt,pepper) {
+ const material=await crypto.subtle.importKey('raw',accountEncoder.encode(pin+':'+pepper),'PBKDF2',false,['deriveBits']);
+ return [...new Uint8Array(await crypto.subtle.deriveBits({name:'PBKDF2',hash:'SHA-256',salt:accountEncoder.encode(salt),iterations:100000},material,256))].map(n=>n.toString(16).padStart(2,'0')).join('');
+}
+function equalHash(a,b){if(typeof a!=='string'||typeof b!=='string'||a.length!==b.length)return false;let diff=0;for(let i=0;i<a.length;i++)diff|=a.charCodeAt(i)^b.charCodeAt(i);return diff===0;}
+async function accountUser(db,request){
+ const token=request.headers.get('Authorization')?.match(/^Bearer ([a-f0-9]{64})$/)?.[1];
+ if(!token)return null;
+ return db.prepare('SELECT a.id,a.username,a.username_key FROM player_accounts a JOIN player_sessions s ON s.account_id=a.id WHERE s.token_hash=? AND s.expires_at>?').bind(await hexDigest(token),Date.now()).first();
+}
+async function accountProfile(db,user){
+ if(!user)return {username:null,history:[],total:0};
+ await db.batch([
+ db.prepare(`INSERT OR IGNORE INTO player_run_history(account_id,run_id,mode,result,saved_at)
+ SELECT ?,r.run_id,CASE WHEN r.board LIKE 'daily:%' THEN 'daily' ELSE r.board END,
+ json_object('averageMiles',r.score_tenths/10.0,'day',CASE WHEN r.board LIKE 'daily:%' THEN substr(r.board,7) ELSE NULL END,'grades',c.grades,'imported',1),
+ CASE WHEN r.board LIKE 'daily:%' THEN CAST(strftime('%s',substr(r.board,7)) AS INTEGER)*1000 ELSE 0 END
+ FROM mode_runs r LEFT JOIN daily_share_cards c ON c.board=r.board AND c.gamertag_key=r.gamertag_key WHERE r.gamertag_key=?`).bind(user.id,user.username_key),
+ db.prepare(`INSERT OR IGNORE INTO player_run_history(account_id,run_id,mode,result,saved_at) SELECT ?,run_id,'all',json_object('averageMiles',score_tenths/10.0,'imported',1),0 FROM arcade_runs WHERE gamertag_key=?`).bind(user.id,user.username_key),
+ db.prepare(`INSERT OR IGNORE INTO player_run_history(account_id,run_id,mode,result,saved_at) SELECT ?,run_id,'rating',json_object('points',points,'exact',exact,'imported',1),saved_at FROM rating_results WHERE gamertag_key=?`).bind(user.id,user.username_key),
+ db.prepare(`INSERT OR IGNORE INTO player_run_history(account_id,run_id,mode,result,saved_at) SELECT ?,run_id,'rating',json_object('points',points,'exact',exact,'imported',1,'scoringVersion',163),saved_at FROM rating_results_v163 WHERE gamertag_key=?`).bind(user.id,user.username_key),
+ db.prepare(`INSERT OR IGNORE INTO player_run_history(account_id,run_id,mode,result,saved_at) SELECT ?,'legacy-best:'||board,CASE WHEN board LIKE 'daily:%' THEN 'daily' ELSE board END,json_object('averageMiles',score_tenths/10.0,'day',CASE WHEN board LIKE 'daily:%' THEN substr(board,7) ELSE NULL END,'imported',1),0 FROM mode_best b WHERE gamertag_key=? AND NOT EXISTS(SELECT 1 FROM mode_runs r WHERE r.board=b.board AND r.gamertag_key=b.gamertag_key)`).bind(user.id,user.username_key),
+ db.prepare(`INSERT OR IGNORE INTO player_run_history(account_id,run_id,mode,result,saved_at) SELECT ?,'legacy-best:archive','all',json_object('averageMiles',score_tenths/10.0,'imported',1),0 FROM arcade_best b WHERE gamertag_key=? AND NOT EXISTS(SELECT 1 FROM arcade_runs r WHERE r.gamertag_key=b.gamertag_key)`).bind(user.id,user.username_key)
+ ]);
+ const {results}=await db.prepare('SELECT run_id,mode,result,saved_at FROM player_run_history WHERE account_id=? ORDER BY saved_at DESC,run_id LIMIT 50').bind(user.id).all();
+ const count=await db.prepare('SELECT COUNT(*) AS total FROM player_run_history WHERE account_id=?').bind(user.id).first();
+ return {username:user.username,total:count.total,history:results.map(r=>({runId:r.run_id,mode:r.mode,savedAt:r.saved_at,...JSON.parse(r.result)}))};
+}
+async function authLimit(db,request,key){
+ const now=Date.now();
+ // Both account and IP buckets are persisted, so retries cannot bypass an isolate restart.
+ const ip=await hexDigest(request.headers.get('CF-Connecting-IP')||'local');
+ for(const bucket of ['ip:'+ip,'name:'+key]){
+ await db.prepare('INSERT INTO player_auth_limits(key,attempts,expires_at) VALUES(?,1,?) ON CONFLICT(key) DO UPDATE SET attempts=CASE WHEN expires_at<=? THEN 1 ELSE attempts+1 END,expires_at=CASE WHEN expires_at<=? THEN excluded.expires_at ELSE expires_at END').bind(bucket,now+15*60000,now,now).run();
+ const row=await db.prepare('SELECT attempts FROM player_auth_limits WHERE key=?').bind(bucket).first();
+ if(row.attempts>(bucket.startsWith('ip:')?30:8))return false;
+ }
+ return true;
+}
+async function accountEndpoint(db,request,env,json,path){
+ if(!env.AUTH_PEPPER||env.AUTH_PEPPER.length<32)return json({message:'Account sign-in is not configured yet.'},503);
+ const user=await accountUser(db,request);
+ if(path==='/account/profile'&&request.method==='GET')return json(await accountProfile(db,user));
+ if(request.method!=='POST')return json({message:'Method unavailable.'},405);
+ if(path==='/account/logout'){
+ const token=request.headers.get('Authorization')?.slice(7);
+ if(token)await db.prepare('DELETE FROM player_sessions WHERE token_hash=?').bind(await hexDigest(token)).run();
+ return json({username:null,history:[],total:0});
+ }
+ const input=await readRun(request);
+ const username=typeof input?.username==='string'?input.username.trim():'';
+ const key=username.toLowerCase();
+ if(!/^[A-Za-z0-9_]{3,20}$/.test(username)||!/^\d{6}$/.test(input?.pin||''))return json({message:'Use a username of 3–20 letters, numbers or underscores and a six-digit PIN.'},400);
+ if(!await authLimit(db,request,key))return json({message:'Too many attempts. Wait 15 minutes before trying again.'},429);
+ let account=await db.prepare('SELECT * FROM player_accounts WHERE username_key=?').bind(key).first();
+ let recoveryCode;
+ if(path==='/account/register'){
+ if(account)return json({message:'That username is unavailable.'},409);
+ // Unregistered guest names may be claimed; existing account names remain unique.
+ const id=randomHex(16),salt=randomHex(16);recoveryCode=randomHex(16);
+ await db.prepare('INSERT INTO player_accounts(id,username,username_key,pin_salt,pin_hash,recovery_hash,created_at) VALUES(?,?,?,?,?,?,?) ON CONFLICT(username_key) DO NOTHING').bind(id,username,key,salt,await pinHash(input.pin,salt,env.AUTH_PEPPER),await hexDigest(recoveryCode+env.AUTH_PEPPER),Date.now()).run();
+ account=await db.prepare('SELECT * FROM player_accounts WHERE id=?').bind(id).first();
+ if(!account)return json({message:'That username is unavailable.'},409);
+ }else if(path==='/account/login'){
+ const actual=await pinHash(input.pin,account?.pin_salt||'missing-account-salt',env.AUTH_PEPPER);
+ if(!account||!equalHash(actual,account.pin_hash))return json({message:'Username or PIN is incorrect.'},401);
+ }else if(path==='/account/recover'){
+ if(!account||typeof input.recoveryCode!=='string'||!equalHash(await hexDigest(input.recoveryCode.trim().toLowerCase()+env.AUTH_PEPPER),account.recovery_hash))return json({message:'Username or recovery code is incorrect.'},401);
+ recoveryCode=randomHex(16);const salt=randomHex(16);
+ await db.batch([db.prepare('UPDATE player_accounts SET pin_salt=?,pin_hash=?,recovery_hash=? WHERE id=?').bind(salt,await pinHash(input.pin,salt,env.AUTH_PEPPER),await hexDigest(recoveryCode+env.AUTH_PEPPER),account.id),db.prepare('DELETE FROM player_sessions WHERE account_id=?').bind(account.id)]);
+ }else return json({message:'Not found.'},404);
+ const token=randomHex();
+ await db.batch([db.prepare('DELETE FROM player_sessions WHERE expires_at<=?').bind(Date.now()),db.prepare('DELETE FROM player_auth_limits WHERE expires_at<=?').bind(Date.now()),db.prepare('INSERT INTO player_sessions VALUES(?,?,?)').bind(await hexDigest(token),account.id,Date.now()+30*86400000)]);
+ return json({...await accountProfile(db,account),token,...(recoveryCode&&{recoveryCode})});
+}
+async function accountScore(db,request,env,mode,day,json){
+ const input=await readRun(request.clone());
+ if(!input||typeof input!=='object'||Array.isArray(input))return json({message:'Enter a valid score.'},400);
+ const user=await accountUser(db,request);
+ if(request.headers.has('Authorization')&&!user)return json({message:'Your sign-in expired. Sign in again before saving.'},401);
+ const supplied=typeof input?.username==='string'?input.username.trim().toLowerCase():'';
+ const owner=await db.prepare('SELECT id FROM player_accounts WHERE username_key=?').bind(supplied).first();
+ if(owner&&owner.id!==user?.id)return json({message:'Sign in to save scores under this registered username.'},403);
+ if(user)input.username=user.username;
+ const rewritten=new Request(request.url,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(input)});
+ let savedPayload;
+ const capture=(body,status=200)=>{if(status===200)savedPayload=body;return json(body,status);};
+ const response=mode==='rating'?await saveRating(db,rewritten,capture):await saveRun(db,rewritten,mode,day,capture);
+ if(user&&savedPayload){
+ // Derive history again from server-side scoring; clients cannot submit profile totals.
+ let details;
+ if(mode==='rating'){
+ const {results}=await db.prepare('SELECT event_id,guess,points FROM rating_answers_v163 WHERE run_id=?').bind(input.runId).all();
+ details={...savedPayload,scoringVersion:163,rounds:results};
+ }else{
+ const archive=await readArchive();
+ details={...savedPayload,day:mode==='daily'?day:null,rounds:input.guesses.map(g=>({name:archive.get(g.id).name,...scoreGuess(archive.get(g.id),g.point,null)}))};
+ }
+ await db.prepare('INSERT INTO player_run_history(account_id,run_id,mode,result,saved_at) VALUES(?,?,?,?,?) ON CONFLICT(account_id,run_id) DO NOTHING').bind(user.id,input.runId,mode||'all',JSON.stringify(details),Date.now()).run();
+ }
+ return response;
+}
+
+// Only this authenticated endpoint returns another player's guess coordinates.
+async function dailyReplay(db, request, params, today, json) {
+  const user = await accountUser(db, request);
+  if (!user) return json({message: 'Sign in to view Daily Challenge replays.'}, 401);
+  const day = params.get('day') || today;
+  if (!validDate(day) || day > today) return json({message: 'Choose a valid challenge date.'}, 400);
+  const board = 'daily:' + day;
+  const completed = await db.prepare(`SELECT 1 AS completed FROM mode_best
+    WHERE board = ? AND gamertag_key = ?`).bind(board, user.username_key).first();
+  // Check access before checking a target or returning any lineup/replay details.
+  if (!completed) return json({message: 'Complete and save all five rounds of this Daily Challenge to unlock replays.'}, 403);
+  if (!params.has('gamertag')) {
+    const {results} = await db.prepare(`SELECT r.gamertag_key, b.gamertag AS username, b.score_tenths / 10.0 AS averageMiles FROM daily_replays r JOIN mode_best b USING(board,gamertag_key) WHERE r.board = ? ORDER BY b.score_tenths, r.gamertag_key`).bind(board).all();
+    return json({day, unlocked: true, available: results.map(row => row.gamertag_key), players: results.map(({username,averageMiles}) => ({username,averageMiles}))});
+  }
+  const username = params.get('gamertag').trim();
+  if (!gamertagPattern.test(username)) return json({message: 'Choose a valid player.'}, 400);
+  const replay = await db.prepare(`SELECT r.rounds, b.gamertag AS username,
+      b.score_tenths / 10.0 AS averageMiles
+    FROM daily_replays r JOIN mode_best b USING (board, gamertag_key)
+    WHERE r.board = ? AND r.gamertag_key = ?`).bind(board, username.toLowerCase()).first();
+  if (!replay) return json({message: 'Replay unavailable. This score was saved before round guesses were recorded.'}, 404);
+  return json({day, username: replay.username, averageMiles: replay.averageMiles, rounds: JSON.parse(replay.rounds)});
+}
+
+// Read-only public Daily statistics. Uses existing first-saved per-day scores;
+// never reads account credentials, private history, or replay coordinates.
+const validDay = value => typeof value === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(value) && !value.startsWith('0000') && Number.isFinite(Date.parse(value)) && new Date(value).toISOString().slice(0,10) === value;
+const dailyCTE = `WITH daily AS (
+  SELECT board,gamertag_key,gamertag,score_tenths FROM mode_best
+  WHERE board GLOB 'daily:????-??-??' AND substr(board,7) <= ?
+    AND typeof(score_tenths) = 'integer' AND score_tenths >= 0
+)`;
+async function dailyPlayerStats(db, params, today, json) {
+  const username = params.get('gamertag')?.trim();
+  const before = params.get('before');
+  if (!username || !/^[\p{L}\p{N} _-]{2,20}$/u.test(username) || (before !== null && (!validDay(before) || before > today))) {
+    return json({message:'Choose a valid player and history date.'},400);
+  }
+  const key = username.toLowerCase();
+  const summary = db.prepare(`${dailyCTE}, players AS (
+    SELECT gamertag_key,COUNT(*) AS daysPlayed,AVG(score_tenths) AS averageTenths,
+      MIN(score_tenths)/10.0 AS bestMiles,MAX(score_tenths)/10.0 AS worstMiles,
+      MIN(substr(board,7)) AS firstDay,MAX(substr(board,7)) AS latestDay
+    FROM daily GROUP BY gamertag_key
+  ) SELECT target.*,
+    (SELECT gamertag FROM daily WHERE gamertag_key=target.gamertag_key ORDER BY board DESC LIMIT 1) AS username,
+    CASE WHEN target.daysPlayed>=2 THEN 1+(SELECT COUNT(*) FROM players p WHERE p.daysPlayed>=2 AND ROUND(p.averageTenths)<ROUND(target.averageTenths)) ELSE NULL END AS overallPlace,
+    CASE WHEN target.daysPlayed>=2 THEN (SELECT COUNT(*) FROM players p WHERE p.daysPlayed>=2 AND ROUND(p.averageTenths)=ROUND(target.averageTenths)) ELSE 0 END AS tiedPlayers,
+    (SELECT COUNT(*) FROM players WHERE daysPlayed>=2) AS totalPlayers,
+    (SELECT COUNT(*) FROM players) AS totalPlayersWithScores,
+    (SELECT AVG(p.averageTenths)/10.0 FROM players p WHERE p.daysPlayed>=2 AND p.gamertag_key<>target.gamertag_key) AS otherPlayersAverageMiles,
+    (SELECT COUNT(*) FROM daily) AS totalSavedDailies
+    FROM players target WHERE target.gamertag_key=?`).bind(today,key);
+  const history = db.prepare(`${dailyCTE}
+    SELECT substr(s.board,7) AS day,s.score_tenths/10.0 AS averageMiles,c.grades,
+      1+(SELECT COUNT(*) FROM daily b WHERE b.board=s.board AND (b.score_tenths,b.gamertag_key)<(s.score_tenths,s.gamertag_key)) AS place,
+      (SELECT COUNT(*) FROM daily b WHERE b.board=s.board) AS players,
+      (SELECT AVG(b.score_tenths)/10.0 FROM daily b WHERE b.board=s.board) AS fieldAverageMiles
+    FROM daily s LEFT JOIN daily_share_cards c ON c.board=s.board AND c.gamertag_key=s.gamertag_key
+    WHERE s.gamertag_key=? AND (? IS NULL OR s.board < 'daily:'||?)
+    ORDER BY s.board DESC LIMIT 51`).bind(today,key,before,before);
+  const [a,b] = await db.batch([summary,history]);
+  const row = a.results[0];
+  if (!row) return json({message:'No saved Daily Challenge scores found for this player.'},404);
+  const round = n => n === null ? null : Math.round(n*10)/10;
+  const entries = b.results.slice(0,50).map(r=>({...r,fieldAverageMiles:round(r.fieldAverageMiles),grades:typeof r.grades==='string' && /^[ABCDF]{5}$/.test(r.grades)?r.grades.split(''):null}));
+  return json({username:row.username,asOf:today,daysPlayed:row.daysPlayed,eligible:row.daysPlayed>=2,minimumDays:2,
+    overallAverageMiles:row.daysPlayed>=2?round(row.averageTenths/10):null,bestMiles:row.bestMiles,worstMiles:row.worstMiles,
+    firstDay:row.firstDay,latestDay:row.latestDay,overallPlace:row.overallPlace,tiedPlayers:row.tiedPlayers,
+    totalPlayers:row.totalPlayers,totalPlayersWithScores:row.totalPlayersWithScores,otherPlayersAverageMiles:round(row.otherPlayersAverageMiles),totalSavedDailies:row.totalSavedDailies,
+    comparison:'At least two saved Daily challenge days are required for a lifetime average, EF player rating and overall rank. Qualified players have equal weight; dates and days played vary. Lower miles is better. Overall ties share a rank at one decimal place.',
+    history:entries,nextBefore:b.results.length>50?entries.at(-1).day:null});
 }

@@ -85,6 +85,20 @@ The 55-point DAT path is saved for scoring and display. Survey metadata records 
 
 The event belongs to Full Archive. It is excluded from Iconic EF4 / EF5 because it is EF3, and from Past Year as of November 23, 2026 because June 28, 2025 is outside the rolling last 12 months. The archive now contains 113 events; the current iconic and recent pools remain 25 and 15.
 
+## v1.8.1 — November 27, 2026
+
+At least two saved Daily challenge days are required for a lifetime average, EF player rating, and overall rank. One-day players remain provisional and are excluded from the peer comparison population. Daily individual results and today’s crown remain available.
+
+The history panel includes an EF player rating based on lifetime Daily average. A small gold crown marks the first-place Daily gamertag, and overall number-one players receive a crown in their history header; tied overall leaders share the crown.
+
+Player Daily history opens from gamertags on today’s chase board and the Daily leaderboard. A read-only `/daily-player` endpoint uses existing `mode_best` Daily scores, including legacy records, without a migration or resubmission. It returns lifetime Daily average, days played, best day average, competition rank, peer comparison, and paginated history with daily placement. It does not expose private account data or replay guesses.
+
+Each player has equal weight in the comparison to other players’ lifetime averages. Players may have played different dates and numbers of challenges; the panel states this. Overall ranks tie at one-decimal displayed precision. Per-day placement follows the existing score-then-gamertag order. Scores are never recomputed after DAT changes. Unsaved attempts cannot be reconstructed.
+
+Recent fixes and improvements are consolidated in What’s New: wheel zoom on guessing maps, the web-only TestFlight flag, and the iOS browser invitation on every visit. The published Worker’s accounts, recovery, sharing and replay code is preserved in the checked-in Worker copies. No DAT changes are part of this release.
+
+Validation: `node --test tests/daily-player.test.mjs` covers legacy results, ranking and ties, player weighting, missing grades, pagination, validation, GET-only access, and unchanged stored data.
+
 ## v1.8 — November 27, 2026
 
 Tornado Guesser v1.8 is available on iOS through TestFlight for testing. The full App Store launch is coming soon; TestFlight availability is not the public App Store release.

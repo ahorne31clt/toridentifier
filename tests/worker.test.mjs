@@ -16,6 +16,17 @@ sqlite.exec(`PRAGMA foreign_keys=ON;
  CREATE TABLE daily_share_cards(board TEXT,gamertag_key TEXT,grades TEXT,PRIMARY KEY(board,gamertag_key));
  INSERT INTO arcade_best VALUES('legacy','Legacy',123);`);
 sqlite.exec(sql);sqlite.exec(sql);
+// Match the already-deployed account/replay and 5/3/1 scoring schema.
+sqlite.exec(`
+ CREATE TABLE player_accounts(id TEXT PRIMARY KEY,username TEXT,username_key TEXT UNIQUE,pin_salt TEXT,pin_hash TEXT,recovery_hash TEXT,created_at INTEGER);
+ CREATE TABLE player_sessions(token_hash TEXT PRIMARY KEY,account_id TEXT,expires_at INTEGER);
+ CREATE TABLE player_auth_limits(key TEXT PRIMARY KEY,attempts INTEGER,expires_at INTEGER);
+ CREATE TABLE player_run_history(account_id TEXT,run_id TEXT,mode TEXT,result TEXT,saved_at INTEGER,PRIMARY KEY(account_id,run_id));
+ CREATE TABLE daily_replays(board TEXT,gamertag_key TEXT,run_id TEXT UNIQUE,rounds TEXT,saved_at INTEGER,PRIMARY KEY(board,gamertag_key));
+ CREATE TABLE rating_sessions_v163(run_id TEXT PRIMARY KEY,event_ids TEXT,expires_at INTEGER);
+ CREATE TABLE rating_answers_v163(run_id TEXT,event_id TEXT,guess TEXT,points INTEGER,PRIMARY KEY(run_id,event_id));
+ CREATE TABLE rating_results_v163(run_id TEXT PRIMARY KEY,gamertag_key TEXT,gamertag TEXT,points INTEGER,exact INTEGER,saved_at INTEGER);
+`);
 class Statement{
  constructor(query){this.query=query;this.values=[];}
  bind(...values){this.values=values;return this;}
@@ -40,10 +51,10 @@ test('Existing scores survive the additive schema; CORS and distance modes work'
 });
 test('Rating server assigns five, locks first answer, rejects early saves and ranks server totals',async()=>{
  const run=await call('/rating/run',{});assert.equal(run.status,200);assert.equal(run.data.photos.length,5);assert.equal(new Set(run.data.photos.map(p=>p.id)).size,5);assert.ok(run.data.photos.every(p=>!('rating'in p)&&!('name'in p)));
- const runId=run.data.runId;assert.equal((await call('/leaderboard?mode=rating',{runId,username:'Rating tester',points:15})).status,400);
- for(const p of run.data.photos){const e=catalog.find(e=>e.id===p.id);const answer=await call('/rating/guess',{runId,id:p.id,guess:e.rating});assert.equal(answer.status,200);assert.equal(answer.data.points,3);
- const retry=await call('/rating/guess',{runId,id:p.id,guess:e.rating.startsWith('EF')?'EF0':'F0'});assert.equal(retry.data.points,3);assert.equal(retry.data.guess,e.rating);}
- const saved=await call('/leaderboard?mode=rating',{runId,username:'Rating tester',points:0});assert.equal(saved.status,200);assert.equal(saved.data.points,15);assert.equal(saved.data.exact,5);
+ const runId=run.data.runId;assert.equal((await call('/leaderboard?mode=rating',{runId,username:'Rating tester',points:25})).status,400);
+ for(const p of run.data.photos){const e=catalog.find(e=>e.id===p.id);const answer=await call('/rating/guess',{runId,id:p.id,guess:e.rating});assert.equal(answer.status,200);assert.equal(answer.data.points,5);
+ const retry=await call('/rating/guess',{runId,id:p.id,guess:e.rating.startsWith('EF')?'EF0':'F0'});assert.equal(retry.data.points,5);assert.equal(retry.data.guess,e.rating);}
+ const saved=await call('/leaderboard?mode=rating',{runId,username:'Rating tester',points:0});assert.equal(saved.status,200);assert.equal(saved.data.points,25);assert.equal(saved.data.exact,5);
  assert.equal((await call('/leaderboard?mode=rating',{runId,username:'Imposter'})).status,409);
  assert.equal((await call('/leaderboard?mode=rating',{runId,username:'Rating tester'})).status,200);
  assert.equal((await call('/leaderboard?mode=rating')).data.entries.length,1);
