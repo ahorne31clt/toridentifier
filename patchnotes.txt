@@ -12,7 +12,10 @@ Feedback, score lookup, accounts, daily sharing, and the classic contour backgro
 Adding Login Feature Functionality 
 
 
-v1.8 - Pre Launch Notes - Dec 2026
+**v1.8 - TestFlight testing - 27 Nov 2026**
+iOS v1.8 is now on TestFlight for testing. Full App Store launch coming soon.
+Includes the existing player accounts, Daily replays, run sharing, branding, and 5/3/1 EF scoring updates.
+Web version labels and asset cache keys updated to 1.8. Native iOS build settings unchanged.
 
 
 

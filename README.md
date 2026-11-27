@@ -85,6 +85,12 @@ The 55-point DAT path is saved for scoring and display. Survey metadata records 
 
 The event belongs to Full Archive. It is excluded from Iconic EF4 / EF5 because it is EF3, and from Past Year as of November 23, 2026 because June 28, 2025 is outside the rolling last 12 months. The archive now contains 113 events; the current iconic and recent pools remain 25 and 15.
 
+## v1.8 — November 27, 2026
+
+Tornado Guesser v1.8 is available on iOS through TestFlight for testing. The full App Store launch is coming soon; TestFlight availability is not the public App Store release.
+
+This version carries forward the current web changes: player accounts, Daily replays, run sharing, updated branding, and the 5/3/1 EF scoring system. The website version labels and asset cache keys now use 1.8. The native iOS repository and build settings are unchanged.
+
 ## v1.6 — November 24, 2026
 
 This release is based on the current GitHub repository, preserving Feedback, account controls, metadata, release notes, daily lookup, daily sharing, existing distance leaderboards, and the original isobar background. Daily Challenge has a purple featured row with a live read-only ranking panel. The average shown is calculated from the returned ranked players, not all daily attempts. Ranking failures display an unavailable state, never fabricated scores.

@@ -1,6 +1,6 @@
 // The Worker verifies the viewer's sign-in and same-day completion on every request.
 export function setupDailyReplay({request, getUsername}) {
-  const css=document.createElement('link');css.rel='stylesheet';css.href=new URL('./daily-replay.css?v=1.7-replay2',import.meta.url).href;document.head.append(css);
+  const css=document.createElement('link');css.rel='stylesheet';css.href=new URL('./daily-replay.css?v=1.8-replay2',import.meta.url).href;document.head.append(css);
   const dialog=document.createElement('dialog');dialog.className='daily-replay-dialog';dialog.setAttribute('aria-labelledby','replay-title');
   dialog.innerHTML=`<header class="panel-head"><div><p class="replay-kicker">DAILY CHALLENGE</p><h2 id="replay-title">Replay Mode</h2></div><form method="dialog"><button class="button outline" aria-label="Close replay">Close</button></form></header><div class="replay-body"><form class="replay-picker"><label for="replay-player">Choose a player</label><div><select id="replay-player" required><option value="">Select a player</option></select><button class="button primary" type="submit">Watch replay</button></div></form><p class="replay-description"></p><p class="replay-status" role="status" aria-live="polite"></p><div class="replay-round-nav" role="group" aria-label="Replay rounds"></div><div class="replay-rounds"></div><div class="replay-pagination"></div></div>`;
   document.body.append(dialog);

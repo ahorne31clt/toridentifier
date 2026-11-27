@@ -11,7 +11,7 @@ export function setupRunShare() {
   const dialog=document.createElement('dialog');dialog.className='run-share-dialog';dialog.setAttribute('aria-labelledby','run-share-title');
   dialog.innerHTML='<header class="panel-head"><h2 id="run-share-title">Share your rundown</h2><form method="dialog"><button class="button outline" aria-label="Close rundown share">Close</button></form></header><div class="dialog-body"><p>Includes tornado names, photos, and your results.</p><canvas width="1080" height="1350" aria-label="Shareable run rundown"></canvas><div class="run-share-actions"><button class="button primary" data-share-native hidden>Share image</button><a class="button outline" data-share-download hidden>Download PNG</a><button class="button outline" data-share-copy>Copy result</button></div><textarea aria-label="Result text" readonly hidden></textarea><p role="status" class="run-share-status"></p></div>';
   document.body.append(dialog);
-  const link=document.createElement('link');link.rel='stylesheet';link.href=new URL('./run-share.css?v=1.7-replay1',import.meta.url).href;document.head.append(link);
+  const link=document.createElement('link');link.rel='stylesheet';link.href=new URL('./run-share.css?v=1.8-replay1',import.meta.url).href;document.head.append(link);
   const canvas=dialog.querySelector('canvas'),share=dialog.querySelector('[data-share-native]'),download=dialog.querySelector('[data-share-download]'),status=dialog.querySelector('.run-share-status'),textBox=dialog.querySelector('textarea');
   let generation=0,url,file,text='';
   async function open(result) {

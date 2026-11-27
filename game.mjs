@@ -1,7 +1,7 @@
-import {setupDailyReplay} from './daily-replay.mjs?v=1.7-replay1';
-import {setupAccounts} from './accounts.mjs?v=1.7-brand2';
-import {setupRunSummary} from './run-summary.mjs?v=1.7-replay1';
-import {setupRatingGame, ratingPoints, ratingLeaderboard} from './rating-game.mjs?v=1.7';
+import {setupDailyReplay} from './daily-replay.mjs?v=1.8-replay1';
+import {setupAccounts} from './accounts.mjs?v=1.8-brand2';
+import {setupRunSummary} from './run-summary.mjs?v=1.8-replay1';
+import {setupRatingGame, ratingPoints, ratingLeaderboard} from './rating-game.mjs?v=1.8';
 import {gameModes, modeCatalog} from './modes.mjs';
 import {playerRank, playerRankBands, gradeBands, roundsPerRun, scoreGuess, trackPaths, validDate} from './scoring.mjs';
 import {setupCitySearch} from './city-search.mjs';
