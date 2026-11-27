@@ -1,4 +1,4 @@
-import {setupRunShare} from './run-share.mjs?v=1.8-replay1';
+import {setupRunShare} from './run-share.mjs?v=1.8.4';
 import {playerRank} from './scoring.mjs';
 export function distanceRunStats(rounds) {
   const miles=rounds.map(r=>r.miles);

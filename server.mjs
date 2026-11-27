@@ -19,6 +19,8 @@ const assets = new Map([
   ['/', ['index.html', 'text/html; charset=utf-8']],
   ['/index.html', ['index.html', 'text/html; charset=utf-8']],
   ['/logo.png', ['logo.png', 'image/png']],
+  ['/favicon-lockup.png', ['favicon-lockup.png', 'image/png']],
+  ['/logo-lockup.jpg', ['logo-lockup.jpg', 'image/jpeg']],
   ['/pressure-field.mjs', ['pressure-field.mjs', 'text/javascript; charset=utf-8']],
   ['/pressure-contours.svg', ['pressure-contours.svg', 'image/svg+xml']],
   ['/styles.css', ['styles.css', 'text/css; charset=utf-8']],
@@ -31,6 +33,9 @@ const assets = new Map([
   ['/city-search.mjs', ['city-search.mjs', 'text/javascript; charset=utf-8']],
   ['/city-index.json', ['city-index.json', 'application/json; charset=utf-8']],
   ['/share-card.mjs', ['share-card.mjs', 'text/javascript; charset=utf-8']],
+  ['/share-images.mjs', ['share-images.mjs', 'text/javascript; charset=utf-8']],
+  ['/run-share.mjs', ['run-share.mjs', 'text/javascript; charset=utf-8']],
+  ['/run-share.css', ['run-share.css', 'text/css; charset=utf-8']],
   ['/scoring.mjs', ['scoring.mjs', 'text/javascript; charset=utf-8']],
 ]);
 for (const event of catalog) {

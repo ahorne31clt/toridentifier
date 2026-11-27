@@ -1,12 +1,12 @@
 import {setupDailyReplay} from './daily-replay.mjs?v=1.8-replay1';
 import {setupDailyPlayer,playerCrown} from './daily-player.mjs?v=1.8.3';
 import {setupAccounts} from './accounts.mjs?v=1.8-brand2';
-import {setupRunSummary} from './run-summary.mjs?v=1.8-replay1';
+import {setupRunSummary} from './run-summary.mjs?v=1.8.4';
 import {setupRatingGame, ratingPoints, ratingLeaderboard} from './rating-game.mjs?v=1.8';
 import {gameModes, modeCatalog} from './modes.mjs';
 import {playerRank, playerRankBands, gradeBands, roundsPerRun, scoreGuess, trackPaths, validDate, dailyTrack} from './scoring.mjs?v=1.8.2';
 import {setupCitySearch} from './city-search.mjs';
-import {setupDailyShare} from './share-card.mjs';
+import {setupDailyShare} from './share-card.mjs?v=1.8.4';
 
 const el = id => document.getElementById(id);
 const archiveKey = 'tornado-identifier-guest-scores-v1';

@@ -85,6 +85,10 @@ The 55-point DAT path is saved for scoring and display. Survey metadata records 
 
 The event belongs to Full Archive. It is excluded from Iconic EF4 / EF5 because it is EF3, and from Past Year as of November 23, 2026 because June 28, 2025 is outside the rolling last 12 months. The archive now contains 113 events; the current iconic and recent pools remain 25 and 15.
 
+## v1.8.4 — November 27, 2026
+
+- Updated the browser icon, link previews, and downloadable Daily Challenge and run rundown graphics with the new Tornado Guesser logo.
+
 ## v1.8.3 — November 27, 2026
 
 The main leaderboard follows the chase-board design across Photo, Iconic, Past Year, Daily and EF Rating modes: mode accents, aligned columns, EF badges, stronger scores and first-place crowns. Daily grades have their own desktop column and a labeled second row on phones. The summary is explicitly the average of the shown players, up to 25, not the whole population. EF Rating shows points out of 25; distance modes show miles. Daily gamertags continue to open lifetime history with two-day qualification. Ranking order and stored scores are unchanged.

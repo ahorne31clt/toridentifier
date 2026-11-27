@@ -1,11 +1,11 @@
 import {distanceRunStats, ratingRunStats} from './run-summary.mjs';
+import {loadImage, loadShareLogo} from './share-images.mjs';
 const colors={all:'#e85b66',iconic:'#f2cd63',recent:'#82c7ff',rating:'#92dfab'};
 export function runShareText({mode,title,rounds,username}) {
   if(mode==='daily')throw new Error('Daily shares must use the spoiler-free Daily Challenge card.');
   const summary=mode==='rating'?`${ratingRunStats(rounds).points} / ${rounds.length*5} points`:`${distanceRunStats(rounds).average.toFixed(1)} mi average`;
   return ['Tornado Guesser · '+title,username||'Guest player',summary,...rounds.map((r,i)=>`${i+1}. ${r.name} · ${r.rating} · ${mode==='rating'?`Guessed ${r.guess} · ${r.points} / 5 pts`:`${r.miles.toFixed(1)} mi · ${r.grade}`}`),'https://tornadoguesser.app/'].join('\n');
 }
-function loadImage(src) { return new Promise(resolve=>{if(!src)return resolve(null);const image=new Image();const timer=setTimeout(()=>resolve(null),5000);image.onload=()=>{clearTimeout(timer);resolve(image)};image.onerror=()=>{clearTimeout(timer);resolve(null)};image.src=src;}); }
 function fitText(ctx,text,x,y,max,size,color='#f3f0e7') {ctx.font=`bold ${size}px Arial`;while(ctx.measureText(text).width>max&&size>16)ctx.font=`bold ${--size}px Arial`;ctx.fillStyle=color;ctx.fillText(text,x,y,max);}
 export function setupRunShare() {
   const dialog=document.createElement('dialog');dialog.className='run-share-dialog';dialog.setAttribute('aria-labelledby','run-share-title');
@@ -19,13 +19,15 @@ export function setupRunShare() {
     const at=++generation;if(url)URL.revokeObjectURL(url);url=null;file=null;
     text=runShareText(result);textBox.value=text;textBox.hidden=true;share.hidden=download.hidden=true;status.textContent='Preparing your rundown…';canvas.hidden=true;
     if(!dialog.open)dialog.showModal();
-    const [logo,...images]=await Promise.all([loadImage(document.querySelector('.brand-mark')?.src||'./logo.png'),...result.rounds.map(r=>loadImage(r.image))]);
+    const [logo,...images]=await Promise.all([loadShareLogo(),...result.rounds.map(r=>loadImage(r.image))]);
     if(at!==generation||!dialog.open)return;
     const ctx=canvas.getContext('2d'),accent=colors[result.mode]||colors.all;
     ctx.fillStyle='#191c23';ctx.fillRect(0,0,1080,1350);ctx.strokeStyle='#ffffff16';ctx.lineWidth=1;
     for(let i=0;i<15;i++){ctx.beginPath();ctx.ellipse(1000,170,180+i*38,110+i*32,-.4,0,Math.PI*2);ctx.stroke()}
     ctx.fillStyle=accent;ctx.fillRect(40,40,1000,6);ctx.strokeStyle='#555864';ctx.strokeRect(40,40,1000,1270);
-    if(logo)ctx.drawImage(logo,72,70,72,72);fitText(ctx,'TORNADO GUESSER',160,114,800,29);
+    const hasLogo = logo?.complete && logo.naturalWidth;
+    if (hasLogo) ctx.drawImage(logo, 72, 49, 114, 114);
+    fitText(ctx, 'TORNADO GUESSER', hasLogo ? 202 : 72, 114, 800, 29);
     fitText(ctx,result.title.toUpperCase(),72,211,936,48);fitText(ctx,result.username||'Guest player',72,260,936,28,'#b8bdc8');
     const summary=result.mode==='rating'?`${ratingRunStats(result.rounds).points} / ${result.rounds.length*5} POINTS`:`${distanceRunStats(result.rounds).average.toFixed(1)} MI AVERAGE`;
     fitText(ctx,summary,72,331,936,45,accent);

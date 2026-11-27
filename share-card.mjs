@@ -1,3 +1,5 @@
+import {loadShareLogo} from './share-images.mjs';
+
 const cream = '#f3f0e7';
 const red = '#f38b86';
 const purple = '#d4b9f2';
@@ -45,9 +47,9 @@ function drawCard(canvas, {username, date, distance, rank, grades}, logo) {
   ctx.fillStyle = red;
   ctx.fillRect(32, 32, 1016, 5);
   let brandX = 76;
-  if (logo.complete && logo.naturalWidth) {
-    ctx.drawImage(logo, 76, 63, 70, 70);
-    brandX = 162;
+  if (logo?.complete && logo.naturalWidth) {
+    ctx.drawImage(logo, 76, 46, 114, 114);
+    brandX = 206;
   }
   text('TORNADO GUESSER', brandX, 107, 'bold 28px Arial', cream);
   text('DAILY CHALLENGE', 76, 225, '800 82px Arial', cream);
@@ -107,7 +109,7 @@ export function setupDailyShare(getResult) {
 
   function openDailyShare(result = getResult()) {
     if (!result || dialog.open) return;
-    const {username, day, date, distance, rank, grades} = result;
+    const {username, date, distance, rank, grades} = result;
     const text = [
       'Tornado Guesser Daily · ' + date,
       username + ' · ' + rank,
@@ -116,15 +118,28 @@ export function setupDailyShare(getResult) {
     ].join('\n');
     textBox.value = text;
     textBox.hidden = download.hidden = nativeShare.hidden = true;
-    status.textContent = '';
-    drawCard(canvas, result, document.querySelector('.brand-mark'));
-    canvas.setAttribute('aria-label', text);
+    status.textContent = 'Preparing your result…';
+    canvas.hidden = true;
     dialog.showModal();
-    const preview = ++generation;
+    prepareImage(result, text, ++generation);
+    return true;
+  }
+
+  async function prepareImage(result, text, preview) {
+    const logo = await loadShareLogo();
+    if (!dialog.open || preview !== generation) return;
+    drawCard(canvas, result, logo);
+    canvas.setAttribute('aria-label', text);
+    canvas.hidden = false;
     canvas.toBlob(blob => {
-      if (!blob || !dialog.open || preview !== generation) return;
+      if (!dialog.open || preview !== generation) return;
+      if (status.textContent === 'Preparing your result…') status.textContent = '';
+      if (!blob) {
+        status.textContent = 'Image export unavailable. You can still copy your result.';
+        return;
+      }
       url = URL.createObjectURL(blob);
-      image = new File([blob], 'tornado-guesser-daily-' + day + '.png', {type: 'image/png'});
+      image = new File([blob], 'tornado-guesser-daily-' + result.day + '.png', {type: 'image/png'});
       download.href = url;
       download.download = image.name;
       download.hidden = false;

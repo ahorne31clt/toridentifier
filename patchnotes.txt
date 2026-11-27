@@ -1,3 +1,7 @@
+v1.8.4 — November 27, 2026
+Improvements
+- The new Tornado Guesser logo appears in browser tabs, link previews, Daily Challenge share cards, and run rundown images.
+
 v1.8.3 — November 27, 2026
 LEADERBOARD IMPROVEMENTS
 - Restyled all five leaderboard modes to match the chase board.
