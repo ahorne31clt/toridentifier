@@ -1,6 +1,13 @@
+v1.8.5 — November 27, 2026
+SURVEY DATA IMPROVEMENTS
+- Added official NWS archived line geometry for El Reno (2013) and Hackleburg–Phil Campbell (2011), with source-specific links.
+- 66 of 114 events now have tracks: 64 DAT matches plus two archived NWS surveys. No invented DAT GlobalIDs or polygon edges.
+- New surveys enter Daily scoring November 28; existing saved scores and replays are preserved.
+
 v1.8.4 — November 27, 2026
 Improvements
 - The new Tornado Guesser logo appears in browser tabs, link previews, Daily Challenge share cards, and run rundown images.
+
 
 v1.8.3 — November 27, 2026
 LEADERBOARD IMPROVEMENTS

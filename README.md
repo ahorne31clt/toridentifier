@@ -138,3 +138,9 @@ Run locally: `node preview-server.mjs`, then open http://127.0.0.1:8786 . This i
 Follow [DEPLOYMENT.md](./DEPLOYMENT.md). Deploy the additive SQL and updated Worker before uploading the site. No new database is needed. The background is an illustrative animated weather pattern, not live weather data; it respects reduced-motion preferences and pauses when the page is hidden.
 
 Validation: `node --test tests/*.test.mjs`, `node scripts/dat.mjs check`, and a Wrangler Worker dry-run build. Cloudflare tests use an isolated in-memory SQLite fixture; they do not write to production.
+
+## v1.8.5 — Archived NWS survey lines
+
+Two additional events use original official NWS line geometry, distinct from the 64 native DAT matches: El Reno (May 31, 2013), from the Path LineString in NWS Norman’s downloadable KMZ; and Hackleburg–Phil Campbell (April 27, 2011), using consecutive statewide NWS survey line features 27 and 35 linked from NWS Birmingham’s outbreak map. The latter includes both the Hackleburg and Phil Campbell segments; they are not separate tornadoes. Source coordinates are retained without interpolation or simplification. `nws-archive-tracks.json` is the reviewed archive manifest; DAT synchronization preserves it in the combined snapshot. Reveal links credit the appropriate NWS archive rather than asserting a DAT GlobalID.
+
+Both additions activate for Daily on November 28. Previous 64 paths and all catalog metadata remain unchanged. Approximate polygon footprints for Xenia and the 1999 Oklahoma outbreak were not substituted for surveyed centerlines. Coverage is 66/114; 48 events retain reference-point scoring.

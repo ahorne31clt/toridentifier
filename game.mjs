@@ -342,7 +342,8 @@ function renderResult({event, record, point: guess}) {
   el('event-source').href = event.source;
   el('track-source').hidden = !hasTrack;
   if (hasTrack) {
-    el('track-source').href = 'https://apps.dat.noaa.gov/StormDamage/DamageViewer/';
+    el('track-source').href = event.track.sourceUrl || 'https://apps.dat.noaa.gov/StormDamage/DamageViewer/';
+    el('track-source').textContent = event.track.sourceLabel || 'NWS DAT track';
   }
   el('photo-credit').hidden = !event.photoCredit;
   el('photo-source').textContent = event.photoCredit || '';
@@ -896,7 +897,7 @@ async function loadArchive() {
     if (!catalog) {
       isStatic = true;
       const [response, trackResponse] = await Promise.all([
-        fetch('./tornadoes.json'), fetch('./dat-tracks.json?v=1.8.2'),
+        fetch('./tornadoes.json'), fetch('./dat-tracks.json?v=1.8.5'),
       ]);
       if (!response.ok) throw new Error('The archive could not load. Reload to try again.');
       if (!trackResponse.ok) throw new Error('The survey tracks could not load. Reload to try again.');

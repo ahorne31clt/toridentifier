@@ -24,4 +24,4 @@ createServer(async(req,res)=>{
   if(!file.startsWith(root.endsWith(sep)?root:root+sep)||path.includes('/.')){res.writeHead(403);res.end();return;}
   const body=await readFile(file);res.writeHead(200,{'Content-Type':types[extname(file)]||'application/octet-stream','Cache-Control':'no-store'});res.end(req.method==='HEAD'?undefined:body);
  }catch(error){res.writeHead(error.name==='TimeoutError'?504:404);res.end('Resource unavailable.');}
-}).listen(Number(process.env.REVIEW_PORT)||8786,'127.0.0.1',()=>console.log('Tornado Guesser v1.8.4 — http://127.0.0.1:'+(process.env.REVIEW_PORT||8786)));
+}).listen(Number(process.env.REVIEW_PORT)||8786,'127.0.0.1',()=>console.log('Tornado Guesser v1.8.5 — http://127.0.0.1:'+(process.env.REVIEW_PORT||8786)));

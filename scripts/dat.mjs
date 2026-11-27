@@ -1,4 +1,5 @@
 import {existsSync, readFileSync, renameSync, writeFileSync} from 'node:fs';
+import {isDeepStrictEqual} from 'node:util';
 import {nearestTrackPoint, validDate, validPoint} from '../scoring.mjs';
 
 const root = new URL('../', import.meta.url);
@@ -8,6 +9,7 @@ const tracksFile = new URL('dat-tracks.json', root);
 const read = file => JSON.parse(readFileSync(new URL(file, root), 'utf8'));
 const events = read('tornadoes.json');
 const matches = read('dat-matches.json');
+const archived = read('nws-archive-tracks.json');
 const eventById = new Map(events.map(event => [event.id, event]));
 const [command, ...ids] = process.argv.slice(2);
 const guid = /^\{[A-F0-9]{8}(?:-[A-F0-9]{4}){3}-[A-F0-9]{12}\}$/i;
@@ -103,7 +105,7 @@ async function find() {
 }
 
 function checkTracks(tracks) {
-  if (Object.keys(tracks).length !== Object.keys(matches).length) {
+  if (Object.keys(tracks).length !== Object.keys(matches).length + Object.keys(archived).length) {
     throw new Error('DAT track snapshot is out of sync. Run node scripts/dat.mjs sync.');
   }
   for (const [id, ids] of Object.entries(matches)) {
@@ -116,6 +118,18 @@ function checkTracks(tracks) {
       [eventById.get(id).date, nextDate(eventById.get(id).date, 1)].includes(feature.dateUtc?.slice(0, 10)) &&
       nearestTrackPoint(eventById.get(id), feature.paths).miles <= 75
     )) throw new Error('Check DAT track IDs, dates, and location for event ' + id);
+  }
+  for (const [id, track] of Object.entries(archived)) {
+    if (matches[id] || !eventById.has(id) || !isDeepStrictEqual(tracks[id], track) ||
+        track.sourceType !== 'nws-archive' || !validDate(track.dailyEffectiveFrom) ||
+        !track.sourceUrl.startsWith('https://www.weather.gov/') || !track.sourceLabel ||
+        !track.features?.length || track.features.some(feature =>
+          feature.globalId !== undefined || feature.eventDate !== eventById.get(id).date ||
+          !feature.paths?.length || feature.paths.some(path => path.length < 2 ||
+            path.some(([lng, lat]) => !validPoint({lng, lat}))) ||
+          nearestTrackPoint(eventById.get(id), feature.paths).miles > 75)) {
+      throw new Error('Check reviewed NWS archive geometry and provenance for event ' + id);
+    }
   }
 }
 
@@ -138,6 +152,7 @@ async function sync() {
       return feature;
     }), ...(previous[event]?.dailyEffectiveFrom && {dailyEffectiveFrom:previous[event].dailyEffectiveFrom})},
   ]));
+  Object.assign(tracks, archived);
   checkTracks(tracks);
   const temp = new URL('dat-tracks.json.tmp', root);
   const lines = Object.entries(tracks).map(([id, track]) => '  ' + JSON.stringify(id) + ': ' + JSON.stringify(track));
@@ -152,7 +167,7 @@ else if (command === 'sync') await sync();
 else if (command === 'check') {
   const tracks = read('dat-tracks.json');
   checkTracks(tracks);
-  console.log('Verified ' + events.length + ' photos and ' + Object.keys(tracks).length + ' DAT matches.');
+  console.log('Verified ' + events.length + ' photos, ' + Object.keys(matches).length + ' DAT matches and ' + Object.keys(archived).length + ' archived NWS surveys.');
 } else {
   console.error('Usage: node scripts/dat.mjs find [event IDs…] | sync | check');
   process.exitCode = 1;

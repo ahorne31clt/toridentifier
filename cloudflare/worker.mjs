@@ -169,7 +169,7 @@ async function readArchive(mode=null,day=null) {
   const options = {cf: {cacheEverything: true, cacheTtlByStatus: {'200-299': 60, '400-599': 0}}};
   const [catalogResponse, trackResponse] = await Promise.all([
     fetch(site + '/tornadoes.json', options),
-    fetch(site + '/dat-tracks.json?v=1.8.2', options),
+    fetch(site + '/dat-tracks.json?v=1.8.5', options),
   ]);
   if (!catalogResponse.ok || !trackResponse.ok) throw new Error('Archive unavailable');
   const [catalog, tracks] = await Promise.all([catalogResponse.json(), trackResponse.json()]);
