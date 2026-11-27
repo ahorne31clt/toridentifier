@@ -161,7 +161,7 @@ function buildMap() {
     fadeAnimation: false,
     maxBounds: [[-85, -180], [85, 180]],
     maxBoundsViscosity: 1,
-    scrollWheelZoom: false,
+    scrollWheelZoom: true,
   }).setView(...defaultView);
   leaflet.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
     maxZoom: 19, noWrap: true,
