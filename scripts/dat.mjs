@@ -107,6 +107,7 @@ function checkTracks(tracks) {
     throw new Error('DAT track snapshot is out of sync. Run node scripts/dat.mjs sync.');
   }
   for (const [id, ids] of Object.entries(matches)) {
+    if (tracks[id]?.dailyEffectiveFrom && !validDate(tracks[id].dailyEffectiveFrom)) throw new Error('Invalid Daily activation date for '+id);
     const features = tracks[id]?.features;
     if (features?.length !== ids.length || !features.every((feature, index) =>
       feature.globalId === ids[index].toUpperCase() && Number.isInteger(feature.objectId) &&
@@ -119,6 +120,7 @@ function checkTracks(tracks) {
 }
 
 async function sync() {
+  const previous = read('dat-tracks.json');
   const ids = Object.values(matches).flat().map(id => id.toUpperCase());
   const features = new Map();
   for (let start = 0; start < ids.length; start += 25) {
@@ -134,7 +136,7 @@ async function sync() {
       const feature = features.get(id.toUpperCase());
       if (!feature) throw new Error('DAT did not return geometry for ' + event + ' / ' + id);
       return feature;
-    })},
+    }), ...(previous[event]?.dailyEffectiveFrom && {dailyEffectiveFrom:previous[event].dailyEffectiveFrom})},
   ]));
   checkTracks(tracks);
   const temp = new URL('dat-tracks.json.tmp', root);

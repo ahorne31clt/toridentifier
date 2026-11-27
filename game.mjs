@@ -4,7 +4,7 @@ import {setupAccounts} from './accounts.mjs?v=1.8-brand2';
 import {setupRunSummary} from './run-summary.mjs?v=1.8-replay1';
 import {setupRatingGame, ratingPoints, ratingLeaderboard} from './rating-game.mjs?v=1.8';
 import {gameModes, modeCatalog} from './modes.mjs';
-import {playerRank, playerRankBands, gradeBands, roundsPerRun, scoreGuess, trackPaths, validDate} from './scoring.mjs';
+import {playerRank, playerRankBands, gradeBands, roundsPerRun, scoreGuess, trackPaths, validDate, dailyTrack} from './scoring.mjs?v=1.8.2';
 import {setupCitySearch} from './city-search.mjs';
 import {setupDailyShare} from './share-card.mjs';
 
@@ -256,6 +256,7 @@ function loadRound(restoreDaily = false) {
   el('arcade-score-form').querySelector('button').disabled = false;
   showMessage('arcade-message');
   active = deck.shift();
+  if(currentMode==='daily')active={...active,track:dailyTrack(active.track,daily.day)};
   lastId = active.id;
   roundId = makeId();
   deckPosition++;
@@ -878,7 +879,7 @@ async function loadArchive() {
     if (!catalog) {
       isStatic = true;
       const [response, trackResponse] = await Promise.all([
-        fetch('./tornadoes.json'), fetch('./dat-tracks.json'),
+        fetch('./tornadoes.json'), fetch('./dat-tracks.json?v=1.8.2'),
       ]);
       if (!response.ok) throw new Error('The archive could not load. Reload to try again.');
       if (!trackResponse.ok) throw new Error('The survey tracks could not load. Reload to try again.');

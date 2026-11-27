@@ -85,6 +85,14 @@ The 55-point DAT path is saved for scoring and display. Survey metadata records 
 
 The event belongs to Full Archive. It is excluded from Iconic EF4 / EF5 because it is EF3, and from Past Year as of November 23, 2026 because June 28, 2025 is outside the rolling last 12 months. The archive now contains 113 events; the current iconic and recent pools remain 25 and 15.
 
+## v1.8.2 — November 27, 2026
+
+Added 28 verified NWS DAT track matches, expanding coverage from 36 to 64 of 114 archive tornadoes. The 36 existing track records are unchanged. Dates, official numeric ratings, geography, office and survey labels/narratives were reviewed; original F-scale catalog ratings were retained for historic events despite EF-prefixed retroloaded DAT metadata. Bennington's DAT EF3+ metadata does not relabel the official EF3 event. The explicitly named MEG Craighead–Obion track is used for Monette–Samburg, not the closer Mayfield track start.
+
+`dat-audit-2026-11-27.json` lists all new GlobalIDs, original event ratings, source URLs and the 50 unmatched events. Unmatched events keep point scoring. No paths were traced from images or replaced with invented start-to-end lines.
+
+New paths are available in regular photo modes immediately. Their `dailyEffectiveFrom` date is November 28, preserving November 27 Daily scoring on client and Worker. Existing stored scores, grades and replay snapshots are not recalculated. DAT synchronization preserves this activation metadata. `tests/dat-tracks.test.mjs` verifies coverage, unique IDs, rating preservation and Daily activation behavior.
+
 ## v1.8.1 — November 27, 2026
 
 At least two saved Daily challenge days are required for a lifetime average, EF player rating, and overall rank. One-day players remain provisional and are excluded from the peer comparison population. Daily individual results and today’s crown remain available.

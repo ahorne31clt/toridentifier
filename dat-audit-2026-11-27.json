@@ -1,0 +1,649 @@
+{
+  "checked": "2026-11-27",
+  "catalogCount": 114,
+  "previousCoverage": 36,
+  "added": 28,
+  "coverage": 64,
+  "dailyEffectiveFrom": "2026-11-28",
+  "existingTracksPreserved": true,
+  "addedTracks": [
+    {
+      "id": "funnel-85fcf59ea927",
+      "name": "Nashville, Tennessee",
+      "date": "1998-04-16",
+      "officialRating": "F3",
+      "datRating": "EF3",
+      "globalId": "{3752CF85-C9E2-45FE-8FF7-FCEDC0483352}",
+      "source": "https://services.dat.noaa.gov/arcgis/rest/services/nws_damageassessmenttoolkit/DamageViewer/FeatureServer/1/query?f=geojson&where=globalid%3D%27{3752CF85-C9E2-45FE-8FF7-FCEDC0483352}%27&outFields=*&outSR=4326",
+      "eventSource": "https://www.spc.noaa.gov/wcm/#data",
+      "milesFromCatalogPoint": 2.69,
+      "rationale": "Matched event date, original numeric rating, WFO, survey label/comments and geography. Historical F-scale rating is retained; DAT retroloaded metadata uses EF-prefixed numeric rating."
+    },
+    {
+      "id": "funnel-eaa09089921f",
+      "name": "Van Buren, Missouri",
+      "date": "2002-04-24",
+      "officialRating": "F4",
+      "datRating": "EF4",
+      "globalId": "{D0755BCE-DACA-485B-BE00-232650097B7D}",
+      "source": "https://services.dat.noaa.gov/arcgis/rest/services/nws_damageassessmenttoolkit/DamageViewer/FeatureServer/1/query?f=geojson&where=globalid%3D%27{D0755BCE-DACA-485B-BE00-232650097B7D}%27&outFields=*&outSR=4326",
+      "eventSource": "https://www.spc.noaa.gov/wcm/#data",
+      "milesFromCatalogPoint": 0.04,
+      "rationale": "Matched event date, original numeric rating, WFO, survey label/comments and geography. Historical F-scale rating is retained; DAT retroloaded metadata uses EF-prefixed numeric rating."
+    },
+    {
+      "id": "funnel-95fffa1bde3b",
+      "name": "Murfreesboro, Tennessee",
+      "date": "2009-04-10",
+      "officialRating": "EF4",
+      "datRating": "EF4",
+      "globalId": "{AA0F89B9-0CCB-4D76-95F6-D103046167CD}",
+      "source": "https://services.dat.noaa.gov/arcgis/rest/services/nws_damageassessmenttoolkit/DamageViewer/FeatureServer/1/query?f=geojson&where=globalid%3D%27{AA0F89B9-0CCB-4D76-95F6-D103046167CD}%27&outFields=*&outSR=4326",
+      "eventSource": "https://www.spc.noaa.gov/wcm/#data",
+      "milesFromCatalogPoint": 0.2,
+      "rationale": "Matched event date, original numeric rating, WFO, survey label/comments and geography."
+    },
+    {
+      "id": "funnel-b9d5ecafed08",
+      "name": "Yazoo City, Mississippi",
+      "date": "2010-04-24",
+      "officialRating": "EF4",
+      "datRating": "EF4",
+      "globalId": "{7CBB6C75-0EB4-4E71-90DE-29F03531DF31}",
+      "source": "https://services.dat.noaa.gov/arcgis/rest/services/nws_damageassessmenttoolkit/DamageViewer/FeatureServer/1/query?f=geojson&where=globalid%3D%27{7CBB6C75-0EB4-4E71-90DE-29F03531DF31}%27&outFields=*&outSR=4326",
+      "eventSource": "https://www.weather.gov/jan/2010_04_24_main_tor_madison_parish_oktibbeha",
+      "milesFromCatalogPoint": 0.29,
+      "rationale": "Matched event date, original numeric rating, WFO, survey label/comments and geography."
+    },
+    {
+      "id": "funnel-a109e5e543e0",
+      "name": "Holmes\u2013Thompson, North Dakota",
+      "date": "2010-06-17",
+      "officialRating": "EF4",
+      "datRating": "EF4",
+      "globalId": "{5EB7614D-F635-4284-AD61-480D843BE18A}",
+      "source": "https://services.dat.noaa.gov/arcgis/rest/services/nws_damageassessmenttoolkit/DamageViewer/FeatureServer/1/query?f=geojson&where=globalid%3D%27{5EB7614D-F635-4284-AD61-480D843BE18A}%27&outFields=*&outSR=4326",
+      "eventSource": "https://www.spc.noaa.gov/wcm/#data",
+      "milesFromCatalogPoint": 0.96,
+      "rationale": "Matched event date, original numeric rating, WFO, survey label/comments and geography."
+    },
+    {
+      "id": "funnel-591dcff5bf1d",
+      "name": "Philadelphia, Mississippi",
+      "date": "2011-04-27",
+      "officialRating": "EF5",
+      "datRating": "EF5",
+      "globalId": "{5400F540-C32A-4554-8FF7-86384D4D16A8}",
+      "source": "https://services.dat.noaa.gov/arcgis/rest/services/nws_damageassessmenttoolkit/DamageViewer/FeatureServer/1/query?f=geojson&where=globalid%3D%27{5400F540-C32A-4554-8FF7-86384D4D16A8}%27&outFields=*&outSR=4326",
+      "eventSource": "https://www.weather.gov/jan/2011_04_25_27_svr",
+      "milesFromCatalogPoint": 0.02,
+      "rationale": "Matched event date, original numeric rating, WFO, survey label/comments and geography."
+    },
+    {
+      "id": "funnel-5831d5e1d2e2",
+      "name": "Rainsville\u2013Sylvania, Alabama",
+      "date": "2011-04-27",
+      "officialRating": "EF5",
+      "datRating": "EF5",
+      "globalId": "{D147B0C2-71BB-4F3C-B5B1-38A65DEE5FCA}",
+      "source": "https://services.dat.noaa.gov/arcgis/rest/services/nws_damageassessmenttoolkit/DamageViewer/FeatureServer/1/query?f=geojson&where=globalid%3D%27{D147B0C2-71BB-4F3C-B5B1-38A65DEE5FCA}%27&outFields=*&outSR=4326",
+      "eventSource": "https://www.weather.gov/hun/hunsur_2011-04-27_text_summ",
+      "milesFromCatalogPoint": 1.88,
+      "rationale": "Matched event date, original numeric rating, WFO, survey label/comments and geography."
+    },
+    {
+      "id": "funnel-90e2c90ac678",
+      "name": "Tuscaloosa\u2013Birmingham, Alabama",
+      "date": "2011-04-27",
+      "officialRating": "EF4",
+      "datRating": "EF4",
+      "globalId": "{EFF49F1D-51F4-426A-BF03-E46B6947C2A1}",
+      "source": "https://services.dat.noaa.gov/arcgis/rest/services/nws_damageassessmenttoolkit/DamageViewer/FeatureServer/1/query?f=geojson&where=globalid%3D%27{EFF49F1D-51F4-426A-BF03-E46B6947C2A1}%27&outFields=*&outSR=4326",
+      "eventSource": "https://www.weather.gov/bmx/event_04272011tuscbirm",
+      "milesFromCatalogPoint": 2.38,
+      "rationale": "Matched event date, original numeric rating, WFO, survey label/comments and geography."
+    },
+    {
+      "id": "funnel-c6c06974125a",
+      "name": "Cullman, Alabama",
+      "date": "2011-04-27",
+      "officialRating": "EF4",
+      "datRating": "EF4",
+      "globalId": "{FD2CFB12-F335-40D8-A336-D7101DEF18BD}",
+      "source": "https://services.dat.noaa.gov/arcgis/rest/services/nws_damageassessmenttoolkit/DamageViewer/FeatureServer/1/query?f=geojson&where=globalid%3D%27{FD2CFB12-F335-40D8-A336-D7101DEF18BD}%27&outFields=*&outSR=4326",
+      "eventSource": "https://www.spc.noaa.gov/wcm/#data",
+      "milesFromCatalogPoint": 0.74,
+      "rationale": "Matched event date, original numeric rating, WFO, survey label/comments and geography."
+    },
+    {
+      "id": "funnel-8dd823e2fedf",
+      "name": "Cordova\u2013Sipsey, Alabama",
+      "date": "2011-04-27",
+      "officialRating": "EF4",
+      "datRating": "EF4",
+      "globalId": "{D952C4AA-B614-42B7-82BA-B6D171CDE923}",
+      "source": "https://services.dat.noaa.gov/arcgis/rest/services/nws_damageassessmenttoolkit/DamageViewer/FeatureServer/1/query?f=geojson&where=globalid%3D%27{D952C4AA-B614-42B7-82BA-B6D171CDE923}%27&outFields=*&outSR=4326",
+      "eventSource": "https://www.spc.noaa.gov/wcm/#data",
+      "milesFromCatalogPoint": 3.81,
+      "rationale": "Matched event date, original numeric rating, WFO, survey label/comments and geography."
+    },
+    {
+      "id": "funnel-a2f58daae583",
+      "name": "Lake Martin, Alabama",
+      "date": "2011-04-27",
+      "officialRating": "EF4",
+      "datRating": "EF4",
+      "globalId": "{CA963023-C549-463F-A0E4-41661D3D3E5F}",
+      "source": "https://services.dat.noaa.gov/arcgis/rest/services/nws_damageassessmenttoolkit/DamageViewer/FeatureServer/1/query?f=geojson&where=globalid%3D%27{CA963023-C549-463F-A0E4-41661D3D3E5F}%27&outFields=*&outSR=4326",
+      "eventSource": "https://www.spc.noaa.gov/wcm/#data",
+      "milesFromCatalogPoint": 1.12,
+      "rationale": "Matched event date, original numeric rating, WFO, survey label/comments and geography."
+    },
+    {
+      "id": "funnel-0768d9910bba",
+      "name": "Bennington, Kansas",
+      "date": "2013-05-28",
+      "officialRating": "EF3",
+      "datRating": "EF3+",
+      "globalId": "{74007CFB-D29E-4424-89DA-D09E187E241A}",
+      "source": "https://services.dat.noaa.gov/arcgis/rest/services/nws_damageassessmenttoolkit/DamageViewer/FeatureServer/1/query?f=geojson&where=globalid%3D%27{74007CFB-D29E-4424-89DA-D09E187E241A}%27&outFields=*&outSR=4326",
+      "eventSource": "https://www.spc.noaa.gov/wcm/#data",
+      "milesFromCatalogPoint": 0.15,
+      "rationale": "Matched event date, original numeric rating, WFO, survey label/comments and geography. DAT metadata EF3+ does not change the official catalog EF3 rating."
+    },
+    {
+      "id": "funnel-049a21295156",
+      "name": "Washington, Illinois",
+      "date": "2013-11-17",
+      "officialRating": "EF4",
+      "datRating": "EF4",
+      "globalId": "{9CAE9928-8E96-49C6-8B34-F7A1FAE73993}",
+      "source": "https://services.dat.noaa.gov/arcgis/rest/services/nws_damageassessmenttoolkit/DamageViewer/FeatureServer/1/query?f=geojson&where=globalid%3D%27{9CAE9928-8E96-49C6-8B34-F7A1FAE73993}%27&outFields=*&outSR=4326",
+      "eventSource": "https://www.spc.noaa.gov/wcm/#data",
+      "milesFromCatalogPoint": 0.7,
+      "rationale": "Matched event date, original numeric rating, WFO, survey label/comments and geography."
+    },
+    {
+      "id": "funnel-efb83e66ebcc",
+      "name": "Mayflower\u2013Vilonia, Arkansas",
+      "date": "2014-04-27",
+      "officialRating": "EF4",
+      "datRating": "EF4",
+      "globalId": "{BB330644-EC04-408D-A2CD-DA789B6801DF}",
+      "source": "https://services.dat.noaa.gov/arcgis/rest/services/nws_damageassessmenttoolkit/DamageViewer/FeatureServer/1/query?f=geojson&where=globalid%3D%27{BB330644-EC04-408D-A2CD-DA789B6801DF}%27&outFields=*&outSR=4326",
+      "eventSource": "https://www.spc.noaa.gov/wcm/#data",
+      "milesFromCatalogPoint": 1.31,
+      "rationale": "Matched event date, original numeric rating, WFO, survey label/comments and geography."
+    },
+    {
+      "id": "funnel-89528987e4e6",
+      "name": "Louisville, Mississippi",
+      "date": "2014-04-28",
+      "officialRating": "EF4",
+      "datRating": "EF4",
+      "globalId": "{0E4C05BA-6C5E-4B25-BFE7-95AD748AF72B}",
+      "source": "https://services.dat.noaa.gov/arcgis/rest/services/nws_damageassessmenttoolkit/DamageViewer/FeatureServer/1/query?f=geojson&where=globalid%3D%27{0E4C05BA-6C5E-4B25-BFE7-95AD748AF72B}%27&outFields=*&outSR=4326",
+      "eventSource": "https://www.spc.noaa.gov/wcm/#data",
+      "milesFromCatalogPoint": 2.43,
+      "rationale": "Matched event date, original numeric rating, WFO, survey label/comments and geography."
+    },
+    {
+      "id": "funnel-4f4345950ca2",
+      "name": "Alpena, South Dakota",
+      "date": "2014-06-18",
+      "officialRating": "EF4",
+      "datRating": "EF4",
+      "globalId": "{795A5099-515D-4DC7-9B58-67B9A1A119D3}",
+      "source": "https://services.dat.noaa.gov/arcgis/rest/services/nws_damageassessmenttoolkit/DamageViewer/FeatureServer/1/query?f=geojson&where=globalid%3D%27{795A5099-515D-4DC7-9B58-67B9A1A119D3}%27&outFields=*&outSR=4326",
+      "eventSource": "https://www.spc.noaa.gov/wcm/#data",
+      "milesFromCatalogPoint": 0.37,
+      "rationale": "Matched event date, original numeric rating, WFO, survey label/comments and geography."
+    },
+    {
+      "id": "funnel-32e21e0f5726",
+      "name": "Rochelle\u2013Fairdale, Illinois",
+      "date": "2015-04-09",
+      "officialRating": "EF4",
+      "datRating": "EF4",
+      "globalId": "{2C63069E-E391-45F1-A49A-EF9C9B6142E5}",
+      "source": "https://services.dat.noaa.gov/arcgis/rest/services/nws_damageassessmenttoolkit/DamageViewer/FeatureServer/1/query?f=geojson&where=globalid%3D%27{2C63069E-E391-45F1-A49A-EF9C9B6142E5}%27&outFields=*&outSR=4326",
+      "eventSource": "https://www.spc.noaa.gov/wcm/#data",
+      "milesFromCatalogPoint": 1.04,
+      "rationale": "Matched event date, original numeric rating, WFO, survey label/comments and geography."
+    },
+    {
+      "id": "funnel-e642d46511b4",
+      "name": "Holly Springs, Mississippi",
+      "date": "2015-12-23",
+      "officialRating": "EF4",
+      "datRating": "EF4",
+      "globalId": "{3E9103ED-17EE-4D96-94EB-D3535D8461CC}",
+      "source": "https://services.dat.noaa.gov/arcgis/rest/services/nws_damageassessmenttoolkit/DamageViewer/FeatureServer/1/query?f=geojson&where=globalid%3D%27{3E9103ED-17EE-4D96-94EB-D3535D8461CC}%27&outFields=*&outSR=4326",
+      "eventSource": "https://www.spc.noaa.gov/wcm/#data",
+      "milesFromCatalogPoint": 1.12,
+      "rationale": "Matched event date, original numeric rating, WFO, survey label/comments and geography."
+    },
+    {
+      "id": "funnel-630e6d865688",
+      "name": "Chapman, Kansas",
+      "date": "2016-05-25",
+      "officialRating": "EF4",
+      "datRating": "EF4",
+      "globalId": "{EBF7DDDC-48C3-471C-A89B-BCAC4317121E}",
+      "source": "https://services.dat.noaa.gov/arcgis/rest/services/nws_damageassessmenttoolkit/DamageViewer/FeatureServer/1/query?f=geojson&where=globalid%3D%27{EBF7DDDC-48C3-471C-A89B-BCAC4317121E}%27&outFields=*&outSR=4326",
+      "eventSource": "https://www.spc.noaa.gov/wcm/#data",
+      "milesFromCatalogPoint": 0.2,
+      "rationale": "Matched event date, original numeric rating, WFO, survey label/comments and geography."
+    },
+    {
+      "id": "funnel-ba8f31f95ecd",
+      "name": "New Orleans East, Louisiana",
+      "date": "2017-02-07",
+      "officialRating": "EF3",
+      "datRating": "EF3",
+      "globalId": "{77714D23-0686-486F-9F97-EF586CC03FAA}",
+      "source": "https://services.dat.noaa.gov/arcgis/rest/services/nws_damageassessmenttoolkit/DamageViewer/FeatureServer/1/query?f=geojson&where=globalid%3D%27{77714D23-0686-486F-9F97-EF586CC03FAA}%27&outFields=*&outSR=4326",
+      "eventSource": "https://www.spc.noaa.gov/wcm/#data",
+      "milesFromCatalogPoint": 0.38,
+      "rationale": "Matched event date, original numeric rating, WFO, survey label/comments and geography."
+    },
+    {
+      "id": "funnel-545c315e0d77",
+      "name": "Dayton, Ohio",
+      "date": "2019-05-27",
+      "officialRating": "EF4",
+      "datRating": "EF4",
+      "globalId": "{C5ECCC88-4F47-4ACA-88D2-C07B27B2113F}",
+      "source": "https://services.dat.noaa.gov/arcgis/rest/services/nws_damageassessmenttoolkit/DamageViewer/FeatureServer/1/query?f=geojson&where=globalid%3D%27{C5ECCC88-4F47-4ACA-88D2-C07B27B2113F}%27&outFields=*&outSR=4326",
+      "eventSource": "https://www.spc.noaa.gov/wcm/#data",
+      "milesFromCatalogPoint": 1.84,
+      "rationale": "Matched event date, original numeric rating, WFO, survey label/comments and geography."
+    },
+    {
+      "id": "funnel-f9fef06b4e3c",
+      "name": "Linwood, Kansas",
+      "date": "2019-05-28",
+      "officialRating": "EF4",
+      "datRating": "EF4",
+      "globalId": "{D5CAE22C-4B74-4064-97EA-21D1444372DC}",
+      "source": "https://services.dat.noaa.gov/arcgis/rest/services/nws_damageassessmenttoolkit/DamageViewer/FeatureServer/1/query?f=geojson&where=globalid%3D%27{D5CAE22C-4B74-4064-97EA-21D1444372DC}%27&outFields=*&outSR=4326",
+      "eventSource": "https://www.spc.noaa.gov/wcm/#data",
+      "milesFromCatalogPoint": 0.51,
+      "rationale": "Matched event date, original numeric rating, WFO, survey label/comments and geography."
+    },
+    {
+      "id": "funnel-92520eec2301",
+      "name": "Nashville, Tennessee",
+      "date": "2020-03-03",
+      "officialRating": "EF3",
+      "datRating": "EF3",
+      "globalId": "{E1287531-EF41-49C9-B8B0-63AF1C086F34}",
+      "source": "https://services.dat.noaa.gov/arcgis/rest/services/nws_damageassessmenttoolkit/DamageViewer/FeatureServer/1/query?f=geojson&where=globalid%3D%27{E1287531-EF41-49C9-B8B0-63AF1C086F34}%27&outFields=*&outSR=4326",
+      "eventSource": "https://www.spc.noaa.gov/wcm/#data",
+      "milesFromCatalogPoint": 0.42,
+      "rationale": "Matched event date, original numeric rating, WFO, survey label/comments and geography."
+    },
+    {
+      "id": "funnel-a3636d0b93a0",
+      "name": "Ashby, Minnesota",
+      "date": "2020-07-08",
+      "officialRating": "EF4",
+      "datRating": "EF4",
+      "globalId": "{35DBA2A7-B1A8-4AA2-A696-E76729CFAF4C}",
+      "source": "https://services.dat.noaa.gov/arcgis/rest/services/nws_damageassessmenttoolkit/DamageViewer/FeatureServer/1/query?f=geojson&where=globalid%3D%27{35DBA2A7-B1A8-4AA2-A696-E76729CFAF4C}%27&outFields=*&outSR=4326",
+      "eventSource": "https://www.spc.noaa.gov/wcm/#data",
+      "milesFromCatalogPoint": 0.26,
+      "rationale": "Matched event date, original numeric rating, WFO, survey label/comments and geography."
+    },
+    {
+      "id": "funnel-8765c74cb3c8",
+      "name": "Boscobel, Wisconsin",
+      "date": "2021-08-07",
+      "officialRating": "EF3",
+      "datRating": "EF3",
+      "globalId": "{DD36A5E3-C042-4E5F-9A06-AFABF3161F85}",
+      "source": "https://services.dat.noaa.gov/arcgis/rest/services/nws_damageassessmenttoolkit/DamageViewer/FeatureServer/1/query?f=geojson&where=globalid%3D%27{DD36A5E3-C042-4E5F-9A06-AFABF3161F85}%27&outFields=*&outSR=4326",
+      "eventSource": "https://www.spc.noaa.gov/wcm/#data",
+      "milesFromCatalogPoint": 0.09,
+      "rationale": "Matched event date, original numeric rating, WFO, survey label/comments and geography."
+    },
+    {
+      "id": "funnel-2aa5c733b656",
+      "name": "Monette\u2013Samburg, Tennessee",
+      "date": "2021-12-10",
+      "officialRating": "EF4",
+      "datRating": "EF4",
+      "globalId": "{251FD19F-20B6-4081-8EBA-50E0EAD03ADC}",
+      "source": "https://services.dat.noaa.gov/arcgis/rest/services/nws_damageassessmenttoolkit/DamageViewer/FeatureServer/1/query?f=geojson&where=globalid%3D%27{251FD19F-20B6-4081-8EBA-50E0EAD03ADC}%27&outFields=*&outSR=4326",
+      "eventSource": "https://www.spc.noaa.gov/wcm/#data",
+      "milesFromCatalogPoint": 11.59,
+      "rationale": "Matched event date, original numeric rating, WFO, survey label/comments and geography. Selected MEG Craighead-Obion/Monette-Samburg track from its explicit survey narrative, not the closer Mayfield start point. Mayfield remains a separate event and GlobalID."
+    },
+    {
+      "id": "funnel-18b0a62a9989",
+      "name": "Fargo, North Dakota",
+      "date": "1957-06-20",
+      "officialRating": "F5",
+      "datRating": "EF5",
+      "globalId": "{0E1BD7C1-3B80-4F00-A8CD-CAC12BD6422D}",
+      "source": "https://services.dat.noaa.gov/arcgis/rest/services/nws_damageassessmenttoolkit/DamageViewer/FeatureServer/1/query?f=geojson&where=globalid%3D%27{0E1BD7C1-3B80-4F00-A8CD-CAC12BD6422D}%27&outFields=*&outSR=4326",
+      "eventSource": "https://www.weather.gov/fgf/fargo57tornado",
+      "milesFromCatalogPoint": 1.06,
+      "rationale": "Matched event date, original numeric rating, WFO, survey label/comments and geography. Historical F-scale rating is retained; DAT retroloaded metadata uses EF-prefixed numeric rating."
+    },
+    {
+      "id": "bellevue-ne-20170616",
+      "name": "Bellevue, Nebraska",
+      "date": "2017-06-16",
+      "officialRating": "EF2",
+      "datRating": "EF2",
+      "globalId": "{A21685E1-7235-4707-A534-6D8AAA76ADCC}",
+      "source": "https://services.dat.noaa.gov/arcgis/rest/services/nws_damageassessmenttoolkit/DamageViewer/FeatureServer/1/query?f=geojson&where=globalid%3D%27{A21685E1-7235-4707-A534-6D8AAA76ADCC}%27&outFields=*&outSR=4326",
+      "eventSource": "https://www.weather.gov/oax/event_archive_20170616",
+      "milesFromCatalogPoint": 0.0,
+      "rationale": "Matched event date, original numeric rating, WFO, survey label/comments and geography."
+    }
+  ],
+  "unresolved": [
+    {
+      "id": "002",
+      "name": "El Reno, Oklahoma",
+      "date": "2013-05-31",
+      "reason": "No confidently matching public DAT geometry found; reference-point scoring retained."
+    },
+    {
+      "id": "005",
+      "name": "Pilger, Nebraska",
+      "date": "2014-06-16",
+      "reason": "No confidently matching public DAT geometry found; reference-point scoring retained."
+    },
+    {
+      "id": "006",
+      "name": "Union City, Oklahoma",
+      "date": "1973-05-24",
+      "reason": "No confidently matching public DAT geometry found; reference-point scoring retained."
+    },
+    {
+      "id": "007",
+      "name": "Near Cordell, Oklahoma",
+      "date": "1981-05-22",
+      "reason": "No confidently matching public DAT geometry found; reference-point scoring retained."
+    },
+    {
+      "id": "008",
+      "name": "Near Mayfield, Oklahoma",
+      "date": "1977-05-16",
+      "reason": "No confidently matching public DAT geometry found; reference-point scoring retained."
+    },
+    {
+      "id": "009",
+      "name": "Near Alfalfa, Oklahoma",
+      "date": "1981-05-22",
+      "reason": "No confidently matching public DAT geometry found; reference-point scoring retained."
+    },
+    {
+      "id": "010",
+      "name": "South of Anadarko, Oklahoma",
+      "date": "1999-05-03",
+      "reason": "No confidently matching public DAT geometry found; reference-point scoring retained."
+    },
+    {
+      "id": "014",
+      "name": "Wichita\u2013Andover, Kansas",
+      "date": "1991-04-26",
+      "reason": "No confidently matching public DAT geometry found; reference-point scoring retained."
+    },
+    {
+      "id": "funnel-09c151d7f83e",
+      "name": "Kalamazoo, Michigan",
+      "date": "1980-05-13",
+      "reason": "No confidently matching public DAT geometry found; reference-point scoring retained."
+    },
+    {
+      "id": "funnel-7048a7242f3b",
+      "name": "Limon, Colorado",
+      "date": "1990-06-06",
+      "reason": "No confidently matching public DAT geometry found; reference-point scoring retained."
+    },
+    {
+      "id": "funnel-57a01d0940b2",
+      "name": "Dimmitt, Texas",
+      "date": "1995-06-02",
+      "reason": "No confidently matching public DAT geometry found; reference-point scoring retained."
+    },
+    {
+      "id": "funnel-5ae79cb5879c",
+      "name": "Kellerville, Texas",
+      "date": "1995-06-08",
+      "reason": "No confidently matching public DAT geometry found; reference-point scoring retained."
+    },
+    {
+      "id": "funnel-e0da045344f1",
+      "name": "Jarrell, Texas",
+      "date": "1997-05-27",
+      "reason": "No confidently matching public DAT geometry found; reference-point scoring retained."
+    },
+    {
+      "id": "funnel-0e4a22c1d761",
+      "name": "Bridge Creek\u2013Moore, Oklahoma",
+      "date": "1999-05-03",
+      "reason": "No confidently matching public DAT geometry found; reference-point scoring retained."
+    },
+    {
+      "id": "funnel-7ae1ebeacb9e",
+      "name": "Salt Lake City, Utah",
+      "date": "1999-08-11",
+      "reason": "No confidently matching public DAT geometry found; reference-point scoring retained."
+    },
+    {
+      "id": "funnel-d011349c91f6",
+      "name": "Granite Falls, Minnesota",
+      "date": "2000-07-25",
+      "reason": "No confidently matching public DAT geometry found; reference-point scoring retained."
+    },
+    {
+      "id": "funnel-1b944236901c",
+      "name": "Siren, Wisconsin",
+      "date": "2001-06-18",
+      "reason": "No confidently matching public DAT geometry found; reference-point scoring retained."
+    },
+    {
+      "id": "funnel-284a53fb5378",
+      "name": "Cordell, Oklahoma",
+      "date": "2001-10-09",
+      "reason": "No confidently matching public DAT geometry found; reference-point scoring retained."
+    },
+    {
+      "id": "funnel-e8320209fe31",
+      "name": "Van Wert\u2013Roselms, Ohio",
+      "date": "2002-11-10",
+      "reason": "No confidently matching public DAT geometry found; reference-point scoring retained."
+    },
+    {
+      "id": "funnel-f176c54fa194",
+      "name": "Kansas City, Kansas",
+      "date": "2003-05-04",
+      "reason": "No confidently matching public DAT geometry found; reference-point scoring retained."
+    },
+    {
+      "id": "funnel-45f66dac98ed",
+      "name": "Oklahoma City\u2013Moore, Oklahoma",
+      "date": "2003-05-08",
+      "reason": "No confidently matching public DAT geometry found; reference-point scoring retained."
+    },
+    {
+      "id": "funnel-a2bcf96cb214",
+      "name": "Attica, Kansas",
+      "date": "2004-05-12",
+      "reason": "No confidently matching public DAT geometry found; reference-point scoring retained."
+    },
+    {
+      "id": "funnel-0f7c7dfcb422",
+      "name": "Hallam, Nebraska",
+      "date": "2004-05-22",
+      "reason": "No confidently matching public DAT geometry found; reference-point scoring retained."
+    },
+    {
+      "id": "funnel-946637a4e71c",
+      "name": "Mulvane, Kansas",
+      "date": "2004-06-12",
+      "reason": "No confidently matching public DAT geometry found; reference-point scoring retained."
+    },
+    {
+      "id": "funnel-3f64a005f139",
+      "name": "Roanoke, Illinois",
+      "date": "2004-07-13",
+      "reason": "No confidently matching public DAT geometry found; reference-point scoring retained."
+    },
+    {
+      "id": "funnel-fc01e9989378",
+      "name": "Panama City Beach, Florida",
+      "date": "2004-09-15",
+      "reason": "No confidently matching public DAT geometry found; reference-point scoring retained."
+    },
+    {
+      "id": "funnel-d3fd184cf5ae",
+      "name": "Stoughton, Wisconsin",
+      "date": "2005-08-18",
+      "reason": "No confidently matching public DAT geometry found; reference-point scoring retained."
+    },
+    {
+      "id": "funnel-a59c49a38a66",
+      "name": "Caruthersville, Missouri",
+      "date": "2006-04-02",
+      "reason": "No confidently matching public DAT geometry found; reference-point scoring retained."
+    },
+    {
+      "id": "funnel-14cd1d7749dd",
+      "name": "Le Sueur County, Minnesota",
+      "date": "2006-08-24",
+      "reason": "No confidently matching public DAT geometry found; reference-point scoring retained."
+    },
+    {
+      "id": "funnel-06e9736df8f3",
+      "name": "Greensburg, Kansas",
+      "date": "2007-05-04",
+      "reason": "No confidently matching public DAT geometry found; reference-point scoring retained."
+    },
+    {
+      "id": "funnel-fdb4479cd5d8",
+      "name": "Windsor, Colorado",
+      "date": "2008-05-22",
+      "reason": "No confidently matching public DAT geometry found; reference-point scoring retained."
+    },
+    {
+      "id": "funnel-6752051853bc",
+      "name": "Parkersburg\u2013New Hartford, Iowa",
+      "date": "2008-05-25",
+      "reason": "No confidently matching public DAT geometry found; reference-point scoring retained."
+    },
+    {
+      "id": "funnel-d059450e79b5",
+      "name": "Lake Township\u2013Millbury, Ohio",
+      "date": "2010-06-05",
+      "reason": "No confidently matching public DAT geometry found; reference-point scoring retained."
+    },
+    {
+      "id": "funnel-2ae508e3684f",
+      "name": "Bellemont, Arizona",
+      "date": "2010-10-06",
+      "reason": "No confidently matching public DAT geometry found; reference-point scoring retained."
+    },
+    {
+      "id": "funnel-c992d654a672",
+      "name": "Smithville, Mississippi",
+      "date": "2011-04-27",
+      "reason": "No confidently matching public DAT geometry found; reference-point scoring retained."
+    },
+    {
+      "id": "funnel-d4f410ce70be",
+      "name": "Hackleburg\u2013Phil Campbell, Alabama",
+      "date": "2011-04-27",
+      "reason": "No confidently matching public DAT geometry found; reference-point scoring retained."
+    },
+    {
+      "id": "funnel-08c6e68d616c",
+      "name": "Joplin, Missouri",
+      "date": "2011-05-22",
+      "reason": "No confidently matching public DAT geometry found; reference-point scoring retained."
+    },
+    {
+      "id": "funnel-98a90070397c",
+      "name": "El Reno\u2013Piedmont, Oklahoma",
+      "date": "2011-05-24",
+      "reason": "No confidently matching public DAT geometry found; reference-point scoring retained."
+    },
+    {
+      "id": "funnel-e540c8f809a6",
+      "name": "Washington\u2013Goldsby, Oklahoma",
+      "date": "2011-05-24",
+      "reason": "No confidently matching public DAT geometry found; reference-point scoring retained."
+    },
+    {
+      "id": "funnel-0aed692df915",
+      "name": "Chickasha\u2013Newcastle, Oklahoma",
+      "date": "2011-05-24",
+      "reason": "No confidently matching public DAT geometry found; reference-point scoring retained."
+    },
+    {
+      "id": "funnel-7ce989151221",
+      "name": "Springfield, Massachusetts",
+      "date": "2011-06-01",
+      "reason": "No confidently matching public DAT geometry found; reference-point scoring retained."
+    },
+    {
+      "id": "funnel-025fd52d4cc3",
+      "name": "Henryville, Indiana",
+      "date": "2012-03-02",
+      "reason": "No confidently matching public DAT geometry found; reference-point scoring retained."
+    },
+    {
+      "id": "funnel-ae60067e3c7d",
+      "name": "Dexter, Michigan",
+      "date": "2012-03-15",
+      "reason": "No confidently matching public DAT geometry found; reference-point scoring retained."
+    },
+    {
+      "id": "funnel-4ce9a04ac75a",
+      "name": "Lyons\u2013Salina, Kansas",
+      "date": "2012-04-14",
+      "reason": "No confidently matching public DAT geometry found; reference-point scoring retained."
+    },
+    {
+      "id": "funnel-26b1dfe2bed7",
+      "name": "Katie\u2013Wynnewood, Oklahoma",
+      "date": "2016-05-09",
+      "reason": "No confidently matching public DAT geometry found; reference-point scoring retained."
+    },
+    {
+      "id": "funnel-65eacd44c4f5",
+      "name": "Topeka, Kansas",
+      "date": "1966-06-08",
+      "reason": "No confidently matching public DAT geometry found; reference-point scoring retained."
+    },
+    {
+      "id": "funnel-e1ea9c64523b",
+      "name": "Xenia, Ohio",
+      "date": "1974-04-03",
+      "reason": "No confidently matching public DAT geometry found; reference-point scoring retained."
+    },
+    {
+      "id": "funnel-5d8e773d2a41",
+      "name": "Niles\u2013Wheatland, Ohio and Pennsylvania",
+      "date": "1985-05-31",
+      "reason": "No confidently matching public DAT geometry found; reference-point scoring retained."
+    },
+    {
+      "id": "funnel-7babe5bf0c81",
+      "name": "Dunlap\u2013Midway, Indiana",
+      "date": "1965-04-11",
+      "reason": "No confidently matching public DAT geometry found; reference-point scoring retained."
+    },
+    {
+      "id": "funnel-83fa8c2ec4d2",
+      "name": "Russiaville\u2013Kokomo, Indiana",
+      "date": "1965-04-11",
+      "reason": "No confidently matching public DAT geometry found; reference-point scoring retained."
+    }
+  ]
+}

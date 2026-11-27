@@ -165,16 +165,16 @@ async function readRun(request) {
   }
 }
 
-async function readArchive() {
+async function readArchive(mode=null,day=null) {
   const options = {cf: {cacheEverything: true, cacheTtlByStatus: {'200-299': 60, '400-599': 0}}};
   const [catalogResponse, trackResponse] = await Promise.all([
     fetch(site + '/tornadoes.json', options),
-    fetch(site + '/dat-tracks.json', options),
+    fetch(site + '/dat-tracks.json?v=1.8.2', options),
   ]);
   if (!catalogResponse.ok || !trackResponse.ok) throw new Error('Archive unavailable');
   const [catalog, tracks] = await Promise.all([catalogResponse.json(), trackResponse.json()]);
   return new Map(catalog.filter(event => event.clueType === 'funnel')
-    .map(event => [event.id, {...event, track: tracks[event.id]}]));
+    .map(event => [event.id, {...event, track: mode==='daily' && tracks[event.id]?.dailyEffectiveFrom && day<tracks[event.id].dailyEffectiveFrom ? undefined : tracks[event.id]}]));
 }
 
 const modeNames = new Set(['all', 'iconic', 'recent', 'daily', 'rating']);
@@ -299,7 +299,7 @@ async function saveRun(db, request, mode, day, json) {
   }
 
   const key = username.toLowerCase();
-  const archive = await readArchive();
+  const archive = await readArchive(mode,day);
   if (guesses.some(guess => !archive.has(guess.id))) {
     return json({message: 'The photo archive changed. Refresh the game to start a new run.'}, 409);
   }
@@ -600,7 +600,7 @@ async function accountScore(db,request,env,mode,day,json){
  const {results}=await db.prepare('SELECT event_id,guess,points FROM rating_answers_v163 WHERE run_id=?').bind(input.runId).all();
  details={...savedPayload,scoringVersion:163,rounds:results};
  }else{
- const archive=await readArchive();
+ const archive=await readArchive(mode,day);
  details={...savedPayload,day:mode==='daily'?day:null,rounds:input.guesses.map(g=>({name:archive.get(g.id).name,...scoreGuess(archive.get(g.id),g.point,null)}))};
  }
  await db.prepare('INSERT INTO player_run_history(account_id,run_id,mode,result,saved_at) VALUES(?,?,?,?,?) ON CONFLICT(account_id,run_id) DO NOTHING').bind(user.id,input.runId,mode||'all',JSON.stringify(details),Date.now()).run();

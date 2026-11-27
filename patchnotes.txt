@@ -1,3 +1,10 @@
+v1.8.2 — November 27, 2026
+DATA IMPROVEMENTS
+- Added 28 verified public NWS DAT tracks; coverage grows from 36 to 64 of 114 archive tornadoes.
+- Preserved historic F-scale ratings and kept Monette–Samburg separate from Mayfield.
+- New paths enter Daily scoring November 28; today's Daily geometry and all saved results remain unchanged.
+- 50 events without a confident public DAT match retain reference-point scoring.
+
 v1.8.1 — November 27, 2026
 NEW FEATURES
 - At least two saved Daily challenge days are required for lifetime average, EF player rating and overall rank. One-day players remain provisional.

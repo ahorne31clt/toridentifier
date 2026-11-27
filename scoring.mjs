@@ -16,6 +16,9 @@ export const gradeBands = [
 
 export const roundsPerRun = archiveSize => Math.min(5, archiveSize);
 
+// Keep a live Daily challenge on its original scoring geometry until its next day.
+export const dailyTrack = (track,day) => track?.dailyEffectiveFrom && day < track.dailyEffectiveFrom ? undefined : track;
+
 const radians = degrees => degrees * Math.PI / 180;
 const degrees = radians => radians * 180 / Math.PI;
 const earthMiles = 3958.76;
